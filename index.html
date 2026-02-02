@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Last Joki Store</title>
+<style>
+*{box-sizing:border-box;font-family:Arial}
+body{
+background:#0b1220;
+color:white;
+margin:0;
+padding:20px
+}
+.container{
+display:flex;
+gap:20px;
+flex-wrap:wrap
+}
+.card{
+background:#111a33;
+border-radius:12px;
+padding:20px;
+flex:1;
+min-width:300px
+}
+h2,h3{text-align:center}
+
+input,textarea,button{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:none;
+margin-top:10px
+}
+input,textarea{background:#0b1220;color:white}
+
+.bar{
+padding:12px;
+border-radius:8px;
+margin-top:10px;
+background:linear-gradient(270deg,#00c6ff,#0072ff,#00c6ff);
+background-size:400% 400%;
+animation:gradient 6s ease infinite
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+.btn{
+margin-top:12px;
+background:linear-gradient(270deg,#020617,#0b3c8a,#020617);
+background-size:400% 400%;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:.2s;
+animation:gradient 5s infinite
+}
+.btn:active{transform:scale(1.08)}
+
+.payment{background:#0b1220}
+
+.toggle{
+cursor:pointer;
+font-size:12px;
+color:#7cc7ff;
+margin-top:5px;
+display:block
+}
+</style>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body
+
+<ul>
+<h2>JOKI BF Xzyo STORE</h2>
+<h2>Dijamin Murah Aman Dan Terpecaya</h2>
+<button type="button" class="btn" 
+onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
+JOIN SALURAN DI SINI LEKKU
+</button>
+<ul>
+<div class="container">
+
+<!-- FORM ORDER -->
+<div class="card">
+<form id="orderForm" action="https://formsubmit.co/rahmat02riyadi@gmail.com" method="POST" enctype="multipart/form-data">
+  <input type="text" name="username" placeholder="Username Roblox (contoh: player123)" required>
+<div style="position:relative;">
+  <input type="password" name="password" id="pw"
+    placeholder="Password Roblox (contoh: Akun123)"
+    style="width:100%; padding-right:40px; height:40px;" required>
+
+  <i id="eye" class="fa-solid fa-eye-slash"
+    onclick="togglePw()"
+    style="
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      cursor:pointer;
+      font-size:18px;
+      color:#555;
+    ">
+  </i>
+</div>
+  <input type="text" name="whatsapp" placeholder="Nomor WA kamu (WAJIB)" required>
+  <textarea name="jenis_joki" placeholder="Jenis joki (contoh: joki level dari 0 - max)" required></textarea>
+  <input type="file" name="bukti_tf" accept="image/*" required>
+  
+  <!-- Tombol ORDER -->
+  <button type="submit" class="btn">
+    ORDER
+  </button>
+</form>
+
+<!-- SLIDE ORDER SELESAI -->
+<div id="order-slide" style="display:none; text-align:center; padding:40px; color:white;">
+  <div style="
+      font-size:80px; 
+      color:#00c6ff; 
+      animation:popCheck 0.5s ease, glowCheck 1.5s ease infinite;
+      text-shadow: 0 0 10px #00c6ff, 0 0 20px #00c6ff, 0 0 30px #00c6ff;
+    ">
+    ✅
+  </div>
+  <h2>Order Telah Selesai!</h2>
+  <p>Pantau terus, setelah pengerjaan joki selesai akan diinformasikan.<br>
+  Terima kasih telah meng-order di sini.</p>
+</div>
+
+<style>
+@keyframes popCheck {
+  0% { transform: scale(0); opacity:0; }
+  50% { transform: scale(1.2); opacity:1; }
+  100% { transform: scale(1); }
+}
+@keyframes glowCheck {
+  0%, 100% { text-shadow: 0 0 10px #00c6ff, 0 0 20px #00c6ff, 0 0 30px #00c6ff; }
+  50% { text-shadow: 0 0 20px #00c6ff, 0 0 40px #00c6ff, 0 0 60px #00c6ff; }
+}
+#order-slide { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:300px; }
+</style>
+
+<script>
+function togglePw(){
+  let pw=document.getElementById("pw");
+  pw.type = pw.type==="password" ? "text":"password";
+}
+
+// Tombol ORDER
+document.getElementById("orderForm").addEventListener("submit", function(e){
+    // e.preventDefault(); // jangan di-comment kalau mau tetap submit ke Gmail
+    this.style.display = "none"; // sembunyikan form
+    document.getElementById("order-slide").style.display = "flex"; // tampilkan slide selesai
+});
+</script>
+
+</form>
+<!-- BAR PAYMENT -->
+<div class="bar payment">
+💳 PAYMENT <br>
+OVO / GOPAY : <b>089517154561</b><br>
+ DANA : <b>089677329404</b>
+</div>
+
+<!-- Tombol QRIS & JOIN -->
+<button type="button" class="btn" onclick="window.open('https://wa.me/6289692310378?text=Halo%20Admin,%20saya%20minta%20QRIS/LINK%20untuk%20pembayaran','_blank')">
+QRIS / LINK? Click disini
+</button>
+<a href="https://wa.me/6289692310378?text=Halo%20Admin,%20saya%20mau%20nanya" 
+   target="_blank"
+   style="
+       display:block;
+       padding:14px;
+       margin-top:12px;
+       border-radius:12px;
+       background:linear-gradient(270deg,#020617,#0b3c8a,#020617);
+       color:white;
+       font-weight:bold;
+       text-align:center;
+       text-decoration:none;
+       box-shadow:0 0 15px rgba(37,99,235,.6);
+   ">
+   Tanya-tanya? Chat disini
+</a>
+
+</form>
+</div>
+
+<!-- LIST JOKI -->
+<div class="card list-joki">
+  <h3>LIST JOKI BLOX FRUIT</h3>
+  <br><br>
+  <b>👁 JOKI INSTINCT</b>
+  <ul>
+    <li>0 - 1000 : 4.000</li>
+    <li>0 - MAX + V2 : 20.000</li>
+    <li>MISI V2 : 5.000</li>
+  </ul>
+<br>
+  <b>💸 JOKI BELLY</b>
+  <ul>
+    <li>1M : 5.000</li>
+    <li>5M : 20.000</li>
+    <li>10M : 40.000</li>
+    <li>30M : .000</li>
+  </ul>
+<br>
+  <b>⚔️ JOKI MASTERY</b>
+  <ul>
+    <li>Fruit / Fighting Style / Gun : 5.000 / 100 Mastery</li>
+  </ul>
+<br>
+  <b>🛠 JOKI LEVEL</b>
+  <ul>
+    <li>0 - 100 : 3.000</li>
+    <li>1 – 700 : 15.000</li>
+    <li>700 – 1500 : 15.000</li>
+    <li>1500 – MAX : 20.000</li>
+  </ul>
+<br>
+  <b>🔥 RAID & FRAGMENT</b>
+  <ul>
+    <li>Unlock Raid Phoenix : 15.000</li>
+    <li>Raid 1x : 1.000</li>
+    <li>Full Awaken Buddha / Dough : 15.000</li>
+    <li>Full Awaken : 10.000</li>
+    <li>10K Fragment : 8.000</li>
+    <li>25K Fragment : 15.000</li>
+  </ul>
+<br>
+  <b>🗺️ SEA</b>
+  <ul>
+    <li>Unlock Sea 2 / 3 : 5.000</li>
+  </ul>
+<br>
+  <b>🏴‍☠️ BOUNTY / HONOR</b>
+  <ul>
+    <li>1M : 25.000</li>
+    <li>5M : 100.000</li>
+    <li>10M : 230.000</li>
+    <li>15M : 350.000</li>
+    <li>20M : 430.000</li>
+    <li>25M : 550.000</li>
+    <li>30M : 600.000</li>
+  </ul>
+<br>
+  <b>🧬 RACE</b>
+  <ul>
+    <li>Race V2-V3 : 10.000</li>
+    <li>Race V4 : 10.000</li>
+    <li>GET RACE GHOUL / CYBORG : 15.000</li>
+    <li>GET RACE DRACO : 20.000</li>
+    <li>Race V4 Draco : 15.000</li>
+  </ul>
+<br>
+  <b>👑 ITEM & BOSS</b>
+  <ul>
+    <li>Leviatan Tiki / Hydra : 45.000</li>
+    <li>Defeth Dough King / Rip Indra : 10.000</li>
+    <li>CDK (Curse Dual Katana) / TTK (True Triple Katana) : 25.000</li>
+    <li>Skull Guitar : 10.000</li>
+    <li>Godhuman : 30.000</li>
+    <li>Dragonheart / Dragon Storm : 30.000</li>
+    <li>Shark Ancor : 30.000</li>
+    <li>Dark Dagger : 30.000</li>
+    <li>Koko / Hllow Scyte : 15.000</li>
+    <li>Blue Gear : 10.000</li>
+  </ul><br><br><br>
+             <li>NOTE</li>
+         <li>Untuk joki yang lainnya bisa chat ke wa admin atau dm sosmed tiktoknya Xzyo</li>
+</div>
+
+
+<script>
+function togglePw() {
+  var pw = document.getElementById("pw");
+  var eye = document.getElementById("eye");
+
+  if (pw.type === "password") {
+    pw.type = "text";
+    eye.classList.replace("fa-eye-slash","fa-eye");
+  } else {
+    pw.type = "password";
+    eye.classList.replace("fa-eye","fa-eye-slash");
+  }
+}
+</script>
+
+</body>
+</html>
