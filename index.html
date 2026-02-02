@@ -1,234 +1,131 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xzyo Store - Joki Blox Fruit</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-blue: #0072ff;
-            --dark-bg: #0b1220;
-            --card-bg: #111a33;
-            --text-white: #ffffff;
-            --neon-shadow: 0 0 15px rgba(0, 114, 255, 0.7);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joki BF Xzyo Store</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  *{box-sizing:border-box;font-family:Arial, sans-serif}
+  body{background:#0b1220;color:white;margin:0;padding:20px;display:flex;flex-direction:column;align-items:center}
+  
+  .wrapper{max-width:900px;width:100%}
+  h2,h3{text-align:center;text-transform:uppercase}
+  
+  .container{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px}
+  .card{background:#111a33;border-radius:12px;padding:20px;flex:1;min-width:300px;position:relative;min-height:500px}
 
-        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        
-        body {
-            background: var(--dark-bg);
-            color: var(--text-white);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+  /* Animasi Tombol Premium */
+  .btn{
+    width:100%;padding:12px;border-radius:8px;border:none;margin-top:12px;
+    background:linear-gradient(270deg,#020617,#0b3c8a,#020617);
+    background-size:400% 400%;color:white;font-weight:bold;cursor:pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display:block;text-align:center;text-decoration:none;
+  }
+  .btn:hover, .btn:active{
+    transform:scale(1.05);
+    box-shadow: 0 0 20px #0072ff;
+    filter: brightness(1.2);
+  }
 
-        .wrapper {
-            max-width: 900px;
-            width: 100%;
-        }
+  input,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #1e293b;margin-top:10px;background:#0b1220;color:white;outline:none}
+  
+  /* List Joki Mewah */
+  .list-joki ul{list-style:none;padding:0}
+  .list-joki li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;font-size:14px}
+  .list-joki b{color:#00c6ff;display:block;margin-top:15px}
 
-        h2 { text-align: center; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
-        p.subtitle { text-align: center; color: #7cc7ff; margin-bottom: 20px; }
+  .bar.payment{padding:12px;border-radius:8px;margin-top:10px;background:rgba(0,198,255,0.1);border:1px solid #00c6ff;font-size:13px}
 
-        /* Style Tombol Utama */
-        .btn {
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: none;
-            margin-top: 15px;
-            background: linear-gradient(90deg, #020617, #0b3c8a, #020617);
-            background-size: 200% auto;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            text-decoration: none;
-            display: block;
-            font-size: 16px;
-        }
-
-        /* Animasi Mengembang & Shadow Biru (Hover & Active) */
-        .btn:hover, .btn:active {
-            transform: scale(1.03);
-            box-shadow: 0 0 25px rgba(0, 114, 255, 0.8);
-            background-position: right center;
-        }
-
-        .container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 25px;
-            flex: 1;
-            min-width: 320px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #1e293b;
-            margin-top: 10px;
-            background: #0b1220;
-            color: white;
-            outline: none;
-        }
-
-        input:focus { border-color: var(--primary-blue); }
-
-        /* Tampilan List Joki Mewah */
-        .list-joki h3 { color: var(--primary-blue); border-bottom: 2px solid var(--primary-blue); padding-bottom: 10px; }
-        .list-joki b { color: #fff; display: block; margin-top: 15px; font-size: 1.1em; }
-        .list-joki ul { list-style: none; padding-left: 5px; }
-        .list-joki li { 
-            padding: 5px 0; 
-            border-bottom: 1px solid rgba(255,255,255,0.05); 
-            display: flex; 
-            justify-content: space-between;
-            font-size: 0.95em;
-        }
-        .list-joki li::before { content: "▹ "; color: var(--primary-blue); }
-
-        /* Payment Bar */
-        .bar.payment {
-            background: #0b1220;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            border-left: 4px solid var(--primary-blue);
-        }
-
-        /* Slide Selesai (Overlay) */
-        #order-slide {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--card-bg);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            z-index: 10;
-        }
-
-        .check-icon {
-            font-size: 70px;
-            color: #00ff88;
-            margin-bottom: 20px;
-            animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes pop {
-            0% { transform: scale(0); }
-            100% { transform: scale(1); }
-        }
-    </style>
+  /* Slide Selesai Gaya Awal */
+  #order-slide{
+    display:none;position:absolute;top:0;left:0;width:100%;height:100%;
+    background:#111a33;flex-direction:column;justify-content:center;
+    align-items:center;text-align:center;padding:20px;border-radius:12px;
+  }
+  @keyframes popCheck{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+  @keyframes glowCheck{0%,100%{text-shadow:0 0 10px #00c6ff}50%{text-shadow:0 0 30px #00c6ff}}
+</style>
 </head>
 <body>
 
 <div class="wrapper">
-    <h2>JOKI BF XZYO STORE</h2>
-    <p class="subtitle">Dijamin Murah, Aman, dan Terpercaya</p>
+  <h2>JOKI BF Xzyo STORE</h2>
+  <h3 style="font-size:14px;color:#7cc7ff">Dijamin Murah Aman Dan Terpercaya</h3>
 
-    <button type="button" class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
-        <i class="fa-brands fa-whatsapp"></i> JOIN SALURAN DULU BOY
-    </button>
+  <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
+    JOIN SALURAN DULU BOY
+  </button>
 
-    <div class="container">
-        <div class="card" id="formCard">
-            <i frame name="kotak_gaib" style="display:none;"></i frame>
-            <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="_captcha" value="false">
-                <form action="..." target="kotak_gaib">
-                <input type="text" name="Username" placeholder="Username Roblox" required>
-                
-                <div style="position:relative;">
-                    <input type="password" name="Password" id="pw" placeholder="Password Roblox" required>
-                    <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute; right:12px; top:22px; cursor:pointer; color:#555;"></i>
-                </div>
+  <div class="container">
+    <div class="card">
+      <iframe name="hidden_frame" style="display:none;"></iframe>
 
-                <input type="text" name="WhatsApp" placeholder="Nomor WA (Aktif)" required>
-                <textarea name="Jenis Joki" placeholder="Contoh: Joki Level 1500 - MAX" rows="3" required></textarea>
-                
-                <label style="display:block; margin-top:10px; font-size:12px; color:#aaa;">Upload Bukti Transfer:</label>
-                <input type="file" name="Bukti Transfer" accept="image/*" required>
-                
-                <button type="submit" class="btn">ORDER SEKARANG</button>
-            </form>
-
-            <div id="order-slide">
-                <div class="check-icon">✅</div>
-                <h3>ORDER TELAH SELESAI!</h3>
-                <p style="font-size:14px; color:#ccc;">Tunggu kabar dari kami. Akan ada admin yang menghubungi Anda melalui WhatsApp untuk mengonfirmasi pengerjaan joki.</p>
-            </div>
+      <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="hidden_frame" enctype="multipart/form-data">
+        <input type="hidden" name="_captcha" value="false">
+        
+        <input type="text" name="Username" placeholder="Username Roblox" required>
+        <div style="position:relative;">
+          <input type="password" name="Password" id="pw" placeholder="Password" required>
+          <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute;right:12px;top:22px;cursor:pointer;color:#555"></i>
         </div>
+        <input type="text" name="WhatsApp" placeholder="Nomor WA (Wajib)" required>
+        <textarea name="Jenis Joki" placeholder="Jenis joki (contoh: Level 0-Max)" rows="3" required></textarea>
+        <input type="file" name="Bukti_TF" accept="image/*" required>
+        
+        <button type="submit" class="btn">ORDER</button>
+      </form>
 
-        <div class="card list-joki">
-            <h3>LIST JOKI BLOX FRUIT</h3>
-            <b>👁 INSTINCT</b>
-            <ul>
-                <li>0 - 1000 <span>5.000</span></li>
-                <li>0 - MAX + V2 <span>20.000</span></li>
-            </ul>
-            <b>💸 BELLY / UANG</b>
-            <ul>
-                <li>1M Belly <span>5.000</span></li>
-                <li>10M Belly <span>40.000</span></li>
-            </ul>
-            <b>⚔️ MASTERY</b>
-            <ul>
-                <li>Per 100 Mastery <span>5.000</span></li>
-            </ul>
-            <b>🛠 LEVELING</b>
-            <ul>
-                <li>700 - 1500 <span>15.000</span></li>
-                <li>1500 - MAX <span>20.000</span></li>
-            </ul>
-            <div class="bar payment">
-                <i class="fa-solid fa-wallet"></i> <b>PAYMENT:</b><br>
-                DANA: 089677329404<br>
-                GOPAY: 089517154561
-            </div>
-            <button type="button" class="btn" onclick="window.open('https://wa.me/6289692310378?text=Admin%20minta%20QRIS','_blank')">QRIS / LINK PEMBAYARAN</button>
-            <a href="https://wa.me/6289692310378" class="btn">TANYA-TANYA ADMIN</a>
-        </div>
+      <div id="order-slide">
+        <div style="font-size:80px;color:#00c6ff;animation:popCheck 0.5s ease, glowCheck 1.5s ease infinite">✅</div>
+        <h2 style="font-size:20px">Order Telah Selesai!</h2>
+        <p style="font-size:14px;color:#7cc7ff">Tunggu kabar dari kami. Akan ada 1 orang admin chat ke Anda untuk memberi tahu akunnya sudah mulai dikerjakan.</p>
+      </div>
+
+      <div class="bar payment">
+        💳 <b>PAYMENT</b><br>
+        DANA : 089677329404<br>
+        OVO / GOPAY : 089517154561
+      </div>
+      <button class="btn" onclick="window.open('https://wa.me/6289692310378?text=Minta%20QRIS','_blank')">QRIS / LINK? Click disini</button>
+      <a href="https://wa.me/6289692310378" class="btn" style="background:linear-gradient(270deg,#020617,#0b3c8a,#020617)">Tanya-tanya? Chat disini</a>
     </div>
+
+    <div class="card list-joki">
+      <h3>LIST JOKI BLOX FRUIT</h3>
+      <b>👁 JOKI INSTINCT</b>
+      <ul><li>0 - 1000 <span>5.000</span></li><li>0 - MAX + V2 <span>20.000</span></li></ul>
+      <b>💸 JOKI BELLY</b>
+      <ul><li>1M <span>5.000</span></li><li>10M <span>40.000</span></li></ul>
+      <b>🛠 JOKI LEVEL</b>
+      <ul><li>0 - 100 <span>3.000</span></li><li>1500 – MAX <span>20.000</span></li></ul>
+      <p style="font-size:12px;margin-top:20px;color:#7cc7ff">*NOTE: Untuk joki lainnya chat WA admin.</p>
+    </div>
+  </div>
 </div>
 
 <script>
-    function togglePw() {
-        let pw = document.getElementById("pw");
-        let eye = document.getElementById("eye");
-        if (pw.type === "password") {
-            pw.type = "text";
-            eye.classList.replace("fa-eye-slash", "fa-eye");
-        } else {
-            pw.type = "password";
-            eye.classList.replace("fa-eye", "fa-eye-slash");
-        }
-    }
+function togglePw(){
+  let pw=document.getElementById("pw");
+  let eye=document.getElementById("eye");
+  if(pw.type==="password"){
+    pw.type="text";
+    eye.classList.replace("fa-eye-slash","fa-eye");
+  } else {
+    pw.type="password";
+    eye.classList.replace("fa-eye","fa-eye-slash");
+  }
+}
 
-    document.getElementById("orderForm").onsubmit = function() {
-        // Tampilkan slide selesai
-        document.getElementById("order-slide").style.display = "flex";
-        // Form tetap terkirim ke FormSubmit karena tidak ada preventDefault
-    };
+document.getElementById("orderForm").addEventListener("submit", function(e){
+  // Sembunyikan form & munculkan slide
+  this.style.opacity = "0";
+  setTimeout(() => {
+    this.style.display = "none";
+    document.getElementById("order-slide").style.display = "flex";
+  }, 300);
+});
 </script>
 
 </body>
