@@ -93,6 +93,8 @@ JOIN SALURAN DI SINI LEKKU
       method="POST"
       enctype="multipart/form-data"
       onsubmit="return confirm('Apakah data dan jenis joki sudah benar?')">
+      <!-- INI YANG MEMATIKAN CAPTCHA -->
+  <input type="hidden" name="_captcha" value="false">
   <input type="text" name="username" placeholder="Username Roblox (contoh: player123)" required>
 <div style="position:relative;">
   <input type="password" name="password" id="pw"
