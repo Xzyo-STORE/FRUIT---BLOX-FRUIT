@@ -1,321 +1,232 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Last Joki Store</title>
-<style>
-*{box-sizing:border-box;font-family:Arial}
-body{
-background:#0b1220;
-color:white;
-margin:0;
-padding:20px
-}
-.container{
-display:flex;
-gap:20px;
-flex-wrap:wrap
-}
-.card{
-background:#111a33;
-border-radius:12px;
-padding:20px;
-flex:1;
-min-width:300px
-}
-h2,h3{text-align:center}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xzyo Store - Joki Blox Fruit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #0072ff;
+            --dark-bg: #0b1220;
+            --card-bg: #111a33;
+            --text-white: #ffffff;
+            --neon-shadow: 0 0 15px rgba(0, 114, 255, 0.7);
+        }
 
-input,textarea,button{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:none;
-margin-top:10px
-}
-input,textarea{background:#0b1220;color:white}
+        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        
+        body {
+            background: var(--dark-bg);
+            color: var(--text-white);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.bar{
-padding:12px;
-border-radius:8px;
-margin-top:10px;
-background:linear-gradient(270deg,#00c6ff,#0072ff,#00c6ff);
-background-size:400% 400%;
-animation:gradient 6s ease infinite
-}
+        .wrapper {
+            max-width: 900px;
+            width: 100%;
+        }
 
-@keyframes gradient{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
-}
+        h2 { text-align: center; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
+        p.subtitle { text-align: center; color: #7cc7ff; margin-bottom: 20px; }
 
-.btn{
-margin-top:12px;
-background:linear-gradient(270deg,#020617,#0b3c8a,#020617);
-background-size:400% 400%;
-color:white;
-font-weight:bold;
-cursor:pointer;
-transition:.2s;
-animation:gradient 5s infinite
-}
-.btn:active{transform:scale(1.08)}
+        /* Style Tombol Utama */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            margin-top: 15px;
+            background: linear-gradient(90deg, #020617, #0b3c8a, #020617);
+            background-size: 200% auto;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+        }
 
-.payment{background:#0b1220}
+        /* Animasi Mengembang & Shadow Biru (Hover & Active) */
+        .btn:hover, .btn:active {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 114, 255, 0.8);
+            background-position: right center;
+        }
 
-.toggle{
-cursor:pointer;
-font-size:12px;
-color:#7cc7ff;
-margin-top:5px;
-display:block
-}
-      .container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px;
-}
+        .container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
 
-.header {
-  background: linear-gradient(135deg, #0a1a3a, #0d2b66);
-  transition: all 0.4s ease;
-}
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            flex: 1;
+            min-width: 320px;
+            position: relative;
+            overflow: hidden;
+        }
 
-.header:hover {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-}
-</style>
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+            margin-top: 10px;
+            background: #0b1220;
+            color: white;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--primary-blue); }
+
+        /* Tampilan List Joki Mewah */
+        .list-joki h3 { color: var(--primary-blue); border-bottom: 2px solid var(--primary-blue); padding-bottom: 10px; }
+        .list-joki b { color: #fff; display: block; margin-top: 15px; font-size: 1.1em; }
+        .list-joki ul { list-style: none; padding-left: 5px; }
+        .list-joki li { 
+            padding: 5px 0; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+            display: flex; 
+            justify-content: space-between;
+            font-size: 0.95em;
+        }
+        .list-joki li::before { content: "▹ "; color: var(--primary-blue); }
+
+        /* Payment Bar */
+        .bar.payment {
+            background: #0b1220;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        /* Slide Selesai (Overlay) */
+        #order-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--card-bg);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .check-icon {
+            font-size: 70px;
+            color: #00ff88;
+            margin-bottom: 20px;
+            animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+    </style>
 </head>
-<body
+<body>
 
-<ul>
-<div class="header">
-  <div class="container">
-    <h2>JOKI BF Xyzo STORE</h2>
-    <p>Dijamin Murah Aman Dan Terpercaya</p>
+<div class="wrapper">
+    <h2>JOKI BF XZYO STORE</h2>
+    <p class="subtitle">Dijamin Murah, Aman, dan Terpercaya</p>
 
-    <button type="button" class="btn"
-      onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kq7DZoIDg3r','_blank')">
-      JOIN SALURAN DI SINI LEKKU
+    <button type="button" class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
+        <i class="fa-brands fa-whatsapp"></i> JOIN SALURAN DULU BOY
     </button>
-  </div>
-</div>
-<!-- FORM ORDER -->
-<div class="card">
-  <div class="container">
-<form id="orderForm"
-      action="https://formsubmit.co/rahmat02riyadi@gmail.com"
-      method="POST"
-      enctype="multipart/form-data"
-      onsubmit="return confirm('Apakah data dan jenis joki sudah benar?')">
-      <!-- INI YANG MEMATIKAN CAPTCHA -->
-  <input type="hidden" name="_captcha" value="false">
-  <input type="text" name="username" placeholder="Username Roblox (contoh: player123)" required>
-  <div style="position:relative;">
-</div>
-  <input type="password" name="password" id="pw"
-    placeholder="Password Roblox (contoh: Akun123)"
-    style="width:100%; padding-right:40px; height:40px;" required>
 
-  <i id="eye" class="fa-solid fa-eye-slash"
-    onclick="togglePw()"
-    style="
-      position:absolute;
-      right:12px;
-      top:50%;
-      transform:translateY(-50%);
-      cursor:pointer;
-      font-size:18px;
-      color:#555;
-    ">
-  </i>
-</div>
-  <input type="text" name="whatsapp" placeholder="Nomor WA kamu (WAJIB)" required>
-  <textarea name="jenis_joki" placeholder="Jenis joki (contoh: joki level dari 0 - max)" required></textarea>
-  <input type="file" name="bukti_tf" accept="image/*" required>
-  
-  <!-- Tombol ORDER -->
-  <button type="submit" class="btn">
-    ORDER
-  </button>
-</form>
+    <div class="container">
+        <div class="card" id="formCard">
+            <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://yourwebsite.com/thanks"> <input type="text" name="Username" placeholder="Username Roblox" required>
+                
+                <div style="position:relative;">
+                    <input type="password" name="Password" id="pw" placeholder="Password Roblox" required>
+                    <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute; right:12px; top:22px; cursor:pointer; color:#555;"></i>
+                </div>
 
-<!-- SLIDE ORDER SELESAI -->
-<div id="order-slide" style="display:none; text-align:center; padding:40px; color:white;">
-  <div style="
-      font-size:80px; 
-      color:#00c6ff; 
-      animation:popCheck 0.5s ease, glowCheck 1.5s ease infinite;
-      text-shadow: 0 0 10px #00c6ff, 0 0 20px #00c6ff, 0 0 30px #00c6ff;
-    ">
-    ✅
-  </div>
-  <h2>Order Telah Selesai!</h2>
-  <p>Pantau terus, setelah pengerjaan joki selesai akan diinformasikan.<br>
-  Terima kasih telah meng-order di sini.</p>
-</div>
+                <input type="text" name="WhatsApp" placeholder="Nomor WA (Aktif)" required>
+                <textarea name="Jenis Joki" placeholder="Contoh: Joki Level 1500 - MAX" rows="3" required></textarea>
+                
+                <label style="display:block; margin-top:10px; font-size:12px; color:#aaa;">Upload Bukti Transfer:</label>
+                <input type="file" name="Bukti Transfer" accept="image/*" required>
+                
+                <button type="submit" class="btn">ORDER SEKARANG</button>
+            </form>
 
-<style>
-@keyframes popCheck {
-  0% { transform: scale(0); opacity:0; }
-  50% { transform: scale(1.2); opacity:1; }
-  100% { transform: scale(1); }
-}
-@keyframes glowCheck {
-  0%, 100% { text-shadow: 0 0 10px #00c6ff, 0 0 20px #00c6ff, 0 0 30px #00c6ff; }
-  50% { text-shadow: 0 0 20px #00c6ff, 0 0 40px #00c6ff, 0 0 60px #00c6ff; }
-}
-#order-slide { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:300px; }
-</style>
+            <div id="order-slide">
+                <div class="check-icon">✅</div>
+                <h3>ORDER TELAH SELESAI!</h3>
+                <p style="font-size:14px; color:#ccc;">Tunggu kabar dari kami. Akan ada admin yang menghubungi Anda melalui WhatsApp untuk mengonfirmasi pengerjaan joki.</p>
+            </div>
+        </div>
+
+        <div class="card list-joki">
+            <h3>LIST JOKI BLOX FRUIT</h3>
+            <b>👁 INSTINCT</b>
+            <ul>
+                <li>0 - 1000 <span>5.000</span></li>
+                <li>0 - MAX + V2 <span>20.000</span></li>
+            </ul>
+            <b>💸 BELLY / UANG</b>
+            <ul>
+                <li>1M Belly <span>5.000</span></li>
+                <li>10M Belly <span>40.000</span></li>
+            </ul>
+            <b>⚔️ MASTERY</b>
+            <ul>
+                <li>Per 100 Mastery <span>5.000</span></li>
+            </ul>
+            <b>🛠 LEVELING</b>
+            <ul>
+                <li>700 - 1500 <span>15.000</span></li>
+                <li>1500 - MAX <span>20.000</span></li>
+            </ul>
+            <div class="bar payment">
+                <i class="fa-solid fa-wallet"></i> <b>PAYMENT:</b><br>
+                DANA: 089677329404<br>
+                GOPAY: 089517154561
+            </div>
+            <button type="button" class="btn" onclick="window.open('https://wa.me/6289692310378?text=Admin%20minta%20QRIS','_blank')">QRIS / LINK PEMBAYARAN</button>
+            <a href="https://wa.me/6289692310378" class="btn">TANYA-TANYA ADMIN</a>
+        </div>
+    </div>
+</div>
 
 <script>
-function togglePw(){
-  let pw=document.getElementById("pw");
-  pw.type = pw.type==="password" ? "text":"password";
-}
+    function togglePw() {
+        let pw = document.getElementById("pw");
+        let eye = document.getElementById("eye");
+        if (pw.type === "password") {
+            pw.type = "text";
+            eye.classList.replace("fa-eye-slash", "fa-eye");
+        } else {
+            pw.type = "password";
+            eye.classList.replace("fa-eye", "fa-eye-slash");
+        }
+    }
 
-// Tombol ORDER
-document.getElementById("orderForm").addEventListener("submit", function(e){
-    // e.preventDefault(); // jangan di-comment kalau mau tetap submit ke Gmail
-    this.style.display = "none"; // sembunyikan form
-    document.getElementById("order-slide").style.display = "flex"; // tampilkan slide selesai
-});
-</script>
-
-</form>
-<!-- BAR PAYMENT -->
-<div class="bar payment">
-💳 PAYMENT <br>
-OVO / GOPAY : <b>089517154561</b><br>
- DANA : <b>089677329404</b>
-</div>
-
-<!-- Tombol QRIS & JOIN -->
-<button type="button" class="btn" onclick="window.open('https://wa.me/6289692310378?text=Halo%20Admin,%20saya%20minta%20QRIS/LINK%20untuk%20pembayaran','_blank')">
-QRIS / LINK? Click disini
-</button>
-<a href="https://wa.me/6289692310378?text=Halo%20Admin,%20saya%20mau%20nanya" 
-   target="_blank"
-   style="
-       display:block;
-       padding:14px;
-       margin-top:12px;
-       border-radius:12px;
-       background:linear-gradient(270deg,#020617,#0b3c8a,#020617);
-       color:white;
-       font-weight:bold;
-       text-align:center;
-       text-decoration:none;
-       box-shadow:0 0 15px rgba(37,99,235,.6);
-   ">
-   Tanya-tanya? Chat disini
-</a>
-
-</form>
-</div>
-
-<!-- LIST JOKI -->
-<div class="card list-joki">
-  <h3>LIST JOKI BLOX FRUIT</h3>
-  <br><br>
-  <b>👁 JOKI INSTINCT</b>
-  <ul>
-    <li>0 - 1000 : 4.000</li>
-    <li>0 - MAX + V2 : 20.000</li>
-    <li>MISI V2 : 5.000</li>
-  </ul>
-<br>
-  <b>💸 JOKI BELLY</b>
-  <ul>
-    <li>1M : 5.000</li>
-    <li>5M : 20.000</li>
-    <li>10M : 40.000</li>
-    <li>30M : .000</li>
-  </ul>
-<br>
-  <b>⚔️ JOKI MASTERY</b>
-  <ul>
-    <li>Fruit / Fighting Style / Gun : 5.000 / 100 Mastery</li>
-  </ul>
-<br>
-  <b>🛠 JOKI LEVEL</b>
-  <ul>
-    <li>0 - 100 : 3.000</li>
-    <li>1 – 700 : 15.000</li>
-    <li>700 – 1500 : 15.000</li>
-    <li>1500 – MAX : 20.000</li>
-  </ul>
-<br>
-  <b>🔥 RAID & FRAGMENT</b>
-  <ul>
-    <li>Unlock Raid Phoenix : 15.000</li>
-    <li>Raid 1x : 1.000</li>
-    <li>Full Awaken Buddha / Dough : 15.000</li>
-    <li>Full Awaken : 10.000</li>
-    <li>10K Fragment : 8.000</li>
-    <li>25K Fragment : 15.000</li>
-  </ul>
-<br>
-  <b>🗺️ SEA</b>
-  <ul>
-    <li>Unlock Sea 2 / 3 : 5.000</li>
-  </ul>
-<br>
-  <b>🏴‍☠️ BOUNTY / HONOR</b>
-  <ul>
-    <li>1M : 25.000</li>
-    <li>5M : 100.000</li>
-    <li>10M : 230.000</li>
-    <li>15M : 350.000</li>
-    <li>20M : 430.000</li>
-    <li>25M : 550.000</li>
-    <li>30M : 600.000</li>
-  </ul>
-<br>
-  <b>🧬 RACE</b>
-  <ul>
-    <li>Race V2-V3 : 10.000</li>
-    <li>Race V4 : 10.000</li>
-    <li>GET RACE GHOUL / CYBORG : 15.000</li>
-    <li>GET RACE DRACO : 20.000</li>
-    <li>Race V4 Draco : 15.000</li>
-  </ul>
-<br>
-  <b>👑 ITEM & BOSS</b>
-  <ul>
-    <li>Leviatan Tiki / Hydra : 45.000</li>
-    <li>Defeth Dough King / Rip Indra : 10.000</li>
-    <li>CDK (Curse Dual Katana) / TTK (True Triple Katana) : 25.000</li>
-    <li>Skull Guitar : 10.000</li>
-    <li>Godhuman : 30.000</li>
-    <li>Dragonheart / Dragon Storm : 30.000</li>
-    <li>Shark Ancor : 30.000</li>
-    <li>Dark Dagger : 30.000</li>
-    <li>Koko / Hllow Scyte : 15.000</li>
-    <li>Blue Gear : 10.000</li>
-  </ul><br><br><br>
-             <li>NOTE</li>
-         <li>Untuk joki yang lainnya bisa chat ke wa admin atau dm sosmed tiktoknya Xzyo</li>
-</div>
-
-
-<script>
-function togglePw() {
-  var pw = document.getElementById("pw");
-  var eye = document.getElementById("eye");
-
-  if (pw.type === "password") {
-    pw.type = "text";
-    eye.classList.replace("fa-eye-slash","fa-eye");
-  } else {
-    pw.type = "password";
-    eye.classList.replace("fa-eye","fa-eye-slash");
-  }
-}
+    document.getElementById("orderForm").onsubmit = function() {
+        // Tampilkan slide selesai
+        document.getElementById("order-slide").style.display = "flex";
+        // Form tetap terkirim ke FormSubmit karena tidak ada preventDefault
+    };
 </script>
 
 </body>
