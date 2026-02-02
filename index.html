@@ -10,14 +10,14 @@
   body{background:#0b1220;color:white;margin:0;padding:20px;display:flex;flex-direction:column;align-items:center}
   
   .wrapper{max-width:900px;width:100%}
-  h2,h3{text-align:center;text-transform:uppercase}
+  h2,h3{text-align:center;text-transform:uppercase;text-shadow: 0 0 10px #0072ff}
   
   .container{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px}
-  .card{background:#111a33;border-radius:12px;padding:20px;flex:1;min-width:300px;position:relative;min-height:500px}
+  .card{background:#111a33;border-radius:12px;padding:25px;flex:1;min-width:300px;position:relative;min-height:500px;box-shadow: 0 10px 30px rgba(0,0,0,0.5)}
 
   /* Animasi Tombol Premium */
   .btn{
-    width:100%;padding:12px;border-radius:8px;border:none;margin-top:12px;
+    width:100%;padding:14px;border-radius:8px;border:none;margin-top:12px;
     background:linear-gradient(270deg,#020617,#0b3c8a,#020617);
     background-size:400% 400%;color:white;font-weight:bold;cursor:pointer;
     transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -25,37 +25,39 @@
   }
   .btn:hover, .btn:active{
     transform:scale(1.05);
-    box-shadow: 0 0 20px #0072ff;
+    box-shadow: 0 0 25px #0072ff;
     filter: brightness(1.2);
   }
 
-  input,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #1e293b;margin-top:10px;background:#0b1220;color:white;outline:none}
+  input,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #1e293b;margin-top:10px;background:#0b1220;color:white;outline:none;transition:0.3s}
+  input:focus{border-color:#00c6ff}
   
   /* List Joki Mewah */
+  .list-joki h3{color:#00c6ff;border-bottom:1px solid #00c6ff;padding-bottom:10px}
   .list-joki ul{list-style:none;padding:0}
-  .list-joki li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;font-size:14px}
-  .list-joki b{color:#00c6ff;display:block;margin-top:15px}
+  .list-joki li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;font-size:14px}
+  .list-joki b{color:#00c6ff;display:block;margin-top:20px;border-left:3px solid #00c6ff;padding-left:10px}
 
-  .bar.payment{padding:12px;border-radius:8px;margin-top:10px;background:rgba(0,198,255,0.1);border:1px solid #00c6ff;font-size:13px}
+  .bar.payment{padding:15px;border-radius:8px;margin-top:15px;background:rgba(0,198,255,0.05);border:1px dashed #00c6ff;font-size:13px;line-height:1.6}
 
-  /* Slide Selesai Gaya Awal */
+  /* Slide Selesai Animasi Awal */
   #order-slide{
     display:none;position:absolute;top:0;left:0;width:100%;height:100%;
     background:#111a33;flex-direction:column;justify-content:center;
-    align-items:center;text-align:center;padding:20px;border-radius:12px;
+    align-items:center;text-align:center;padding:25px;border-radius:12px;z-index:10;
   }
   @keyframes popCheck{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
-  @keyframes glowCheck{0%,100%{text-shadow:0 0 10px #00c6ff}50%{text-shadow:0 0 30px #00c6ff}}
+  @keyframes glowCheck{0%,100%{text-shadow:0 0 10px #00c6ff}50%{text-shadow:0 0 35px #00c6ff}}
 </style>
 </head>
 <body>
 
 <div class="wrapper">
   <h2>JOKI BF Xzyo STORE</h2>
-  <h3 style="font-size:14px;color:#7cc7ff">Dijamin Murah Aman Dan Terpercaya</h3>
+  <h3 style="font-size:13px;color:#7cc7ff;margin-top:-5px">Murah • Aman • Terpercaya</h3>
 
   <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
-    JOIN SALURAN DULU BOY
+    <i class="fa-brands fa-whatsapp"></i> JOIN SALURAN DULU BOY
   </button>
 
   <div class="container">
@@ -64,48 +66,56 @@
 
       <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="hidden_frame" enctype="multipart/form-data">
         <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" id="email_subject" value="Pesanan Joki Baru">
         
-        <input type="text" name="Username" placeholder="Username Roblox" required>
+        <input type="text" name="Username" id="user_input" placeholder="Username Roblox" required>
         <div style="position:relative;">
           <input type="password" name="Password" id="pw" placeholder="Password" required>
           <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute;right:12px;top:22px;cursor:pointer;color:#555"></i>
         </div>
-        <input type="text" name="WhatsApp" placeholder="Nomor WA (Wajib)" required>
+        <input type="text" name="WhatsApp" placeholder="Nomor WA (Aktif)" required>
         <textarea name="Jenis Joki" placeholder="Jenis joki (contoh: Level 0-Max)" rows="3" required></textarea>
+        
+        <label style="display:block;margin-top:10px;font-size:11px;color:#00c6ff">BUKTI TRANSFER:</label>
         <input type="file" name="Bukti_TF" accept="image/*" required>
         
-        <button type="submit" class="btn">ORDER</button>
+        <button type="submit" class="btn">ORDER SEKARANG</button>
       </form>
 
       <div id="order-slide">
-        <div style="font-size:80px;color:#00c6ff;animation:popCheck 0.5s ease, glowCheck 1.5s ease infinite">✅</div>
-        <h2 style="font-size:20px">Order Telah Selesai!</h2>
-        <p style="font-size:14px;color:#7cc7ff">Tunggu kabar dari kami. Akan ada 1 orang admin chat ke Anda untuk memberi tahu akunnya sudah mulai dikerjakan.</p>
+        <div style="font-size:90px;color:#00c6ff;animation:popCheck 0.5s ease, glowCheck 1.5s ease infinite">✅</div>
+        <h2 style="font-size:22px;margin-top:10px">Order Berhasil!</h2>
+        <p style="font-size:14px;color:#7cc7ff;line-height:1.5">
+          Tunggu kabar dari kami. Akan ada 1 orang admin chat ke WhatsApp Anda untuk memberitahu akunnya sudah mulai dikerjakan.
+        </p>
       </div>
 
       <div class="bar payment">
-        💳 <b>PAYMENT</b><br>
-        DANA : 089677329404<br>
-        OVO / GOPAY : 089517154561
+        💳 <b>METODE PEMBAYARAN</b><br>
+        DANA : <b>089677329404</b><br>
+        OVO / GOPAY : <b>089517154561</b>
       </div>
-      <button class="btn" onclick="window.open('https://wa.me/6289692310378?text=Minta%20QRIS','_blank')">QRIS / LINK? Click disini</button>
-      <a href="https://wa.me/6289692310378" class="btn" style="background:linear-gradient(270deg,#020617,#0b3c8a,#020617)">Tanya-tanya? Chat disini</a>
+      <button class="btn" onclick="window.open('https://wa.me/6289692310378?text=Admin%20minta%20QRIS','_blank')">MINTA QRIS / LINK</button>
+      <a href="https://wa.me/6289692310378" class="btn">TANYA ADMIN</a>
     </div>
 
     <div class="card list-joki">
-      <h3>LIST JOKI BLOX FRUIT</h3>
-      <b>👁 JOKI INSTINCT</b>
+      <h3>DAFTAR HARGA JOKI</h3>
+      <b>👁 INSTINCT</b>
       <ul><li>0 - 1000 <span>5.000</span></li><li>0 - MAX + V2 <span>20.000</span></li></ul>
-      <b>💸 JOKI BELLY</b>
-      <ul><li>1M <span>5.000</span></li><li>10M <span>40.000</span></li></ul>
-      <b>🛠 JOKI LEVEL</b>
-      <ul><li>0 - 100 <span>3.000</span></li><li>1500 – MAX <span>20.000</span></li></ul>
-      <p style="font-size:12px;margin-top:20px;color:#7cc7ff">*NOTE: Untuk joki lainnya chat WA admin.</p>
+      <b>💸 BELLY / UANG</b>
+      <ul><li>1M <span>5.000</span></li><li>10M <span>40.000</span></li><li>30M <span>100.000</span></li></ul>
+      <b>🛠 LEVELING</b>
+      <ul><li>0 - 100 <span>3.000</span></li><li>700 - 1500 <span>15.000</span></li><li>1500 - MAX <span>20.000</span></li></ul>
+      <b>🔥 RAID</b>
+      <ul><li>Full Awaken <span>10.000</span></li><li>10K Fragment <span>8.000</span></li></ul>
+      <p style="font-size:12px;margin-top:25px;color:#aaa;text-align:center">Untuk joki lainnya silakan hubungi admin.</p>
     </div>
   </div>
 </div>
 
 <script>
+// Fungsi Mata Password
 function togglePw(){
   let pw=document.getElementById("pw");
   let eye=document.getElementById("eye");
@@ -118,8 +128,13 @@ function togglePw(){
   }
 }
 
+// Fungsi Submit & Anti-Tumpuk Gmail
 document.getElementById("orderForm").addEventListener("submit", function(e){
-  // Sembunyikan form & munculkan slide
+  // Ambil nama user untuk Subject Email agar tidak menumpuk
+  let nama = document.getElementById("user_input").value;
+  document.getElementById("email_subject").value = "Pesanan Joki Baru: " + nama;
+
+  // Jalankan Animasi Slide
   this.style.opacity = "0";
   setTimeout(() => {
     this.style.display = "none";
