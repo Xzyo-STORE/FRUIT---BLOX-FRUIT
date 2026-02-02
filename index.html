@@ -88,7 +88,11 @@ JOIN SALURAN DI SINI LEKKU
 
 <!-- FORM ORDER -->
 <div class="card">
-<form id="orderForm" action="https://formsubmit.co/rahmat02riyadi@gmail.com" method="POST" enctype="multipart/form-data">
+<form id="orderForm"
+      action="https://formsubmit.co/rahmat02riyadi@gmail.com"
+      method="POST"
+      enctype="multipart/form-data"
+      onsubmit="return confirm('Apakah data dan jenis joki sudah benar?')">
   <input type="text" name="username" placeholder="Username Roblox (contoh: player123)" required>
 <div style="position:relative;">
   <input type="password" name="password" id="pw"
