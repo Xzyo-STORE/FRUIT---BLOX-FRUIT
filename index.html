@@ -3,704 +3,169 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joki BF Xzyo Store - Premium Service</title>
+<title>XZYO STORE - Premium Joki Blox Fruits</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-  *{box-sizing:border-box;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
-  body{background:#070b14;color:white;margin:0;padding:20px;display:flex;flex-direction:column;align-items:center}
+  *{box-sizing:border-box;font-family:'Inter', 'Segoe UI', sans-serif}
+  body{background:#020617;color:#f8fafc;margin:0;padding:15px;display:flex;flex-direction:column;align-items:center}
   
-  .wrapper{max-width:1000px;width:100%}
-  h2,h3{text-align:center;text-transform:uppercase;letter-spacing: 2px;text-shadow: 0 0 15px #0072ff}
+  .wrapper{max-width:1150px;width:100%}
+  .header-box{text-align:center;padding:40px 0}
+  .header-box h1{font-size:38px;margin:0;background:linear-gradient(to right, #0ea5e9, #2563eb, #7000ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900;letter-spacing:3px;filter:drop-shadow(0 0 10px rgba(14, 165, 233, 0.3))}
   
-  .promo-banner {
-    background: linear-gradient(90deg, #ff0055, #7000ff);
-    padding: 10px;
-    text-align: center;
-    border-radius: 8px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0% {transform: scale(1);}
-    50% {transform: scale(1.02); box-shadow: 0 0 20px rgba(255,0,85,0.5);}
-    100% {transform: scale(1);}
+  .promo-alert {
+    background: linear-gradient(90deg, #991b1b, #4338ca);
+    padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 25px;
+    border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
 
-  .container{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;align-items: flex-start}
-  .card{background:#111a33;border-radius:15px;padding:25px;flex:1;min-width:320px;position:relative;box-shadow: 0 10px 40px rgba(0,0,0,0.7);border: 1px solid rgba(0,114,255,0.2)}
+  .container{display:grid;grid-template-columns: 1fr 1.8fr;gap:25px}
+  @media (max-width: 950px) {.container{grid-template-columns: 1fr}}
 
-  .btn{
-    width:100%;padding:15px;border-radius:10px;border:none;margin-top:12px;
-    background:linear-gradient(270deg,#000428,#004e92,#000428);
-    background-size:400% 400%;color:white;font-weight:bold;cursor:pointer;
-    transition: 0.4s; display:block;text-align:center;text-decoration:none;
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .btn:hover{
-    transform:translateY(-3px);
-    box-shadow: 0 8px 25px #0072ff;
-    filter: brightness(1.3);
-  }
-
-  input,textarea,select{width:100%;padding:12px;border-radius:8px;border:1px solid #1e293b;margin-top:10px;background:#0b1220;color:white;outline:none;transition:0.3s}
-  input:focus{border-color:#00c6ff;box-shadow: 0 0 10px rgba(0,198,255,0.3)}
+  .card{background:#0f172a;border-radius:20px;padding:30px;border:1px solid #1e293b;height: fit-content;box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1)}
   
-  /* Styling List Joki */
-  .list-joki h3{color:#00c6ff;border-bottom:2px solid #00c6ff;padding-bottom:10px;margin-bottom:20px}
-  .list-joki b{color:#00c6ff;display:flex;align-items:center;margin-top:25px;font-size:16px;background:rgba(0,114,255,0.1);padding:8px;border-radius:5px}
-  .list-joki b i{margin-right:10px}
-  .list-joki ul{list-style:none;padding:0;margin:0}
-  .list-joki li{padding:12px 5px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;font-size:13px}
-  
-  .old-price{text-decoration: line-through; color: #ff4d4d; font-size: 11px; margin-right: 5px;}
-  .new-price{color: #00ff88; font-weight: bold; font-size: 14px;}
-
-  .payment-box{padding:15px;border-radius:10px;margin-top:20px;background:rgba(255,255,255,0.02);border:1px solid #1e293b}
-  .payment-item{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px}
-  .payment-item span{color:#00c6ff;font-weight:bold}
-
-  #order-slide{
-    display:none;position:absolute;top:0;left:0;width:100%;height:100%;
-    background:#111a33;flex-direction:column;justify-content:center;
-    align-items:center;text-align:center;padding:25px;border-radius:15px;z-index:10;
+  .btn-order{
+    width:100%;padding:16px;border-radius:12px;border:none;margin-top:10px;
+    background:linear-gradient(to right, #2563eb, #3b82f6);
+    color:white;font-weight:bold;cursor:pointer;transition:0.3s;
+    text-transform:uppercase;display:flex;justify-content:center;align-items:center;gap:10px;
   }
+  .btn-order:hover{transform:translateY(-3px); box-shadow: 0 10px 20px rgba(37,99,235,0.4)}
+
+  input,textarea{width:100%;padding:14px;border-radius:10px;border:1px solid #334155;background:#020617;color:white;margin-bottom:15px;outline:none;transition:0.3s}
+  input:focus{border-color:#38bdf8}
+  
+  .section-title{display:flex;align-items:center;gap:10px;color:#38bdf8;margin:35px 0 15px 0;font-size:15px;font-weight:900;text-transform:uppercase;border-bottom:1px solid #1e293b;padding-bottom:8px}
+  .price-list{list-style:none;padding:0;margin:0}
+  .price-list li{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:13.5px}
+  
+  .old-p{text-decoration:line-through;color:#f43f5e;font-size:11px;margin-right:8px}
+  .new-p{color:#22c55e;font-weight:800;font-size:14px}
+  .badge{background:#1e293b;color:#38bdf8;padding:2px 8px;border-radius:5px;font-size:10px;margin-left:5px;border:1px solid rgba(56, 189, 248, 0.2)}
+
+  .payment-info{background:#020617;padding:20px;border-radius:15px;margin-top:20px;border:1px solid #334155}
+  .payment-info div{display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px}
 </style>
 </head>
 <body>
 
 <div class="wrapper">
-  <h2><i class="fa-solid fa-shuttle-space"></i> XZYO STORE</h2>
-  <div class="promo-banner">
-    🚀 PROMO FEBRUARY: DISKON 15% ALL ITEM! <br>
-    <span style="font-size: 12px; font-weight: normal;">Berakhir pada 1 Maret 2026</span>
+  <div class="header-box">
+    <h1>XZYO STORE</h1>
+    <p style="color:#64748b;margin-top:10px">Trusted & Fast Blox Fruits Boosting Service</p>
   </div>
 
-  <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
-    <i class="fa-brands fa-whatsapp"></i> GABUNG SALURAN PEMBELI
-  </button>
-
-  <div class="container">
-    <div class="card">
-      <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="hidden_frame" enctype="multipart/form-data">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" id="email_subject" value="Pesanan Joki Baru">
-        
-        <input type="text" name="Username" id="user_input" placeholder="Username Roblox" required>
-        <div style="position:relative;">
-          <input type="password" name="Password" id="pw" placeholder="Password Akun" required>
-          <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute;right:12px;top:22px;cursor:pointer;color:#555"></i>
-        </div>
-        <input type="text" name="WhatsApp" placeholder="Nomor WhatsApp Aktif" required>
-        <textarea name="Jenis Joki" placeholder="Tulis Pesanan Anda (Contoh: Joki Level 0-Max & Sea 2)" rows="4" required></textarea>
-        
-        <div style="margin-top:15px;">
-            <label style="font-size:12px;color:#00c6ff"><i class="fa-solid fa-image"></i> UPLOAD BUKTI TRANSFER:</label>
-            <input type="file" name="Bukti_TF" accept="image/*" required>
-        </div>
-        
-        <button type="submit" class="btn" style="background:linear-gradient(45deg, #0072ff, #00c6ff)">KIRIM PESANAN SEKARANG</button>
-      </form>
-
-      <div id="order-slide">
-        <div style="font-size:80px;color:#00ff88;">❤️</div>
-        <h2 style="font-size:22px;margin-top:10px">Pesanan Diterima!</h2>
-        <p style="font-size:14px;color:#7cc7ff;line-height:1.6">
-          Admin akan segera memproses akunmu. Mohon jangan login ke dalam game selama proses joki berlangsung agar aman.
-        </p>
-      </div>
-
-      <div class="payment-box">
-        <div style="text-align:center;margin-bottom:10px;font-weight:bold;color:#00c6ff">💳 PEMBAYARAN</div>
-        <div class="payment-item">DANA <span>089517154561</span></div>
-        <div class="payment-item">OVO <span>089517154561</span></div>
-        <div class="payment-item">GOPAY <span>089517154561</span></div>
-        <div style="font-size:10px;color:#aaa;text-align:center;margin-top:5px">*QRIS Hubungi Admin (Ada biaya admin)</div>
-      </div>
-      
-      <button class="btn" onclick="window.open('https://wa.me/6289517154561?text=Halo%20Admin%20XZYO%2C%20saya%20mau%20order%20joki','_blank')">
-        <i class="fa-solid fa-headset"></i> HUBUNGI ADMIN
-      </button>
-    </div>
-
-    <div class="card list-joki">
-      <h3><i class="fa-solid fa-tags"></i> DAFTAR HARGA PROMO</h3>
-      
-      <b><i class="fa-solid fa-eye"></i> INSTINCT (KEN HAKI)</b>
-      <ul>
-        <li>0 – 1000 <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-        <li>1000 – 2000 <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>2000 – MAX + V2 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>0 – MAX + V2 <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-coins"></i> JOKI BELLY</b>
-      <ul>
-        <li>1.000.000 (1M) <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-        <li>3.000.000 (3M) <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>10.000.000 (10M) <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-gem"></i> JOKI FRAGMENT</b>
-      <ul>
-        <li>1K Frag <span><span class="old-price">1k</span><span class="new-price">0.8k</span></span></li>
-        <li>5K Frag <span><span class="old-price">4k</span><span class="new-price">3.4k</span></span></li>
-        <li>10K Frag <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>20K Frag <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-up-long"></i> JOKI LEVELING</b>
-      <ul>
-        <li>0 – 100 <span><span class="old-price">3k</span><span class="new-price">2.5k</span></span></li>
-        <li>1 – 700 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>700 – 1500 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>1500 – MAX <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-anchor"></i> UNLOCK SEA</b>
-      <ul>
-        <li>Sea 2 atau Sea 3 <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-fire"></i> MASTERY</b>
-      <ul>
-        <li>Per 100 Mastery <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-skull"></i> RAID SERVICE</b>
-      <ul>
-        <li>Raid Biasa (Max) <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-        <li>Raid Buddha/Dough (Max) <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-crown"></i> BOSS & RARE ITEMS</b>
-      <ul>
-        <li>Leviatan Hydra / Tiki <span><span class="old-price">45k</span><span class="new-price">38.5k</span></span></li>
-        <li>Blue Gear <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>Dough King / Indra <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>Tushita / Yama <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>Cursed Dual Katana (CDK) <span><span class="old-price">25k</span><span class="new-price">21.25k</span></span></li>
-        <li>God Human <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-        <li>Soul Guitar + Bahan <span><span class="old-price">10k</span><span class="new-price">12.7k</span></span></li>
-        <li>True Triple Katana (TTK) <span><span class="old-price">25k</span><span class="new-price">21.25k</span></span></li>
-        <li>Shark Anchor / Fox Lamp <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-        <li>Dark Dagger <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-dna"></i> RACE EVOLUTION</b>
-      <ul>
-        <li>Race V1 – V3 <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>Race V4 <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>Ghoul / Cyborg Unlock <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>Draco Full <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-       <!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joki BF Xzyo Store - Premium Service</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-  *{box-sizing:border-box;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
-  body{background:#070b14;color:white;margin:0;padding:20px;display:flex;flex-direction:column;align-items:center}
-  
-  .wrapper{max-width:1000px;width:100%}
-  h2,h3{text-align:center;text-transform:uppercase;letter-spacing: 2px;text-shadow: 0 0 15px #0072ff}
-  
-  .promo-banner {
-    background: linear-gradient(90deg, #ff0055, #7000ff);
-    padding: 10px;
-    text-align: center;
-    border-radius: 8px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0% {transform: scale(1);}
-    50% {transform: scale(1.02); box-shadow: 0 0 20px rgba(255,0,85,0.5);}
-    100% {transform: scale(1);}
-  }
-
-  .container{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;align-items: flex-start}
-  .card{background:#111a33;border-radius:15px;padding:25px;flex:1;min-width:320px;position:relative;box-shadow: 0 10px 40px rgba(0,0,0,0.7);border: 1px solid rgba(0,114,255,0.2)}
-
-  .btn{
-    width:100%;padding:15px;border-radius:10px;border:none;margin-top:12px;
-    background:linear-gradient(270deg,#000428,#004e92,#000428);
-    background-size:400% 400%;color:white;font-weight:bold;cursor:pointer;
-    transition: 0.4s; display:block;text-align:center;text-decoration:none;
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .btn:hover{
-    transform:translateY(-3px);
-    box-shadow: 0 8px 25px #0072ff;
-    filter: brightness(1.3);
-  }
-
-  input,textarea,select{width:100%;padding:12px;border-radius:8px;border:1px solid #1e293b;margin-top:10px;background:#0b1220;color:white;outline:none;transition:0.3s}
-  input:focus{border-color:#00c6ff;box-shadow: 0 0 10px rgba(0,198,255,0.3)}
-  
-  /* Styling List Joki */
-  .list-joki h3{color:#00c6ff;border-bottom:2px solid #00c6ff;padding-bottom:10px;margin-bottom:20px}
-  .list-joki b{color:#00c6ff;display:flex;align-items:center;margin-top:25px;font-size:16px;background:rgba(0,114,255,0.1);padding:8px;border-radius:5px}
-  .list-joki b i{margin-right:10px}
-  .list-joki ul{list-style:none;padding:0;margin:0}
-  .list-joki li{padding:12px 5px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;font-size:13px}
-  
-  .old-price{text-decoration: line-through; color: #ff4d4d; font-size: 11px; margin-right: 5px;}
-  .new-price{color: #00ff88; font-weight: bold; font-size: 14px;}
-
-  .payment-box{padding:15px;border-radius:10px;margin-top:20px;background:rgba(255,255,255,0.02);border:1px solid #1e293b}
-  .payment-item{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px}
-  .payment-item span{color:#00c6ff;font-weight:bold}
-
-  #order-slide{
-    display:none;position:absolute;top:0;left:0;width:100%;height:100%;
-    background:#111a33;flex-direction:column;justify-content:center;
-    align-items:center;text-align:center;padding:25px;border-radius:15px;z-index:10;
-  }
-</style>
-</head>
-<body>
-
-<div class="wrapper">
-  <h2><i class="fa-solid fa-shuttle-space"></i> XZYO STORE</h2>
-  <div class="promo-banner">
-    🚀 PROMO FEBRUARY: DISKON 15% ALL ITEM! <br>
-    <span style="font-size: 12px; font-weight: normal;">Berakhir pada 1 Maret 2026</span>
+  <div class="promo-alert">
+    <div style="font-weight:900; font-size:18px">🧧 FEBRUARI BIG SALE DISKON 15% 🧧</div>
+    <div style="font-size:12px; opacity:0.8; margin-top:5px">Promo otomatis berakhir pada 1 Maret 2026. Amankan slotmu!</div>
   </div>
 
-  <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
-    <i class="fa-brands fa-whatsapp"></i> GABUNG SALURAN PEMBELI
-  </button>
-
   <div class="container">
-    <div class="card">
-      <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="hidden_frame" enctype="multipart/form-data">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" id="email_subject" value="Pesanan Joki Baru">
-        
-        <input type="text" name="Username" id="user_input" placeholder="Username Roblox" required>
-        <div style="position:relative;">
-          <input type="password" name="Password" id="pw" placeholder="Password Akun" required>
-          <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute;right:12px;top:22px;cursor:pointer;color:#555"></i>
-        </div>
-        <input type="text" name="WhatsApp" placeholder="Nomor WhatsApp Aktif" required>
-        <textarea name="Jenis Joki" placeholder="Tulis Pesanan Anda (Contoh: Joki Level 0-Max & Sea 2)" rows="4" required></textarea>
-        
-        <div style="margin-top:15px;">
-            <label style="font-size:12px;color:#00c6ff"><i class="fa-solid fa-image"></i> UPLOAD BUKTI TRANSFER:</label>
-            <input type="file" name="Bukti_TF" accept="image/*" required>
-        </div>
-        
-        <button type="submit" class="btn" style="background:linear-gradient(45deg, #0072ff, #00c6ff)">KIRIM PESANAN SEKARANG</button>
-      </form>
+    <div class="left-col">
+      <div class="card">
+        <h3 style="margin:0 0 20px 0;font-size:18px"><i class="fa-solid fa-file-invoice"></i> FORM PESANAN</h3>
+        <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST">
+          <input type="text" name="Username" placeholder="Username Roblox" required>
+          <input type="password" name="Password" placeholder="Password Roblox" required>
+          <input type="text" name="WhatsApp" placeholder="Nomor WA Aktif" required>
+          <textarea name="Order" rows="6" placeholder="Tulis detail pesanan Anda secara lengkap..." required></textarea>
+          
+          <div class="payment-info">
+            <div style="color:#38bdf8;font-weight:800;margin-bottom:15px;text-align:center;border-bottom:1px solid #334155;padding-bottom:10px">METODE PEMBAYARAN</div>
+            <div>DANA <span>089517154561</span></div>
+            <div>OVO <span>089517154561</span></div>
+            <div>GOPAY <span>089517154561</span></div>
+          </div>
 
-      <div id="order-slide">
-        <div style="font-size:80px;color:#00ff88;">❤️</div>
-        <h2 style="font-size:22px;margin-top:10px">Pesanan Diterima!</h2>
-        <p style="font-size:14px;color:#7cc7ff;line-height:1.6">
-          Admin akan segera memproses akunmu. Mohon jangan login ke dalam game selama proses joki berlangsung agar aman.
-        </p>
+          <button type="submit" class="btn-order">ORDER SEKARANG</button>
+        </form>
+        <button class="btn-order" style="background:#16a34a" onclick="window.open('https://wa.me/6289517154561')"><i class="fa-brands fa-whatsapp"></i> CHAT ADMIN</button>
       </div>
 
-      <div class="payment-box">
-        <div style="text-align:center;margin-bottom:10px;font-weight:bold;color:#00c6ff">💳 PEMBAYARAN</div>
-        <div class="payment-item">DANA <span>089517154561</span></div>
-        <div class="payment-item">OVO <span>089517154561</span></div>
-        <div class="payment-item">GOPAY <span>089517154561</span></div>
-        <div style="font-size:10px;color:#aaa;text-align:center;margin-top:5px">*QRIS Hubungi Admin (Ada biaya admin)</div>
+      <div class="card" style="margin-top:20px; border-top: 4px solid #f43f5e">
+         <b style="color:#f43f5e; font-size:14px"><i class="fa-solid fa-shield-halved"></i> PERATURAN STORE</b>
+         <ul style="font-size:11px; color:#94a3b8; padding-left:15px; line-height:1.7; margin-top:10px">
+           <li>DILARANG LOGIN saat pengerjaan diproses.</li>
+           <li>Matikan 2-Step Verification (2FA).</li>
+           <li>Segera ganti Password setelah status "DONE".</li>
+         </ul>
       </div>
-      
-      <button class="btn" onclick="window.open('https://wa.me/6289517154561?text=Halo%20Admin%20XZYO%2C%20saya%20mau%20order%20joki','_blank')">
-        <i class="fa-solid fa-headset"></i> HUBUNGI ADMIN
-      </button>
     </div>
 
-    <div class="card list-joki">
-      <h3><i class="fa-solid fa-tags"></i> DAFTAR HARGA PROMO</h3>
-      
-      <b><i class="fa-solid fa-eye"></i> INSTINCT (KEN HAKI)</b>
-      <ul>
-        <li>0 – 1000 <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-        <li>1000 – 2000 <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>2000 – MAX + V2 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>0 – MAX + V2 <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-      </ul>
+    <div class="right-col">
+      <div class="card">
+        <h2 style="text-align:center;font-size:22px;margin:0;color:#38bdf8">DAFTAR HARGA DISKON</h2>
 
-      <b><i class="fa-solid fa-coins"></i> JOKI BELLY</b>
-      <ul>
-        <li>1.000.000 (1M) <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-        <li>3.000.000 (3M) <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>10.000.000 (10M) <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-      </ul>
+        <div class="section-title"><i class="fa-solid fa-eye"></i> KEN HAKI (INSTINCT)</div>
+        <ul class="price-list">
+          <li>0 – 1000 <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+          <li>1000 – 2000 <span><span class="old-p">8k</span><span class="new-p">6.8k</span></span></li>
+          <li>2000 – MAX + V2 <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+          <li>0 – MAX + V2 <span class="badge">PROMO</span> <span><span class="old-p">20k</span><span class="new-p">17k</span></span></li>
+        </ul>
 
-      <b><i class="fa-solid fa-gem"></i> JOKI FRAGMENT</b>
-      <ul>
-        <li>1K Frag <span><span class="old-price">1k</span><span class="new-price">0.8k</span></span></li>
-        <li>5K Frag <span><span class="old-price">4k</span><span class="new-price">3.4k</span></span></li>
-        <li>10K Frag <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>20K Frag <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-      </ul>
+        <div class="section-title"><i class="fa-solid fa-gem"></i> BELLY & FRAGMENT</div>
+        <ul class="price-list">
+          <li>1M Belly <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+          <li>10M Belly <span><span class="old-p">20k</span><span class="new-p">17k</span></span></li>
+          <li>10K Fragment <span><span class="old-p">8k</span><span class="new-p">6.8k</span></span></li>
+          <li>20K Fragment <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+        </ul>
 
-      <b><i class="fa-solid fa-up-long"></i> JOKI LEVELING</b>
-      <ul>
-        <li>0 – 100 <span><span class="old-price">3k</span><span class="new-price">2.5k</span></span></li>
-        <li>1 – 700 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>700 – 1500 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>1500 – MAX <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-      </ul>
+        <div class="section-title"><i class="fa-solid fa-angles-up"></i> LEVELING & SEA</div>
+        <ul class="price-list">
+          <li>0 – 100 <span><span class="old-p">3k</span><span class="new-p">2.5k</span></span></li>
+          <li>1 – 700 (Sea 1) <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+          <li>700 – 1500 (Sea 2) <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+          <li>1500 – MAX <span><span class="old-p">20k</span><span class="new-p">17k</span></span></li>
+          <li>Unlock Sea 2 / 3 <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+        </ul>
 
-      <b><i class="fa-solid fa-anchor"></i> UNLOCK SEA</b>
-      <ul>
-        <li>Sea 2 atau Sea 3 <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-      </ul>
+        <div class="section-title"><i class="fa-solid fa-bolt-lightning"></i> BOSS & SWORDS</div>
+        <ul class="price-list">
+          <li>CDK (Cursed Dual Katana) <span><span class="old-p">25k</span><span class="new-p">21.2k</span></span></li>
+          <li>TTK (True Triple Katana) <span><span class="old-p">25k</span><span class="new-p">21.2k</span></span></li>
+          <li>Hallow Scythe <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+          <li>Tushita / Yama <span><span class="old-p">8k</span><span class="new-p">6.8k</span></span></li>
+          <li>Oroshi / Saishi / Shizu <span><span class="old-p">8k</span><span class="new-p">6.8k</span></span></li>
+          <li>Shark Anchor / Fox Lamp <span><span class="old-p">30k</span><span class="new-p">25.5k</span></span></li>
+          <li>Dark Dagger <span><span class="old-p">30k</span><span class="new-p">25.5k</span></span></li>
+        </ul>
 
-      <b><i class="fa-solid fa-fire"></i> MASTERY</b>
-      <ul>
-        <li>Per 100 Mastery <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-      </ul>
+        <div class="section-title"><i class="fa-solid fa-dragon"></i> PREMIUM PACKS</div>
+        <ul class="price-list">
+          <li>Leviatan Hydra / Tiki <span class="badge">PROMO</span> <span><span class="old-p">45k</span><span class="new-p">38.2k</span></span></li>
+          <li>Blue Gear <span><span class="old-p">10k</span><span class="new-p">8.5k</span></span></li>
+          <li>TOTS / Rip Indra / Dough King <span><span class="old-p">10k</span><span class="new-p">8.5k</span></span></li>
+          <li>Soul Guitar + Bahan <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+          <li>God Human <span><span class="old-p">30k</span><span class="new-p">25.5k</span></span></li>
+        </ul>
 
-      <b><i class="fa-solid fa-skull"></i> RAID SERVICE</b>
-      <ul>
-        <li>Raid Biasa (Max) <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-        <li>Raid Buddha/Dough (Max) <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-      </ul>
+        <div class="section-title"><i class="fa-solid fa-dna"></i> RACE EVOLUTION</div>
+        <ul class="price-list">
+          <li>Package Draco (Full) <span><span class="old-p">30k</span><span class="new-p">25.5k</span></span></li>
+          <li>Ghoul / Cyborg Unlock <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+          <li>Race V1 – V3 <span><span class="old-p">8k</span><span class="new-p">6.8k</span></span></li>
+          <li>Race V4 <span><span class="old-p">10k</span><span class="new-p">8.5k</span></span></li>
+          <li>V4 Draco Special <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+        </ul>
 
-      <b><i class="fa-solid fa-crown"></i> BOSS & RARE ITEMS</b>
-      <ul>
-        <li>Leviatan / Hydra <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>Blue Gear <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>Dough King / Indra <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>Tushita / Yama <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>Cursed Dual Katana (CDK) <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-        <li>God Human <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-        <li>Soul Guitar + Bahan <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>True Triple Katana (TTK) <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-        <li>Shark Anchor / Fox Lamp <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-        <li>Dark Dagger <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-dna"></i> RACE EVOLUTION</b>
-      <ul>
-        <li>Race V1 – V3 <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>Race V4 <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>Ghoul / Cyborg Unlock <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>Draco Full <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-        <li>V4 Draco <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-       <!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joki BF Xzyo Store - Premium Service</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-  *{box-sizing:border-box;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
-  body{background:#070b14;color:white;margin:0;padding:20px;display:flex;flex-direction:column;align-items:center}
-  
-  .wrapper{max-width:1000px;width:100%}
-  h2,h3{text-align:center;text-transform:uppercase;letter-spacing: 2px;text-shadow: 0 0 15px #0072ff}
-  
-  .promo-banner {
-    background: linear-gradient(90deg, #ff0055, #7000ff);
-    padding: 10px;
-    text-align: center;
-    border-radius: 8px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0% {transform: scale(1);}
-    50% {transform: scale(1.02); box-shadow: 0 0 20px rgba(255,0,85,0.5);}
-    100% {transform: scale(1);}
-  }
-
-  .container{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;align-items: flex-start}
-  .card{background:#111a33;border-radius:15px;padding:25px;flex:1;min-width:320px;position:relative;box-shadow: 0 10px 40px rgba(0,0,0,0.7);border: 1px solid rgba(0,114,255,0.2)}
-
-  .btn{
-    width:100%;padding:15px;border-radius:10px;border:none;margin-top:12px;
-    background:linear-gradient(270deg,#000428,#004e92,#000428);
-    background-size:400% 400%;color:white;font-weight:bold;cursor:pointer;
-    transition: 0.4s; display:block;text-align:center;text-decoration:none;
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .btn:hover{
-    transform:translateY(-3px);
-    box-shadow: 0 8px 25px #0072ff;
-    filter: brightness(1.3);
-  }
-
-  input,textarea,select{width:100%;padding:12px;border-radius:8px;border:1px solid #1e293b;margin-top:10px;background:#0b1220;color:white;outline:none;transition:0.3s}
-  input:focus{border-color:#00c6ff;box-shadow: 0 0 10px rgba(0,198,255,0.3)}
-  
-  /* Styling List Joki */
-  .list-joki h3{color:#00c6ff;border-bottom:2px solid #00c6ff;padding-bottom:10px;margin-bottom:20px}
-  .list-joki b{color:#00c6ff;display:flex;align-items:center;margin-top:25px;font-size:16px;background:rgba(0,114,255,0.1);padding:8px;border-radius:5px}
-  .list-joki b i{margin-right:10px}
-  .list-joki ul{list-style:none;padding:0;margin:0}
-  .list-joki li{padding:12px 5px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;font-size:13px}
-  
-  .old-price{text-decoration: line-through; color: #ff4d4d; font-size: 11px; margin-right: 5px;}
-  .new-price{color: #00ff88; font-weight: bold; font-size: 14px;}
-
-  .payment-box{padding:15px;border-radius:10px;margin-top:20px;background:rgba(255,255,255,0.02);border:1px solid #1e293b}
-  .payment-item{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px}
-  .payment-item span{color:#00c6ff;font-weight:bold}
-
-  #order-slide{
-    display:none;position:absolute;top:0;left:0;width:100%;height:100%;
-    background:#111a33;flex-direction:column;justify-content:center;
-    align-items:center;text-align:center;padding:25px;border-radius:15px;z-index:10;
-  }
-</style>
-</head>
-<body>
-
-<div class="wrapper">
-  <h2><i class="fa-solid fa-shuttle-space"></i> XZYO STORE</h2>
-  <div class="promo-banner">
-    🚀 PROMO FEBRUARY: DISKON 15% ALL ITEM! <br>
-    <span style="font-size: 12px; font-weight: normal;">Berakhir pada 1 Maret 2026</span>
-  </div>
-
-  <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
-    <i class="fa-brands fa-whatsapp"></i> GABUNG SALURAN PEMBELI
-  </button>
-
-  <div class="container">
-    <div class="card">
-      <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="hidden_frame" enctype="multipart/form-data">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" id="email_subject" value="Pesanan Joki Baru">
-        
-        <input type="text" name="Username" id="user_input" placeholder="Username Roblox" required>
-        <div style="position:relative;">
-          <input type="password" name="Password" id="pw" placeholder="Password Akun" required>
-          <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute;right:12px;top:22px;cursor:pointer;color:#555"></i>
-        </div>
-        <input type="text" name="WhatsApp" placeholder="Nomor WhatsApp Aktif" required>
-        <textarea name="Jenis Joki" placeholder="Tulis Pesanan Anda (Contoh: Joki Level 0-Max & Sea 2)" rows="4" required></textarea>
-        
-        <div style="margin-top:15px;">
-            <label style="font-size:12px;color:#00c6ff"><i class="fa-solid fa-image"></i> UPLOAD BUKTI TRANSFER:</label>
-            <input type="file" name="Bukti_TF" accept="image/*" required>
-        </div>
-        
-        <button type="submit" class="btn" style="background:linear-gradient(45deg, #0072ff, #00c6ff)">KIRIM PESANAN SEKARANG</button>
-      </form>
-
-      <div id="order-slide">
-        <div style="font-size:80px;color:#00ff88;">❤️</div>
-        <h2 style="font-size:22px;margin-top:10px">Pesanan Diterima!</h2>
-        <p style="font-size:14px;color:#7cc7ff;line-height:1.6">
-          Admin akan segera memproses akunmu. Mohon jangan login ke dalam game selama proses joki berlangsung agar aman.
-        </p>
+        <div class="section-title"><i class="fa-solid fa-fire"></i> RAID & MASTERY</div>
+        <ul class="price-list">
+          <li>Raid Biasa (Max) <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+          <li>Raid Buddha / Dough (Max) <span><span class="old-p">10k</span><span class="new-p">8.5k</span></span></li>
+          <li>100 Mastery (All Weapon) <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+        </ul>
       </div>
-
-      <div class="payment-box">
-        <div style="text-align:center;margin-bottom:10px;font-weight:bold;color:#00c6ff">💳 PEMBAYARAN</div>
-        <div class="payment-item">DANA <span>089517154561</span></div>
-        <div class="payment-item">OVO <span>089517154561</span></div>
-        <div class="payment-item">GOPAY <span>089517154561</span></div>
-        <div style="font-size:10px;color:#aaa;text-align:center;margin-top:5px">*QRIS Hubungi Admin (Ada biaya admin)</div>
-      </div>
-      
-      <button class="btn" onclick="window.open('https://wa.me/6289517154561?text=Halo%20Admin%20XZYO%2C%20saya%20mau%20order%20joki','_blank')">
-        <i class="fa-solid fa-headset"></i> HUBUNGI ADMIN
-      </button>
-    </div>
-
-    <div class="card list-joki">
-      <h3><i class="fa-solid fa-tags"></i> DAFTAR HARGA PROMO</h3>
-      
-      <b><i class="fa-solid fa-eye"></i> INSTINCT (KEN HAKI)</b>
-      <ul>
-        <li>0 – 1000 <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-        <li>1000 – 2000 <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>2000 – MAX + V2 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>0 – MAX + V2 <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-coins"></i> JOKI BELLY</b>
-      <ul>
-        <li>1.000.000 (1M) <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-        <li>3.000.000 (3M) <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>10.000.000 (10M) <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-gem"></i> JOKI FRAGMENT</b>
-      <ul>
-        <li>1K Frag <span><span class="old-price">1k</span><span class="new-price">0.8k</span></span></li>
-        <li>5K Frag <span><span class="old-price">4k</span><span class="new-price">3.4k</span></span></li>
-        <li>10K Frag <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>20K Frag <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-up-long"></i> JOKI LEVELING</b>
-      <ul>
-        <li>0 – 100 <span><span class="old-price">3k</span><span class="new-price">2.5k</span></span></li>
-        <li>1 – 700 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>700 – 1500 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>1500 – MAX <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-anchor"></i> UNLOCK SEA</b>
-      <ul>
-        <li>Sea 2 atau Sea 3 <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-fire"></i> MASTERY</b>
-      <ul>
-        <li>Per 100 Mastery <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-skull"></i> RAID SERVICE</b>
-      <ul>
-        <li>Raid Biasa (Max) <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
-        <li>Raid Buddha/Dough (Max) <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-crown"></i> BOSS & RARE ITEMS</b>
-      <ul>
-        <li>Leviatan / Hydra <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>Blue Gear <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>Dough King / Indra <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>Tushita / Yama <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>Cursed Dual Katana (CDK) <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
-        <li>God Human <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-        <li>Soul Guitar + Bahan <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>True Triple Katana (TTK) <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-        <li>Shark Anchor / Fox Lamp <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-        <li>Dark Dagger <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-      </ul>
-
-      <b><i class="fa-solid fa-dna"></i> RACE EVOLUTION</b>
-      <ul>
-        <li>Race V1 – V3 <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
-        <li>Race V4 <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
-        <li>Ghoul / Cyborg Unlock <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-        <li>Draco Full <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
-        <li>V4 Draco <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
-      </ul>
-
-      <p style="font-size:11px;color:#aaa;text-align:center;margin-top:20px;line-height:1.4">
-        *Harga di atas sudah termasuk diskon 15%.<br>
-        Jika joki yang kamu cari tidak ada, silakan chat admin.
-      </p>
     </div>
   </div>
 </div>
 
-<iframe name="hidden_frame" style="display:none;"></iframe>
-
 <script>
-function togglePw(){
-  let pw=document.getElementById("pw");
-  let eye=document.getElementById("eye");
-  if(pw.type==="password"){
-    pw.type="text";
-    eye.classList.replace("fa-eye-slash","fa-eye");
-  } else {
-    pw.type="password";
-    eye.classList.replace("fa-eye","fa-eye-slash");
-  }
-}
-
-document.getElementById("orderForm").addEventListener("submit", function(e){
-  let nama = document.getElementById("user_input").value;
-  document.getElementById("email_subject").value = "🔥 ORDER JOKI: " + nama;
-
-  this.style.opacity = "0";
-  setTimeout(() => {
-    this.style.display = "none";
-    document.getElementById("order-slide").style.display = "flex";
-  }, 300);
+document.getElementById("orderForm").addEventListener("submit", function(){
+    alert("Pesanan terkirim! Admin akan segera memproses akunmu.");
 });
 </script>
-
 </body>
-</html>
-
-      </ul>
-
-      <p style="font-size:11px;color:#aaa;text-align:center;margin-top:20px;line-height:1.4">
-        *Harga di atas sudah termasuk diskon 15%.<br>
-        Jika joki yang kamu cari tidak ada, silakan chat admin.
-      </p>
-    </div>
-  </div>
-</div>
-
-<iframe name="hidden_frame" style="display:none;"></iframe>
-
-<script>
-function togglePw(){
-  let pw=document.getElementById("pw");
-  let eye=document.getElementById("eye");
-  if(pw.type==="password"){
-    pw.type="text";
-    eye.classList.replace("fa-eye-slash","fa-eye");
-  } else {
-    pw.type="password";
-    eye.classList.replace("fa-eye","fa-eye-slash");
-  }
-}
-
-document.getElementById("orderForm").addEventListener("submit", function(e){
-  let nama = document.getElementById("user_input").value;
-  document.getElementById("email_subject").value = "🔥 ORDER JOKI: " + nama;
-
-  this.style.opacity = "0";
-  setTimeout(() => {
-    this.style.display = "none";
-    document.getElementById("order-slide").style.display = "flex";
-  }, 300);
-});
-</script>
-
-</body>
-</html>
-
-      </ul>
-
-      <p style="font-size:11px;color:#aaa;text-align:center;margin-top:20px;line-height:1.4">
-        *Harga di atas sudah termasuk diskon 15%.<br>
-        Jika joki yang kamu cari tidak ada, silakan chat admin.
-      </p>
-    </div>
-  </div>
-</div>
-
-<iframe name="hidden_frame" style="display:none;"></iframe>
-
-<script>
-function togglePw(){
-  let pw=document.getElementById("pw");
-  let eye=document.getElementById("eye");
-  if(pw.type==="password"){
-    pw.type="text";
-    eye.classList.replace("fa-eye-slash","fa-eye");
-  } else {
-    pw.type="password";
-    eye.classList.replace("fa-eye","fa-eye-slash");
-  }
-}
-
-document.getElementById("orderForm").addEventListener("submit", function(e){
-  let nama = document.getElementById("user_input").value;
-  document.getElementById("email_subject").value = "🔥 ORDER JOKI: " + nama;
-
-  this.style.opacity = "0";
-  setTimeout(() => {
-    this.style.display = "none";
-    document.getElementById("order-slide").style.display = "flex";
-  }, 300);
-});
-</script>
-
-</body>
-</html>
+ </html>
+                                                                                                         
