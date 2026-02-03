@@ -122,51 +122,45 @@
         .old-p { text-decoration: line-through; color: #ff4d4d; font-size: 12px; }
         .new-p { color: #00c6ff; font-weight: 800; font-size: 15px; }
 
-        /* Container Utama Ceklis */
-        .checkmark-wrapper {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 20px;
-            display: block;
-        }
+       /* Container Slide Selesai */
+#order-slide {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--card-bg);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
 
-        .checkmark-circle, .checkmark-kick {
-            fill: none;
-            stroke: #00ff88;
-            stroke-linecap: round;
-            stroke-dasharray: 200;
-            stroke-dashoffset: 200;
-        }
+/* Animasi Ceklis Premium Pop */
+.premium-pop {
+    font-size: 80px;
+    filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.6)); /* Efek Cahaya */
+    display: inline-block;
+    transform: scale(0);
+}
 
-        .active .checkmark-circle {
-            stroke-width: 3;
-            stroke-dasharray: 166;
-            stroke-dashoffset: 166;
-            animation: drawStroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-        }
+/* Class active ini dipicu oleh JavaScript */
+.active .premium-pop {
+    animation: bouncePop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
 
-        .active .checkmark-kick {
-            stroke-width: 5;
-            stroke-dasharray: 48;
-            stroke-dashoffset: 48;
-            animation: drawStroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
-        }
+@keyframes bouncePop {
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.3); } /* Meledak lebih besar */
+    100% { transform: scale(1); opacity: 1; } /* Kembali ke ukuran pas */
+}
 
-        @keyframes drawStroke {
-            100% { stroke-dashoffset: 0; }
-        }
-
-        #order-slide {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--card-bg);
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            z-index: 10;
-        }
+.teks-premium {
+    color: #00ff88;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 800;
+    margin-top: 15px;
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
     </style>
 </head>
 <body>
@@ -210,15 +204,10 @@
                 </form>
 
                <div id="order-slide" style="display: none;">
-                    <div class="checkmark-wrapper">
-                        <svg class="checkmark-svg" viewBox="0 0 52 52">
-                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                            <path class="checkmark-kick" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                        </svg>
-                    </div>
+                    <div class="premium-pop"><i class="fa-solid fa-circle-chek"></i></div>
                     <h3 style="color: #00ff88; text-shadow: 0 0 10px rgba(0,255,136,0.5);">ORDER TELAH TERKIRIM!</h3>
                     <p style="font-size:14px; color:#ccc; line-height:1.6;">
-                        Tunggu kabar dari kami lek. Admin akan menghubungi Anda melalui WhatsApp untuk proses pengerjaan.
+                        Tunggu kabar dari kami lek. Admin akan menghubungi Anda melalui WhatsApp untuk proses pengerjaan. Nanti kalau sudah status done segera ganti sandimu lek dan log out dari semua perangkat
                     </p>
                 </div>
             </div>
@@ -304,24 +293,23 @@
         }
     }
 
-    document.getElementById("orderForm").addEventListener("submit", function(e){
-        // Ganti Subject Email
-        let nama = document.getElementById("usernameInput").value;
-        document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
+    document.getElementById("orderForm").addEventListener("submit", function(e) {
+    // 1. Ganti Subject Email agar tidak tumpuk
+    let nama = document.getElementById("usernameInput").value;
+    document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
 
-        // Ambil elemen slide
-        let slide = document.getElementById("order-slide");
-        let form = this;
-
-        // Hilangkan form dan munculkan slide
-        form.style.opacity = "0";
-        setTimeout(() => {
-            form.style.display = "none";
-            slide.style.display = "flex";
-            // MENYALAKAN ANIMASI CEKLIS DISINI
-            slide.classList.add("active");
-        }, 300);
-    });
+    // 2. Sembunyikan form dan munculkan slide premium
+    let slide = document.getElementById("order-slide");
+    this.style.opacity = "0"; // Form menghilang halus
+    
+    setTimeout(() => {
+        this.style.display = "none";
+        slide.style.display = "flex";
+        
+        // 3. Picu animasi POP centang premium
+        slide.classList.add("active");
+    }, 300);
+});
 </script>
 
 </body>
