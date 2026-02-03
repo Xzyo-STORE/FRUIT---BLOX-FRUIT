@@ -48,6 +48,36 @@
   }
   @keyframes popCheck{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
   @keyframes glowCheck{0%,100%{text-shadow:0 0 10px #00c6ff}50%{text-shadow:0 0 35px #00c6ff}}
+ /* Layout List */
+  .price-list { list-style: none; padding: 0; margin: 0; }
+  .price-list li {
+    display: flex;
+    justify-content: space-between; /* Menendang konten ke ujung kanan-kiri */
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+  }
+
+  /* Styling Harga */
+  .price-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Jarak antara harga lama dan baru */
+  }
+
+  .old-p {
+    text-decoration: line-through;
+    color: #ff4d4d; /* Merah terang untuk coretan */
+    font-size: 12px;
+    font-weight: normal;
+  }
+
+  .new-p {
+    color: #00c6ff; /* Biru cerah untuk harga diskon */
+    font-weight: 800;
+    font-size: 15px;
+  }
 </style>
 </head>
 <body>
