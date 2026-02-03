@@ -125,45 +125,27 @@
         .old-p { text-decoration: line-through; color: #ff4d4d; font-size: 12px; }
         .new-p { color: #00c6ff; font-weight: 800; font-size: 15px; }
 
-        /* Ukuran Container */
-.checkmark-wrapper {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 20px;
+       #order-slide {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
 }
 
-.checkmark-svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
+.checkmark-wrapper { width: 100px; height: 100px; margin: 0 auto 20px; }
 
-/* Animasi Lingkaran */
 .checkmark-circle {
-    stroke: #00ff88;
-    stroke-width: 3;
-    stroke-dasharray: 166;
-    stroke-dashoffset: 166;
-    animation: drawStroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    stroke: #00ff88; stroke-width: 3; stroke-dasharray: 166; stroke-dashoffset: 166;
+    animation: drawStroke 0.6s ease-in-out forwards;
 }
 
-/* Animasi Garis Ceklis */
 .checkmark-kick {
-    stroke: #00ff88;
-    stroke-width: 4;
-    stroke-linecap: round;
-    stroke-dasharray: 48;
-    stroke-dashoffset: 48;
-    /* Mulai menggambar setelah lingkaran selesai (delay 0.6s) */
-    animation: drawStroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+    stroke: #00ff88; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 48; stroke-dashoffset: 48;
+    animation: drawStroke 0.3s ease-in-out 0.6s forwards; /* Delay 0.6s agar lingkaran selesai dulu */
 }
 
-/* Fungsi Gerakan Menggambar */
-@keyframes drawStroke {
-    100% {
-        stroke-dashoffset: 0;
-    }
-}
+@keyframes drawStroke { 100% { stroke-dashoffset: 0; } }
     </style>
 </head>
 <body>
@@ -206,14 +188,14 @@
                     <a href="https://wa.me/6289692310378" class="btn">TANYA-TANYA ADMIN</a>
                 </form>
 
-               <div id="order-slide">
+               <div id="order-slide" style="d  isplay: none;">
     <div class="checkmark-wrapper">
     <svg class="checkmark-svg" viewBox="0 0 52 52">
         <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
         <path class="checkmark-kick" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
     </svg>
 </div>
-    <h3 style="color: #00ff88; text-shadow: 0 0 10px rgba(0,255,136,0.5);">ORDER TELAH SELESAI!</h3>
+    <h3 style="color: #00ff88; text-shadow: 0 0 10px rgba(0,255,136,0.5);">ORDER TELAH TERKIRIM!</h3>
     <p style="font-size:14px; color:#ccc; line-height:1.6;">
         Tunggu kabar dari kami lek. Admin akan menghubungi Anda melalui WhatsApp untuk proses pengerjaan.
     </p>
@@ -290,6 +272,14 @@
     </div>
 </div>
 <script>
+ document.getElementById("orderForm").addEventListener("submit", function(e) {
+    // 1. Sembunyikan form secara halus
+    this.style.display = "none";
+    
+    // 2. Munculkan slide animasi ceklis
+    let slide = document.getElementById("order-slide");
+    slide.style.display = "flex"; 
+});
     function togglePw() {
         let pw = document.getElementById("pw");
         let eye = document.getElementById("eye");
