@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -294,14 +294,23 @@
         }
     }
 
-    document.getElementById("orderForm").addEventListener("submit", function(e) {
+   document.getElementById("orderForm").addEventListener("submit", function(e) {
     // 1. Ganti Subject Email agar tidak tumpuk
     let nama = document.getElementById("usernameInput").value;
     document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
 
     // 2. Sembunyikan form dan munculkan slide premium
-    document.getElementById("order-slide").style.display = "flex";
-};
+    let slide = document.getElementById("order-slide");
+    this.style.opacity = "0"; // Form menghilang halus
+    
+    setTimeout(() => {
+        this.style.display = "none";
+        slide.style.display = "flex";
+        
+        // 3. Picu animasi POP centang premium
+        slide.classList.add("active");
+    }, 300);
+});
 </script>
 
 </body>
