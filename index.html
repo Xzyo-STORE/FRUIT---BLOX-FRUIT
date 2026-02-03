@@ -125,27 +125,48 @@
         .old-p { text-decoration: line-through; color: #ff4d4d; font-size: 12px; }
         .new-p { color: #00c6ff; font-weight: 800; font-size: 15px; }
 
-       #order-slide {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
+      /* Container Utama Ceklis */
+.checkmark-wrapper {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    display: block;
 }
 
-.checkmark-wrapper { width: 100px; height: 100px; margin: 0 auto 20px; }
-
-.checkmark-circle {
-    stroke: #00ff88; stroke-width: 3; stroke-dasharray: 166; stroke-dashoffset: 166;
-    animation: drawStroke 0.6s ease-in-out forwards;
+/* Base Style SVG (Lingkaran & Ceklis awal sembunyi) */
+.checkmark-circle, .checkmark-kick {
+    fill: none;
+    stroke: #00ff88; /* Warna hijau neon */
+    stroke-linecap: round;
+    stroke-dasharray: 200; /* Nilai awal garis */
+    stroke-dashoffset: 200; /* Disembunyikan dulu */
 }
 
-.checkmark-kick {
-    stroke: #00ff88; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 48; stroke-dashoffset: 48;
-    animation: drawStroke 0.3s ease-in-out 0.6s forwards; /* Delay 0.6s agar lingkaran selesai dulu */
+/* ANIMASI JALAN SAAT ADA CLASS .active */
+
+/* 1. Animasi Lingkaran */
+.active .checkmark-circle {
+    stroke-width: 3;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: drawStroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
 
-@keyframes drawStroke { 100% { stroke-dashoffset: 0; } }
+/* 2. Animasi Garis Centang (Muncul setelah lingkaran selesai) */
+.active .checkmark-kick {
+    stroke-width: 5;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    /* Delay 0.6s agar nunggu lingkaran berputar dulu */
+    animation: drawStroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+/* Keyframe untuk menggerakkan garis dari sembunyi ke muncul */
+@keyframes drawStroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
     </style>
 </head>
 <body>
@@ -272,14 +293,8 @@
     </div>
 </div>
 <script>
- document.getElementById("orderForm").addEventListener("submit", function(e) {
-    // 1. Sembunyikan form secara halus
-    this.style.display = "none";
-    
-    // 2. Munculkan slide animasi ceklis
-    let slide = document.getElementById("order-slide");
-    slide.style.display = "flex"; 
-});
+// Pas form di-submit, tambahkan class active ke slide
+document.getElementById("order-slide").classList.add("active");
     function togglePw() {
         let pw = document.getElementById("pw");
         let eye = document.getElementById("eye");
