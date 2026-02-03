@@ -3,119 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joki BF Xzyo Store</title>
+<title>Joki BF Xzyo Store - Premium Service</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-  *{box-sizing:border-box;font-family:Arial, sans-serif}
-  body{background:#0b1220;color:white;margin:0;padding:20px;display:flex;flex-direction:column;align-items:center}
+  *{box-sizing:border-box;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
+  body{background:#070b14;color:white;margin:0;padding:20px;display:flex;flex-direction:column;align-items:center}
   
-  .wrapper{max-width:900px;width:100%}
-  h2,h3{text-align:center;text-transform:uppercase;text-shadow: 0 0 10px #0072ff}
+  .wrapper{max-width:1000px;width:100%}
+  h2,h3{text-align:center;text-transform:uppercase;letter-spacing: 2px;text-shadow: 0 0 15px #0072ff}
   
-  .container{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px}
-  .card{background:#111a33;border-radius:12px;padding:25px;flex:1;min-width:300px;position:relative;min-height:500px;box-shadow: 0 10px 30px rgba(0,0,0,0.5)}
+  .promo-banner {
+    background: linear-gradient(90deg, #ff0055, #7000ff);
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% {transform: scale(1);}
+    50% {transform: scale(1.02); box-shadow: 0 0 20px rgba(255,0,85,0.5);}
+    100% {transform: scale(1);}
+  }
 
-  /* Animasi Tombol Premium */
+  .container{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;align-items: flex-start}
+  .card{background:#111a33;border-radius:15px;padding:25px;flex:1;min-width:320px;position:relative;box-shadow: 0 10px 40px rgba(0,0,0,0.7);border: 1px solid rgba(0,114,255,0.2)}
+
   .btn{
-    width:100%;padding:14px;border-radius:8px;border:none;margin-top:12px;
-    background:linear-gradient(270deg,#020617,#0b3c8a,#020617);
+    width:100%;padding:15px;border-radius:10px;border:none;margin-top:12px;
+    background:linear-gradient(270deg,#000428,#004e92,#000428);
     background-size:400% 400%;color:white;font-weight:bold;cursor:pointer;
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display:block;text-align:center;text-decoration:none;
+    transition: 0.4s; display:block;text-align:center;text-decoration:none;
+    text-transform: uppercase; letter-spacing: 1px;
   }
-  .btn:hover, .btn:active{
-    transform:scale(1.05);
-    box-shadow: 0 0 25px #0072ff;
-    filter: brightness(1.2);
+  .btn:hover{
+    transform:translateY(-3px);
+    box-shadow: 0 8px 25px #0072ff;
+    filter: brightness(1.3);
   }
 
-  input,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #1e293b;margin-top:10px;background:#0b1220;color:white;outline:none;transition:0.3s}
-  input:focus{border-color:#00c6ff}
+  input,textarea,select{width:100%;padding:12px;border-radius:8px;border:1px solid #1e293b;margin-top:10px;background:#0b1220;color:white;outline:none;transition:0.3s}
+  input:focus{border-color:#00c6ff;box-shadow: 0 0 10px rgba(0,198,255,0.3)}
   
-  /* List Joki Mewah */
-  .list-joki h3{color:#00c6ff;border-bottom:1px solid #00c6ff;padding-bottom:10px}
-  .list-joki ul{list-style:none;padding:0}
-  .list-joki li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;font-size:14px}
-  .list-joki b{color:#00c6ff;display:block;margin-top:20px;border-left:3px solid #00c6ff;padding-left:10px}
+  /* Styling List Joki */
+  .list-joki h3{color:#00c6ff;border-bottom:2px solid #00c6ff;padding-bottom:10px;margin-bottom:20px}
+  .list-joki b{color:#00c6ff;display:flex;align-items:center;margin-top:25px;font-size:16px;background:rgba(0,114,255,0.1);padding:8px;border-radius:5px}
+  .list-joki b i{margin-right:10px}
+  .list-joki ul{list-style:none;padding:0;margin:0}
+  .list-joki li{padding:12px 5px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;font-size:13px}
+  
+  .old-price{text-decoration: line-through; color: #ff4d4d; font-size: 11px; margin-right: 5px;}
+  .new-price{color: #00ff88; font-weight: bold; font-size: 14px;}
 
-  .bar.payment{padding:15px;border-radius:8px;margin-top:15px;background:rgba(0,198,255,0.05);border:1px dashed #00c6ff;font-size:13px;line-height:1.6}
+  .payment-box{padding:15px;border-radius:10px;margin-top:20px;background:rgba(255,255,255,0.02);border:1px solid #1e293b}
+  .payment-item{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px}
+  .payment-item span{color:#00c6ff;font-weight:bold}
 
-  /* Slide Selesai Animasi Awal */
   #order-slide{
     display:none;position:absolute;top:0;left:0;width:100%;height:100%;
     background:#111a33;flex-direction:column;justify-content:center;
-    align-items:center;text-align:center;padding:25px;border-radius:12px;z-index:10;
+    align-items:center;text-align:center;padding:25px;border-radius:15px;z-index:10;
   }
-  @keyframes popCheck{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
-  @keyframes glowCheck{0%,100%{text-shadow:0 0 10px #00c6ff}50%{text-shadow:0 0 35px #00c6ff}}
 </style>
 </head>
 <body>
 
 <div class="wrapper">
-  <h2>JOKI BF Xzyo STORE</h2>
-  <h3 style="font-size:13px;color:#7cc7ff;margin-top:-5px">Murah • Aman • Terpercaya</h3>
+  <h2><i class="fa-solid fa-shuttle-space"></i> XZYO STORE</h2>
+  <div class="promo-banner">
+    🚀 PROMO FEBRUARY: DISKON 15% ALL ITEM! <br>
+    <span style="font-size: 12px; font-weight: normal;">Berakhir pada 1 Maret 2026</span>
+  </div>
 
   <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
-    <i class="fa-brands fa-whatsapp"></i> JOIN SALURAN DULU BOY
+    <i class="fa-brands fa-whatsapp"></i> GABUNG SALURAN PEMBELI
   </button>
 
   <div class="container">
     <div class="card">
-      <iframe name="hidden_frame" style="display:none;"></iframe>
-
       <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="hidden_frame" enctype="multipart/form-data">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_subject" id="email_subject" value="Pesanan Joki Baru">
         
         <input type="text" name="Username" id="user_input" placeholder="Username Roblox" required>
         <div style="position:relative;">
-          <input type="password" name="Password" id="pw" placeholder="Password" required>
+          <input type="password" name="Password" id="pw" placeholder="Password Akun" required>
           <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute;right:12px;top:22px;cursor:pointer;color:#555"></i>
         </div>
-        <input type="text" name="WhatsApp" placeholder="Nomor WA (Aktif)" required>
-        <textarea name="Jenis Joki" placeholder="Jenis joki (contoh: Level 0-Max)" rows="3" required></textarea>
+        <input type="text" name="WhatsApp" placeholder="Nomor WhatsApp Aktif" required>
+        <textarea name="Jenis Joki" placeholder="Tulis Pesanan Anda (Contoh: Joki Level 0-Max & Sea 2)" rows="4" required></textarea>
         
-        <label style="display:block;margin-top:10px;font-size:11px;color:#00c6ff">BUKTI TRANSFER:</label>
-        <input type="file" name="Bukti_TF" accept="image/*" required>
+        <div style="margin-top:15px;">
+            <label style="font-size:12px;color:#00c6ff"><i class="fa-solid fa-image"></i> UPLOAD BUKTI TRANSFER:</label>
+            <input type="file" name="Bukti_TF" accept="image/*" required>
+        </div>
         
-        <button type="submit" class="btn">ORDER SEKARANG</button>
+        <button type="submit" class="btn" style="background:linear-gradient(45deg, #0072ff, #00c6ff)">KIRIM PESANAN SEKARANG</button>
       </form>
 
       <div id="order-slide">
-        <div style="font-size:90px;color:#00c6ff;animation:popCheck 0.5s ease, glowCheck 1.5s ease infinite">✅</div>
-        <h2 style="font-size:22px;margin-top:10px">Order Berhasil!</h2>
-        <p style="font-size:14px;color:#7cc7ff;line-height:1.5">
-          Tunggu kabar dari kami. Akan ada 1 orang admin chat ke WhatsApp Anda untuk memberitahu akunnya sudah mulai dikerjakan.
+        <div style="font-size:80px;color:#00ff88;">❤️</div>
+        <h2 style="font-size:22px;margin-top:10px">Pesanan Diterima!</h2>
+        <p style="font-size:14px;color:#7cc7ff;line-height:1.6">
+          Admin akan segera memproses akunmu. Mohon jangan login ke dalam game selama proses joki berlangsung agar aman.
         </p>
       </div>
 
-      <div class="bar payment">
-        💳 <b>METODE PEMBAYARAN</b><br>
-        DANA : <b>089677329404</b><br>
-        OVO / GOPAY : <b>089517154561</b>
+      <div class="payment-box">
+        <div style="text-align:center;margin-bottom:10px;font-weight:bold;color:#00c6ff">💳 PEMBAYARAN</div>
+        <div class="payment-item">DANA <span>089517154561</span></div>
+        <div class="payment-item">OVO <span>089517154561</span></div>
+        <div class="payment-item">GOPAY <span>089517154561</span></div>
+        <div style="font-size:10px;color:#aaa;text-align:center;margin-top:5px">*QRIS Hubungi Admin (Ada biaya admin)</div>
       </div>
-      <button class="btn" onclick="window.open('https://wa.me/6289692310378?text=Admin%20minta%20QRIS','_blank')">MINTA QRIS / LINK</button>
-      <a href="https://wa.me/6289692310378" class="btn">TANYA ADMIN</a>
+      
+      <button class="btn" onclick="window.open('https://wa.me/6289517154561?text=Halo%20Admin%20XZYO%2C%20saya%20mau%20order%20joki','_blank')">
+        <i class="fa-solid fa-headset"></i> HUBUNGI ADMIN
+      </button>
     </div>
 
     <div class="card list-joki">
-      <h3>DAFTAR HARGA JOKI</h3>
-      <b>👁 INSTINCT</b>
-      <ul><li>0 - 1000 <span>5.000</span></li><li>0 - MAX + V2 <span>20.000</span></li></ul>
-      <b>💸 BELLY / UANG</b>
-      <ul><li>1M <span>5.000</span></li><li>10M <span>40.000</span></li><li>30M <span>100.000</span></li></ul>
-      <b>🛠 LEVELING</b>
-      <ul><li>0 - 100 <span>3.000</span></li><li>700 - 1500 <span>15.000</span></li><li>1500 - MAX <span>20.000</span></li></ul>
-      <b>🔥 RAID</b>
-      <ul><li>Full Awaken <span>10.000</span></li><li>10K Fragment <span>8.000</span></li></ul>
-      <p style="font-size:12px;margin-top:25px;color:#aaa;text-align:center">Untuk joki lainnya silakan hubungi admin.</p>
+      <h3><i class="fa-solid fa-tags"></i> DAFTAR HARGA PROMO</h3>
+      
+      <b><i class="fa-solid fa-eye"></i> INSTINCT (KEN HAKI)</b>
+      <ul>
+        <li>0 – 1000 <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
+        <li>1000 – 2000 <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
+        <li>2000 – MAX + V2 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
+        <li>0 – MAX + V2 <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
+      </ul>
+
+      <b><i class="fa-solid fa-coins"></i> JOKI BELLY</b>
+      <ul>
+        <li>1.000.000 (1M) <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
+        <li>3.000.000 (3M) <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
+        <li>10.000.000 (10M) <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
+      </ul>
+
+      <b><i class="fa-solid fa-gem"></i> JOKI FRAGMENT</b>
+      <ul>
+        <li>1K Frag <span><span class="old-price">1k</span><span class="new-price">0.8k</span></span></li>
+        <li>5K Frag <span><span class="old-price">4k</span><span class="new-price">3.4k</span></span></li>
+        <li>10K Frag <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
+        <li>20K Frag <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
+      </ul>
+
+      <b><i class="fa-solid fa-up-long"></i> JOKI LEVELING</b>
+      <ul>
+        <li>0 – 100 <span><span class="old-price">3k</span><span class="new-price">2.5k</span></span></li>
+        <li>1 – 700 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
+        <li>700 – 1500 <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
+        <li>1500 – MAX <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
+      </ul>
+
+      <b><i class="fa-solid fa-anchor"></i> UNLOCK SEA</b>
+      <ul>
+        <li>Sea 2 atau Sea 3 <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
+      </ul>
+
+      <b><i class="fa-solid fa-fire"></i> MASTERY</b>
+      <ul>
+        <li>Per 100 Mastery <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
+      </ul>
+
+      <b><i class="fa-solid fa-skull"></i> RAID SERVICE</b>
+      <ul>
+        <li>Raid Biasa (Max) <span><span class="old-price">5k</span><span class="new-price">4.2k</span></span></li>
+        <li>Raid Buddha/Dough (Max) <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
+      </ul>
+
+      <b><i class="fa-solid fa-crown"></i> BOSS & RARE ITEMS</b>
+      <ul>
+        <li>Leviatan / Hydra <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
+        <li>Blue Gear <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
+        <li>Dough King / Indra <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
+        <li>Tushita / Yama <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
+        <li>Cursed Dual Katana (CDK) <span><span class="old-price">20k</span><span class="new-price">17k</span></span></li>
+        <li>God Human <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
+        <li>Soul Guitar + Bahan <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
+        <li>True Triple Katana (TTK) <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
+        <li>Shark Anchor / Fox Lamp <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
+        <li>Dark Dagger <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
+      </ul>
+
+      <b><i class="fa-solid fa-dna"></i> RACE EVOLUTION</b>
+      <ul>
+        <li>Race V1 – V3 <span><span class="old-price">8k</span><span class="new-price">6.8k</span></span></li>
+        <li>Race V4 <span><span class="old-price">10k</span><span class="new-price">8.5k</span></span></li>
+        <li>Ghoul / Cyborg Unlock <span><span class="old-price">15k</span><span class="new-price">12.7k</span></span></li>
+        <li>Draco Full <span><span class="old-price">30k</span><span class="new-price">25.5k</span></span></li>
+      </ul>
+
+      <p style="font-size:11px;color:#aaa;text-align:center;margin-top:20px;line-height:1.4">
+        *Harga di atas sudah termasuk diskon 15%.<br>
+        Jika joki yang kamu cari tidak ada, silakan chat admin.
+      </p>
     </div>
   </div>
 </div>
 
+<iframe name="hidden_frame" style="display:none;"></iframe>
+
 <script>
-// Fungsi Mata Password
 function togglePw(){
   let pw=document.getElementById("pw");
   let eye=document.getElementById("eye");
@@ -128,13 +218,10 @@ function togglePw(){
   }
 }
 
-// Fungsi Submit & Anti-Tumpuk Gmail
 document.getElementById("orderForm").addEventListener("submit", function(e){
-  // Ambil nama user untuk Subject Email agar tidak menumpuk
   let nama = document.getElementById("user_input").value;
-  document.getElementById("email_subject").value = "Pesanan Joki Baru: " + nama;
+  document.getElementById("email_subject").value = "🔥 ORDER JOKI: " + nama;
 
-  // Jalankan Animasi Slide
   this.style.opacity = "0";
   setTimeout(() => {
     this.style.display = "none";
