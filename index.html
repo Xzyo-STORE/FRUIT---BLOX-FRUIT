@@ -154,6 +154,59 @@
             .left-side { position: relative; top: 0; width: 100%; }
             .right-side { width: 100%; }
         }
+        .success-animation {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 50px auto;
+}
+
+.checkmark-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid #4bb71b;
+  box-sizing: border-box;
+}
+
+.checkmark-stem {
+  position: absolute;
+  width: 5px;
+  height: 40px;
+  background-color: #4bb71b;
+  left: 48px;
+  top: 25px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  animation: checkmark-stem 0.5s ease-in-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+.checkmark-kick {
+  position: absolute;
+  width: 5px;
+  height: 20px;
+  background-color: #4bb71b;
+  left: 35px;
+  top: 55px;
+  border-radius: 2px;
+  transform: rotate(-45deg);
+  animation: checkmark-kick 0.5s ease-in-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+@keyframes checkmark-stem {
+  0% { height: 0; opacity: 0; }
+  100% { height: 40px; opacity: 1; }
+}
+
+@keyframes checkmark-kick {
+  0% { height: 0; opacity: 0; }
+  100% { height: 20px; opacity: 1; }
+}
+
     </style>
 </head>
 <body>
@@ -163,7 +216,7 @@
     <p class="subtitle">Dijamin Murah, Aman, dan Terpercaya</p>
 
     <button type="button" class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
-        <i class="fa-brands fa-whatsapp"></i> JOIN SALURAN DULU BOY
+        <i class="fa-brands fa-whatsapp"></i> JOIN SALURAN DULU LEKKU
     </button>
 
     <div class="container">
@@ -191,14 +244,19 @@
                      <div class="fa-solid fa-wallet"></i><b>PAYMENT</b></i><br><br>
                          DANA : 089677329404<br>GOPAY / OVO : 089517154561
                      </div><br><br>
-                    <button type="button" class="btn" onclick="window.open('https://wa.me/6289692310378?text=Admin%20minta%20QRIS','_blank')">QRIS / LINK PEMBAYARAN</button>
+                    <button type="button" class="btn" onclick="window.open('https://wa.me/6289692310378?text=Admin%20minta%20QRIS','_blank')">QRIS? Click disini le</button>
                      <p style="text-align:center; font-size:11px; color:#FFFFFF; margin-top:25px">Silahkan chat admin ketika ada jokian yang tidak ada di list ￬￬￬</p>
                     <a href="https://wa.me/6289692310378" class="btn">TANYA-TANYA ADMIN</a>
                 </form>
 
                 <div id="order-slide">
-                    <div class="check-icon">✅</div>
-                    <h3>ORDER TELAH SELESAI!</h3>
+                   <div class="success-animation">
+                      <div class="checkmark-circle"></div>
+                      <div class="checkmark-stem"></div>
+                      <div class="checkmark-kick"></div>
+                </div>
+
+                    <h3>ORDER TELAH TERKIRIM!</h3>
                     <p style="font-size:14px; color:#ccc;">Tunggu kabar dari kami. Admin akan menghubungi Anda melalui WhatsApp.</p>
                 </div>
             </div>
