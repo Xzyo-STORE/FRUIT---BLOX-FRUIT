@@ -11,6 +11,7 @@
             --dark-bg: #0b1220;
             --card-bg: #111a33;
             --text-white: #ffffff;
+            --neon-shadow: 0 0 15px rgba(0, 114, 255, 0.7);
         }
 
         * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -18,66 +19,149 @@
         body {
             background: var(--dark-bg);
             color: var(--text-white);
-            margin: 0; padding: 20px;
-            display: flex; flex-direction: column; align-items: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .wrapper { max-width: 1000px; width: 100%; }
-        h2 { text-align: center; text-transform: uppercase; letter-spacing: 2px; }
+        .wrapper {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        h2 { text-align: center; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
         p.subtitle { text-align: center; color: #7cc7ff; margin-bottom: 20px; }
 
         .btn {
-            width: 100%; padding: 15px; border-radius: 12px; border: none; margin-top: 15px;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            margin-top: 15px;
             background: linear-gradient(90deg, #020617, #0b3c8a, #020617);
-            background-size: 200% auto; color: white; font-weight: bold; cursor: pointer;
-            transition: all 0.3s ease; text-align: center; text-decoration: none; display: block;
+            background-size: 200% auto;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
         }
-        .btn:hover { transform: scale(1.03); box-shadow: 0 0 25px rgba(0, 114, 255, 0.8); }
 
-        /* LAYOUT KIRI & KANAN */
-        .container { display: flex; gap: 20px; align-items: flex-start; margin-top: 20px; }
-        .left-side { flex: 1; position: sticky; top: 20px; min-width: 320px; }
-        .right-side { flex: 1.2; min-width: 320px; }
+        .btn:hover, .btn:active {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 114, 255, 0.8);
+            background-position: right center;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .left-side {
+            flex: 1;
+            position: sticky;
+            top: 20px;
+            min-width: 320px;
+        }
+
+        .right-side {
+            flex: 1.2;
+            min-width: 320px;
+        }
 
         .card {
-            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px; padding: 25px; position: relative; overflow: hidden;
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
         }
 
         input, textarea {
-            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #1e293b;
-            margin-top: 10px; background: #0b1220; color: white; outline: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+            margin-top: 10px;
+            background: #0b1220;
+            color: white;
+            outline: none;
         }
 
-        /* CSS ANIMASI CEKLIS FONT AWESOME */
+        input:focus { border-color: var(--primary-blue); }
+
+        .section-title {
+            margin-top: 20px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        .price-list { list-style: none; padding: 0; margin: 0; }
+        .price-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
+        }
+
+        .old-p { text-decoration: line-through; color: #ff4d4d; font-size: 12px; }
+        .new-p { color: #00c6ff; font-weight: 800; font-size: 15px; }
+
+        /* --- PERBAIKAN CEKLIS --- */
+        .checkmark-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .checkmark-circle, .checkmark-kick {
+            fill: none;
+            stroke: #00ff88;
+            stroke-linecap: round;
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200; /* Sembunyikan dulu */
+        }
+
+        /* Animasi jalan hanya ketika class .active ditambahkan oleh JS */
+        .active .checkmark-circle {
+            stroke-width: 3;
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            animation: drawStroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .active .checkmark-kick {
+            stroke-width: 5;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: drawStroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+        }
+
+        @keyframes drawStroke {
+            100% { stroke-dashoffset: 0; }
+        }
+
         #order-slide {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--card-bg); display: none; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center; z-index: 99;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
-
-        .premium-check {
-            font-size: 100px; color: #00ff88; transform: scale(0);
-            filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.6));
-        }
-
-        /* Trigger saat class active muncul */
-        .active .premium-check {
-            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0); opacity: 0; }
-            70% { transform: scale(1.2); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .section-title { color: var(--primary-blue); font-weight: bold; margin-top: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
-        .price-list { list-style: none; padding: 0; }
-        .price-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
-        .new-p { color: #00c6ff; font-weight: 800; }
-
-        @media (max-width: 768px) { .container { flex-direction: column; } .left-side { position: relative; } }
     </style>
 </head>
 <body>
@@ -86,65 +170,71 @@
     <h2>JOKI BF XZYO STORE</h2>
     <p class="subtitle">Dijamin Murah, Aman, dan Terpercaya</p>
 
+    <button type="button" class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
+        <i class="fa-brands fa-whatsapp"></i> JOIN SALURAN DULU LEKKU
+    </button>
+
     <div class="container">
         <div class="left-side">
-            <div class="card">
-                <iframe name="gaib" style="display:none;"></iframe>
-                <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="gaib">
+            <div class="card" id="formCard">
+                <iframe name="frame_gaib" style="display:none;"></iframe>
+                <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="frame_gaib" enctype="multipart/form-data">
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_subject" id="email_subject" value="Pesanan Joki Baru">
                     
-                    <input type="text" name="Username" id="userInput" placeholder="Username Roblox" required>
+                    <input type="text" name="Username" id="usernameInput" placeholder="Username Roblox" required>
+                    
                     <div style="position:relative;">
-                        <input type="password" name="Password" id="pw" placeholder="Password" required>
+                        <input type="password" name="Password" id="pw" placeholder="Password Roblox" required>
                         <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute; right:12px; top:22px; cursor:pointer; color:#555;"></i>
                     </div>
-                    <input type="text" name="WhatsApp" placeholder="Nomor WA" required>
-                    <textarea name="Jenis Joki" placeholder="Jenis joki..." rows="3" required></textarea>
+
+                    <input type="text" name="WhatsApp" placeholder="Nomor WA (Aktif)" required>
+                    <textarea name="Jenis Joki" placeholder="Contoh: Joki Level 1500 - MAX" rows="3" required></textarea>
                     
-                    <button type="submit" class="btn">ORDER SEKARANG</button>
+                    <label style="display:block; margin-top:10px; font-size:12px; color:#aaa;">Upload Bukti Transfer:</label>
+                    <input type="file" name="Bukti Transfer" accept="image/*" required>
                     
-                    <div style="margin-top: 15px; font-size: 13px; background: #0b1220; padding: 15px; border-radius: 10px;">
-                        <b>PAYMENT:</b><br>
-                        DANA : 089677329404<br>
-                        GOPAY/OVO : 089517154561
-                    </div>
+                    <button type="submit" class="btn">ORDER SEKARANG</button><br>
+                    <div style="color: #fff; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">
+                        <i class="fa-solid fa-wallet"></i> <b>PAYMENT</b><br><br>
+                        DANA : 089677329404<br>GOPAY / OVO : 089517154561
+                    </div><br>
+                    <button type="button" class="btn" onclick="window.open('https://wa.me/6289692310378?text=Admin%20minta%20QRIS','_blank')">QRIS? Click disini le</button>
+                    <p style="text-align:center; font-size:11px; color:#FFFFFF; margin-top:25px">Silahkan chat admin ketika ada jokian yang tidak ada di list ￬￬￬</p>
+                    <a href="https://wa.me/6289692310378" class="btn">TANYA-TANYA ADMIN</a>
                 </form>
 
-                <div id="order-slide">
-                    <i class="fa-solid fa-circle-check premium-check"></i>
-                    <h3 style="color: #00ff88; margin-top: 15px;">ORDER SELESAI!</h3>
-                    <p style="font-size: 13px; color: #ccc;">Admin akan segera menghubungi WA kamu lek.</p>
+                <div id="order-slide" style="display: none;">
+                    <div class="checkmark-wrapper">
+                        <svg class="checkmark-svg" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="checkmark-kick" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
+                    </div>
+                    <h3 style="color: #00ff88; text-shadow: 0 0 10px rgba(0,255,136,0.5);">ORDER TELAH TERKIRIM!</h3>
+                    <p style="font-size:14px; color:#ccc; line-height:1.6;">
+                        Tunggu kabar dari kami lek. Admin akan menghubungi Anda melalui WhatsApp untuk proses pengerjaan.
+                    </p>
                 </div>
             </div>
         </div>
 
         <div class="right-side">
             <div class="card">
-                <h3 style="text-align:center; margin-top:0;">LIST HARGA DISKON</h3>
-                <div class="section-title">Instinct (Ken Haki)</div>
+                <h3 style="margin-top:0; text-align:center;">LIST JOKI DISCON 15%</h3>
+                <div class="section-title"><i class="fa-solid fa-eye"></i> Instinct (Ken Haki)</div>
                 <ul class="price-list">
-                    <li>0 - 1000 <span class="new-p">4.2k</span></li>
-                    <li>Full V2 <span class="new-p">17k</span></li>
+                    <li>0 – 1000 <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+                    <li>Full 0 – MAX + V2 <span><span class="old-p">20k</span><span class="new-p">17k</span></span></li>
                 </ul>
-                <div class="section-title">Belly & Fragment</div>
-                <ul class="price-list">
-                    <li>1M Belly <span class="new-p">4.2k</span></li>
-                    <li>20K Fragment <span class="new-p">12.7k</span></li>
-                </ul>
-                <div class="section-title">Leveling</div>
-                <ul class="price-list">
-                    <li>1 - 700 <span class="new-p">12.7k</span></li>
-                    <li>1500 - MAX <span class="new-p">17k</span></li>
-                </ul>
-                <p style="text-align:center; font-size:11px; color:#666; margin-top:20px;">Scroll untuk list lengkap...</p>
+                <p style="text-align:center; font-size:11px; color:#64748b; margin-top:25px">Silahkan chat admin ketika ada jokian yang tidak ada di list</p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // Fungsi Mata Password
     function togglePw() {
         let pw = document.getElementById("pw");
         let eye = document.getElementById("eye");
@@ -157,19 +247,21 @@
         }
     }
 
-    // Logika Kirim & Animasi Ceklis
-    document.getElementById("orderForm").addEventListener("submit", function(e) {
-        let nama = document.getElementById("userInput").value;
-        document.getElementById("email_subject").value = "Pesanan Joki: " + nama;
+    document.getElementById("orderForm").addEventListener("submit", function(e){
+        // Ganti Subject Email sesuai Nama
+        let nama = document.getElementById("usernameInput").value;
+        document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
 
-        this.style.opacity = "0"; 
+        // Efek transisi & Munculkan slide selesai
+        let form = this;
+        let slide = document.getElementById("order-slide");
         
+        form.style.opacity = "0";
         setTimeout(() => {
-            this.style.display = "none";
-            let slide = document.getElementById("order-slide");
+            form.style.display = "none";
             slide.style.display = "flex";
-            // Menambah class active untuk memicu animasi pop icon
-            slide.classList.add("active"); 
+            // MENAMBAHKAN CLASS .active DI SINI AGAR ANIMASI MULAI
+            slide.classList.add("active");
         }, 300);
     });
 </script>
