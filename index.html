@@ -3,119 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XZYO STORE - LIVE DATABASE</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+    <title>XZYO STORE - LIVE</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
     <style>
-        :root { --blue: #0072ff; --bg: #0b1220; --card: #111a33; --green: #00ff88; }
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: white; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .wrapper { max-width: 600px; width: 100%; }
-        .card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; margin-top: 10px; background: #0b1220; color: white; outline: none; }
-        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; margin-top: 15px; background: var(--blue); color: white; font-weight: bold; cursor: pointer; }
-        .item { background: rgba(255,255,255,0.03); padding: 15px; margin-top: 10px; border-radius: 12px; display: flex; align-items: center; border-left: 4px solid var(--blue); }
-        .rank { width: 35px; height: 35px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; }
-        .price { margin-left: auto; color: var(--green); font-weight: 800; text-align: right; }
+        body { background: #0b1220; color: white; font-family: sans-serif; text-align: center; }
+        .card { background: #111a33; padding: 20px; border-radius: 15px; margin: 10px auto; max-width: 500px; border: 1px solid #333; }
+        input { width: 90%; padding: 10px; margin: 5px; border-radius: 5px; border: none; }
+        button { width: 95%; padding: 12px; background: #0072ff; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #222; }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
-    <h2 style="text-align:center">👑 VIP SULTAN XZYO 👑</h2>
+    <h2>XZYO STORE LEADERBOARD</h2>
 
     <div id="adminBox" class="card" style="display:none;">
-        <h4 style="margin:0">Panel Input Admin</h4>
-        <input type="text" id="nama" placeholder="Nama Pelanggan">
-        <input type="number" id="wa" placeholder="Nomor WhatsApp">
-        <input type="number" id="nominal" placeholder="Nominal Joki (Rp)">
-        <button class="btn" onclick="simpanData()">UPDATE LIST SEKARANG</button>
+        <input type="text" id="nama" placeholder="Nama Sultan">
+        <input type="number" id="nominal" placeholder="Nominal (Angka)">
+        <button id="btnSimpan">UPDATE DATA SEKARANG</button>
     </div>
 
     <div class="card">
-        <div id="listLeaderboard">Menghubungkan ke database...</div>
+        <div id="listData">Memuat data...</div>
     </div>
-</div>
 
 <script>
-    // Konfigurasi Firebase Milik Rahmat
+    // Data Firebase Rahmat
     const firebaseConfig = {
         apiKey: "AIzaSyC6aUjN60bSDE0BLVs3V-yNRYfSsPv0ZV8",
         authDomain: "xzyostore-66448.firebaseapp.com",
         databaseURL: "https://xzyostore-66448-default-rtdb.firebaseio.com",
         projectId: "xzyostore-66448",
         storageBucket: "xzyostore-66448.firebasestorage.app",
-        messagingSenderId: "547146618223",
         appId: "1:547146618223:web:978b8956cc0293cfb7449a"
     };
 
-    // Inisialisasi
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
+    firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Munculkan panel admin jika ada ?admin=true
-    if(new URLSearchParams(window.location.search).get('admin') === 'true') {
+    if(window.location.search.includes('admin=true')) {
         document.getElementById('adminBox').style.display = 'block';
     }
 
-    // Fungsi Simpan
-    function simpanData() {
-        const n = document.getElementById('nama').value.trim();
-        const w = document.getElementById('wa').value.trim();
+    // Fungsi Klik Tombol
+    document.getElementById('btnSimpan').onclick = function() {
+        const n = document.getElementById('nama').value;
         const p = parseInt(document.getElementById('nominal').value);
+        
+        if(!n || !p) return alert("Isi dulu lek!");
 
-        if(!n || !p) return alert("Isi nama & nominal lek!");
-
-        const userRef = db.ref('leaderboard/' + n);
-        userRef.once('value').then((snapshot) => {
-            const current = snapshot.val() || { total: 0, count: 0 };
-            userRef.update({
-                total: current.total + p,
-                count: current.count + 1,
-                whatsapp: w || current.whatsapp || "-"
-            }).then(() => {
-                alert("Data Berhasil Masuk!");
+        db.ref('sultan/' + n).once('value').then((s) => {
+            const d = s.val() || { total: 0 };
+            db.ref('sultan/' + n).update({ total: d.total + p }).then(() => {
+                alert("Berhasil Masuk!");
                 document.getElementById('nominal').value = "";
             });
         });
-    }
+    };
 
-    // Tampilkan Data secara Realtime
-    db.ref('leaderboard').on('value', (snapshot) => {
-        const container = document.getElementById('listLeaderboard');
-        const data = snapshot.val();
+    // Baca Data
+    db.ref('sultan').on('value', (s) => {
+        const container = document.getElementById('listData');
+        const data = s.val();
+        if(!data) return container.innerHTML = "Kosong lek.";
         
-        if(!data) {
-            container.innerHTML = "<center>Belum ada data Sultan.</center>";
-            return;
-        }
-
         container.innerHTML = "";
-        const sortedKeys = Object.keys(data).sort((a, b) => data[b].total - data[a].total);
-
-        sortedKeys.forEach((key, index) => {
-            const user = data[key];
-            const isSultan = user.total >= 100000 ? ' <i class="fa-solid fa-circle-check" style="color:#00ff88"></i>' : '';
-            const isKing = user.count >= 5 ? ' <i class="fa-solid fa-crown" style="color:#ffd700"></i>' : '';
-            
-            container.innerHTML += `
-                <div class="item">
-                    <div class="rank">${index + 1}</div>
-                    <div>
-                        <b>${key}</b>${isSultan}${isKing}
-                        <br><small style="color:#7cc7ff">WA: ${user.whatsapp}</small>
-                    </div>
-                    <div class="price">
-                        Rp ${user.total.toLocaleString()}
-                        <br><small style="color:#777">${user.count}x Joki</small>
-                    </div>
-                </div>
-            `;
+        Object.keys(data).sort((a,b) => data[b].total - data[a].total).forEach((name, i) => {
+            container.innerHTML += `<div class="item"><span>${i+1}. ${name}</span> <b>Rp ${data[name].total.toLocaleString()}</b></div>`;
         });
     });
 </script>
