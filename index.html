@@ -3,123 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xzyo Store - Joki Blox Fruit</title>
+    <title>Xzyo Store - Joki BF</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
     <style>
-        :root {
-            --primary-blue: #0072ff; --dark-bg: #0b1220; --card-bg: #111a33; --text-white: #ffffff;
-        }
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        :root { --primary-blue: #0072ff; --dark-bg: #0b1220; --card-bg: #111a33; --text-white: #ffffff; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         body { background: var(--dark-bg); color: var(--text-white); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .wrapper { max-width: 1000px; width: 100%; }
-        h2 { text-align: center; letter-spacing: 2px; }
+        .wrapper { max-width: 1100px; width: 100%; }
         .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; margin-top: 15px; background: linear-gradient(90deg, #020617, #0b3c8a, #020617); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; text-align: center; text-decoration: none; display: block; }
         .container { display: flex; gap: 20px; align-items: flex-start; margin-top: 20px; flex-wrap: wrap; }
-        .left-side, .right-side { flex: 1; min-width: 320px; }
+        .left-side { flex: 1.5; min-width: 320px; }
+        .right-side { flex: 1; min-width: 320px; }
         .card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; margin-bottom: 20px; }
-        input, textarea, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; margin-top: 10px; background: #0b1220; color: white; }
+        input, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; margin-top: 10px; background: #0b1220; color: white; outline: none; }
         .section-title { margin-top: 20px; font-weight: bold; color: var(--primary-blue); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
         .price-list { list-style: none; padding: 0; }
-        .price-list li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
-        .new-p { color: #00c6ff; font-weight: bold; }
-        .lb-item { display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); margin-bottom: 5px; border-radius: 8px; border-left: 3px solid var(--primary-blue); }
+        .price-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+        .new-p { color: #00c6ff; font-weight: 800; }
+        .vip-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); margin-bottom: 8px; border-radius: 10px; border-left: 4px solid gold; }
+        #order-slide { text-align: center; display: none; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <h2>JOKI BF XZYO STORE</h2>
-    <p style="text-align:center; color:#7cc7ff;">Leaderboard & Order Form</p>
-
+    <h2 style="text-align:center">JOKI BF XZYO STORE</h2>
+    
     <div class="container">
         <div class="left-side">
-            <div class="card">
+            <div class="card" id="formCard">
+                <h3 style="margin-top:0"><i class="fa-solid fa-pen-to-square"></i> Formulir Joki</h3>
                 <form id="orderForm">
-                    <input type="text" id="namaPanggil" placeholder="Nama Panggilan Anda" required>
-                    <input type="text" id="userRoblox" placeholder="Username Roblox" required>
+                    <input type="text" id="namaPanggilan" placeholder="Nama Panggilan (Untuk List VIP)" required>
+                    <input type="text" id="usernameInput" placeholder="Username Roblox" required>
                     <input type="password" id="pw" placeholder="Password Roblox" required>
-                    <input type="text" id="noWa" placeholder="Nomor WhatsApp" required>
+                    <input type="text" id="waInput" placeholder="Nomor WA Aktif" required>
+                    <textarea id="jenisJoki" placeholder="Contoh: Joki Level 1500 - MAX" rows="3" required></textarea>
                     
-                    <select id="hargaJoki" required>
-                        <option value="">-- Pilih Harga Joki --</option>
-                        <option value="4200">Rp 4.200</option>
-                        <option value="6800">Rp 6.800</option>
-                        <option value="12700">Rp 12.700</option>
-                        <option value="17000">Rp 17.000</option>
-                        <option value="25500">Rp 25.500</option>
-                    </select>
-
-                    <textarea id="ket" placeholder="Jenis Joki..." required></textarea>
-                    <button type="submit" class="btn">ORDER & UPDATE DATA</button>
+                    <label style="display:block; margin-top:15px; font-size:12px; color:#7cc7ff;">Upload Bukti Transfer:</label>
+                    <input type="file" id="buktiTf" accept="image/*" required>
+                    
+                    <button type="submit" class="btn">ORDER SEKARANG</button>
                 </form>
+
+                <div id="order-slide">
+                    <h3 style="color: #00ff88;">ORDER TERKIRIM!</h3>
+                    <p>Data kamu sudah masuk ke List VIP lek.</p>
+                </div>
             </div>
 
             <div class="card">
-                <h3 style="text-align:center;"><i class="fa-solid fa-crown" style="color:gold"></i> TOP SULTAN XZYO</h3>
-                <div id="leaderboardList">Memuat list...</div>
+                <h3 style="text-align:center; color: gold;"><i class="fa-solid fa-crown"></i> LIST VIP / UNDIAN XZYO</h3>
+                <div id="vipList">Memuat daftar...</div>
+                
+                <button onclick="hapusData()" style="background:transparent; border:none; color:#333; font-size:9px; margin-top:20px; cursor:pointer;">Admin Reset</button>
             </div>
         </div>
 
         <div class="right-side">
             <div class="card">
-                <h3 style="text-align:center;">LIST HARGA</h3>
-                <div class="section-title">Leveling & Sea</div>
+                <h3 style="text-align:center;">LIST HARGA JOKI</h3>
+                <div class="section-title">Leveling</div>
                 <ul class="price-list">
-                    <li>1 – 700 (Sea 1) <span class="new-p">12.7k</span></li>
-                    <li>700 – 1500 (Sea 2) <span class="new-p">12.7k</span></li>
+                    <li>1 – 700 <span class="new-p">12.7k</span></li>
+                    <li>700 – 1500 <span class="new-p">12.7k</span></li>
                     <li>1500 – MAX <span class="new-p">17k</span></li>
                 </ul>
-                <p style="font-size:11px; color:#aaa; margin-top:10px;">Data joki Anda tersimpan di browser ini secara lokal.</p>
+                <div class="section-title">Lainnya</div>
+                <ul class="price-list">
+                    <li>God Human <span class="new-p">25.5k</span></li>
+                    <li>Race V4 <span class="new-p">8.5k</span></li>
+                </ul>
+                <button class="btn" onclick="window.open('https://wa.me/6289692310378')">HUBUNGI ADMIN</button>
             </div>
         </div>
     </div>
 </div>
 
-<script src="data.js"></script>
 <script>
-    const listDiv = document.getElementById('leaderboardList');
-
-    // Tampilkan Data Global dari data.js
-    function loadGlobal() {
-        if (typeof dataSultan !== 'undefined') {
-            listDiv.innerHTML = "";
-            dataSultan.sort((a, b) => b.total - a.total);
-            dataSultan.forEach((u, i) => {
-                let mahkota = u.kali >= 5 ? ' 👑' : '';
-                listDiv.innerHTML += `
-                    <div class="lb-item">
-                        <span>${i+1}. <b>${u.nama}</b>${mahkota}</span>
-                        <span>Rp ${u.total.toLocaleString()} (${u.kali}x)</span>
-                    </div>`;
-            });
-        }
-    }
+    const firebaseConfig = {
+        apiKey: "AIzaSyC6aUjN60bSDE0BLVs3V-yNRYfSsPv0ZV8",
+        authDomain: "xzyostore-66448.firebaseapp.com",
+        databaseURL: "https://xzyostore-66448-default-rtdb.firebaseio.com",
+        projectId: "xzyostore-66448",
+        appId: "1:547146618223:web:978b8956cc0293cfb7449a"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
     document.getElementById('orderForm').onsubmit = function(e) {
         e.preventDefault();
-        const nama = document.getElementById('namaPanggil').value;
-        const harga = parseInt(document.getElementById('hargaJoki').value);
-        
-        // --- LOGIKA LOCAL STORAGE (Simpan di HP User) ---
-        let localData = JSON.parse(localStorage.getItem('myJoki')) || { total: 0, kali: 0 };
-        localData.total += harga;
-        localData.kali += 1;
-        localStorage.setItem('myJoki', JSON.stringify(localData));
+        const nama = document.getElementById('namaPanggilan').value.trim();
+        const wa = document.getElementById('waInput').value;
 
-        // --- KIRIM WA KE ADMIN ---
-        const pesan = `Halo Admin Xzyo!%0A` +
-                      `Saya mau order joki.%0A%0A` +
-                      `Nama: ${nama}%0A` +
-                      `Total Belanja: Rp ${localData.total}%0A` +
-                      `Joki Ke: ${localData.kali}%0A%0A` +
-                      `*KODE UPDATE ADMIN:*%0A` +
-                      `{ nama: "${nama}", total: ${localData.total}, kali: ${localData.kali} },`;
-        
-        window.open(`https://wa.me/6289692310378?text=${pesan}`, '_blank');
-        alert("Data tersimpan secara lokal! Silakan kirim pesan WA yang terbuka untuk update Leaderboard Global.");
+        const ref = db.ref('leaderboard/' + nama);
+        ref.once('value').then((snap) => {
+            const d = snap.val() || { kali: 0 };
+            ref.update({
+                kali: d.kali + 1,
+                whatsapp: wa
+            }).then(() => {
+                document.getElementById('orderForm').style.display = 'none';
+                document.getElementById('order-slide').style.display = 'block';
+                setTimeout(() => { location.reload(); }, 2000);
+            });
+        });
     };
 
-    loadGlobal();
+    db.ref('leaderboard').on('value', (snap) => {
+        const listContainer = document.getElementById('vipList');
+        const data = snap.val();
+        if(!data) return listContainer.innerHTML = "Belum ada peserta.";
+        listContainer.innerHTML = "";
+        const sortedKeys = Object.keys(data).sort((a,b) => data[b].kali - data[a].kali);
+        sortedKeys.forEach((key, index) => {
+            const user = data[key];
+            const crown = user.kali >= 5 ? ' 👑' : '';
+            listContainer.innerHTML += `
+                <div class="vip-item">
+                    <span><b>${index + 1}. ${key}</b>${crown}</span>
+                    <span style="color: gold; font-weight: bold;">${user.kali}x Joki</span>
+                </div>`;
+        });
+    });
+
+    function hapusData() {
+        let pw = prompt("Masukkan Password Admin untuk Reset:");
+        if(pw === "xzyo123") { // Ganti password sesukamu lek
+            db.ref('leaderboard').remove();
+            alert("Data berhasil direset!");
+        } else {
+            alert("Password Salah!");
+        }
+    }
 </script>
 </body>
 </html>
