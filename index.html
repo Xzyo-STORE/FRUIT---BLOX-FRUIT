@@ -69,6 +69,12 @@
         .price-list { list-style: none; padding: 0; margin: 0; }
         .price-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
         .new-p { color: #00c6ff; font-weight: 800; }
+        
+        <div id="qrisModal" style="display:none; position:fixed; z-index:1000; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; flex-direction:column; backdrop-filter: blur(5px);">
+    <img id="qrisImg" src="" style="max-width:90%; max-height:70%; border-radius:15px; border:3px solid #0072ff; box-shadow: 0 0 20px #0072ff;">
+    <p style="color: #00ff88; margin-top: 15px; font-weight: bold; text-shadow: 0 0 10px #00ff88;">SCAN QRIS DI ATAS LEK</p>
+    <button class="btn" style="width: 150px; background: #ff4d4d;" onclick="tutupQris()">TUTUP</button>
+</div>
     </style>
 </head>
 <body>
@@ -136,11 +142,9 @@
     <i class="fa-solid fa-qrcode"></i> LIHAT QRIS (GOOGLE DRIVE)
 </button>
 
-<div id="qrisModal" style="display:none; position:fixed; z-index:1000; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; flex-direction:column; backdrop-filter: blur(5px);">
-    <img id="qrisImg" src="" style="max-width:90%; max-height:70%; border-radius:15px; border:3px solid #0072ff; box-shadow: 0 0 20px #0072ff;">
-    <p style="color: #00ff88; margin-top: 15px; font-weight: bold; text-shadow: 0 0 10px #00ff88;">SCAN QRIS DI ATAS LEK</p>
-    <button class="btn" style="width: 150px; background: #ff4d4d;" onclick="tutupQris()">TUTUP</button>
-</div>
+<button type="button" class="btn" onclick="bukaQris()" style="background: linear-gradient(90deg, #ec4899, #8b5cf6);">
+    <i class="fa-solid fa-qrcode"></i> LIHAT QRIS (GOOGLE DRIVE)
+</button>
                 
                 <div class="section-title">List Harga Populer</div>
                 <ul class="price-list">
