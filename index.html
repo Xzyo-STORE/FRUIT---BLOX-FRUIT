@@ -154,7 +154,19 @@
 </div>
 
 <script>
-    function bukaQris() {
+    // --- FIREBASE CONFIG ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyC6aUjN60bSDE0BLVs3V-yNRYfSsPv0ZV8",
+        authDomain: "xzyostore-66448.firebaseapp.com",
+        databaseURL: "https://xzyostore-66448-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "xzyostore-66448",
+        appId: "1:547146618223:web:978b8956cc0293cfb7449a"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    let allUsers = {};
+   function bukaQris() {
     // ID File dari link Google Drive-mu lek
     const driveId = "1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt";
     
@@ -168,19 +180,6 @@
 function tutupQris() {
     document.getElementById('qrisModal').style.display = 'none';
 }
-    // --- FIREBASE CONFIG ---
-    const firebaseConfig = {
-        apiKey: "AIzaSyC6aUjN60bSDE0BLVs3V-yNRYfSsPv0ZV8",
-        authDomain: "xzyostore-66448.firebaseapp.com",
-        databaseURL: "https://xzyostore-66448-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "xzyostore-66448",
-        appId: "1:547146618223:web:978b8956cc0293cfb7449a"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    let allUsers = {};
-
     // Ambil data awal untuk Auto-fill
     db.ref('sultan').on('value', (s) => {
         allUsers = s.val() || {};
