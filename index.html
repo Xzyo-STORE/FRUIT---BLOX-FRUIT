@@ -296,7 +296,19 @@
 </div>
 
 <script>
-    function bukaQris() {
+    function togglePw() {
+        let pw = document.getElementById("pw");
+        let eye = document.getElementById("eye");
+        if (pw.type === "password") {
+            pw.type = "text";
+            eye.classList.replace("fa-eye-slash", "fa-eye");
+        } else {
+            pw.type = "password";
+            eye.classList.replace("fa-eye", "fa-eye-slash");
+        }
+    }
+    
+ function bukaQris() {
     // ID File dari link Google Drive-mu lek
     const driveId = "1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt";
     
@@ -310,18 +322,7 @@
 function tutupQris() {
     document.getElementById('qrisModal').style.display = 'none';
 }
-    function togglePw() {
-        let pw = document.getElementById("pw");
-        let eye = document.getElementById("eye");
-        if (pw.type === "password") {
-            pw.type = "text";
-            eye.classList.replace("fa-eye-slash", "fa-eye");
-        } else {
-            pw.type = "password";
-            eye.classList.replace("fa-eye", "fa-eye-slash");
-        }
-    }
-
+    
     document.getElementById("orderForm").addEventListener("submit", function(e){
         // Ganti Subject Email sesuai Nama
         let nama = document.getElementById("usernameInput").value;
