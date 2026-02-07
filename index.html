@@ -12,10 +12,9 @@
 --dark-bg:#0b1220;
 --card-bg:#111a33;
 --text-white:#ffffff;
+--neon-shadow:0 0 15px rgba(0,114,255,.7);
 }
-
 *{box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
-
 body{
 background:var(--dark-bg);
 color:var(--text-white);
@@ -25,9 +24,9 @@ display:flex;
 flex-direction:column;
 align-items:center;
 }
-
 .wrapper{max-width:1000px;width:100%}
-
+h2{text-align:center;margin-bottom:5px;letter-spacing:2px}
+.subtitle{text-align:center;color:#7cc7ff;margin-bottom:20px}
 .btn{
 width:100%;
 padding:15px;
@@ -40,15 +39,17 @@ color:white;
 font-weight:bold;
 cursor:pointer;
 transition:.3s;
-text-align:center;
 font-size:16px;
 }
 .btn:hover{transform:scale(1.03);box-shadow:0 0 25px rgba(0,114,255,.8)}
-
+.container{display:flex;gap:20px;align-items:flex-start;margin-top:20px}
+.left-side{flex:1;position:sticky;top:20px;min-width:320px}
+.right-side{flex:1.2;min-width:320px}
 .card{
 background:var(--card-bg);
 border-radius:15px;
 padding:25px;
+margin-bottom:20px;
 }
 input,textarea{
 width:100%;
@@ -59,30 +60,84 @@ margin-top:10px;
 background:#0b1220;
 color:white;
 }
+.section-title{
+margin-top:20px;
+font-weight:bold;
+color:var(--primary-blue);
+border-bottom:1px solid rgba(255,255,255,.1);
+padding-bottom:5px;
+}
+.price-list{list-style:none;padding:0;margin:0}
+.price-list li{
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid rgba(255,255,255,.05);
+font-size:14px;
+}
+.old-p{text-decoration:line-through;color:#ff4d4d;font-size:12px}
+.new-p{color:#00c6ff;font-weight:800;font-size:15px}
+
+/* === ANIMASI CEKLIS ASLI (TIDAK DIUBAH) === */
+.checkmark-wrapper{width:100px;height:100px;margin:0 auto 20px}
+.checkmark-circle,.checkmark-kick{
+fill:none;
+stroke:#00ff88;
+stroke-linecap:round;
+stroke-dasharray:200;
+stroke-dashoffset:200;
+}
+.active .checkmark-circle{
+stroke-width:3;
+stroke-dasharray:166;
+stroke-dashoffset:166;
+animation:drawStroke .6s cubic-bezier(.65,0,.45,1) forwards;
+}
+.active .checkmark-kick{
+stroke-width:5;
+stroke-dasharray:48;
+stroke-dashoffset:48;
+animation:drawStroke .3s cubic-bezier(.65,0,.45,1) .6s forwards;
+}
+@keyframes drawStroke{100%{stroke-dashoffset:0}}
+
+#order-slide{
+display:none;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
 </style>
 </head>
 
 <body>
 
 <div class="wrapper">
-<h2 style="text-align:center">JOKI BF XZYO STORE</h2>
-<p style="text-align:center;color:#7cc7ff">Dijamin Murah, Aman, dan Terpercaya</p>
+<h2>JOKI BF XZYO STORE</h2>
+<p class="subtitle">Dijamin Murah, Aman, dan Terpercaya</p>
 
+<div class="container">
+
+<!-- KIRI -->
+<div class="left-side">
 <div class="card">
+
+<iframe name="frame_gaib" style="display:none"></iframe>
+
 <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="frame_gaib" enctype="multipart/form-data">
 <input type="hidden" name="_captcha" value="false">
 <input type="hidden" name="_subject" id="email_subject">
 
-<input type="text" name="Username" id="usernameInput" placeholder="Username Roblox" required>
+<input type="text" id="usernameInput" name="Username" placeholder="Username Roblox" required>
 
 <div style="position:relative">
-<input type="password" name="Password" id="pw" placeholder="Password Roblox" required>
-<i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute;right:12px;top:22px;cursor:pointer"></i>
+<input type="password" id="pw" name="Password" placeholder="Password Roblox" required>
+<i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute;right:12px;top:22px;cursor:pointer;color:#555"></i>
 </div>
 
 <input type="text" name="WhatsApp" placeholder="Nomor WA Aktif" required>
 <textarea name="Jenis Joki" placeholder="Contoh: Joki Level 1500 - MAX" rows="3" required></textarea>
-
 <input type="file" name="Bukti Transfer" accept="image/*" required>
 
 <button type="submit" class="btn">ORDER SEKARANG</button>
@@ -93,11 +148,42 @@ DANA : 089677329404<br>
 GOPAY / OVO : 089517154561
 </div>
 
-<!-- TOMBOL QRIS -->
 <button type="button" class="btn" onclick="bukaQris()" style="background:linear-gradient(90deg,#ec4899,#8b5cf6)">
 <i class="fa-solid fa-qrcode"></i> LIHAT QRIS (GOOGLE DRIVE)
 </button>
 </form>
+
+<!-- SLIDE SELESAI (ASLI) -->
+<div id="order-slide">
+<div class="checkmark-wrapper">
+<svg viewBox="0 0 52 52">
+<circle class="checkmark-circle" cx="26" cy="26" r="25"/>
+<path class="checkmark-kick" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+</svg>
+</div>
+<h3 style="color:#00ff88">ORDER TELAH TERKIRIM!</h3>
+<p style="color:#ccc;font-size:14px">
+Tunggu kabar dari kami lek. Admin akan menghubungi via WhatsApp.
+</p>
+</div>
+
+</div>
+</div>
+
+<!-- KANAN -->
+<div class="right-side">
+<div class="card">
+<h3 style="text-align:center;margin-top:0">LIST JOKI DISKON 15%</h3>
+
+<div class="section-title">Instinct</div>
+<ul class="price-list">
+<li>0 – 1000 <span><span class="old-p">5k</span> <span class="new-p">4.2k</span></span></li>
+<li>1000 – 2000 <span><span class="old-p">8k</span> <span class="new-p">6.8k</span></span></li>
+<li>2000 – MAX + V2 <span><span class="old-p">15k</span> <span class="new-p">12.7k</span></span></li>
+</ul>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -112,24 +198,29 @@ GOPAY / OVO : 089517154561
 function togglePw(){
 let pw=document.getElementById("pw");
 let eye=document.getElementById("eye");
-if(pw.type==="password"){
-pw.type="text";eye.classList.replace("fa-eye-slash","fa-eye");
-}else{
-pw.type="password";eye.classList.replace("fa-eye","fa-eye-slash");
-}
+pw.type=pw.type==="password"?"text":"password";
+eye.classList.toggle("fa-eye");
+eye.classList.toggle("fa-eye-slash");
 }
 
+/* === LOGIC ANIMASI ASLI (TIDAK DIUBAH) === */
 document.getElementById("orderForm").addEventListener("submit",function(){
-let nama=document.getElementById("usernameInput").value;
-document.getElementById("email_subject").value="Pesanan Joki dari: "+nama;
+document.getElementById("email_subject").value="Pesanan Joki dari: "+document.getElementById("usernameInput").value;
+let form=this;
+let slide=document.getElementById("order-slide");
+form.style.opacity="0";
+setTimeout(()=>{
+form.style.display="none";
+slide.style.display="flex";
+slide.classList.add("active");
+},300);
 });
 
 function bukaQris(){
-const driveId="1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt";
-document.getElementById("qrisImg").src=`https://lh3.googleusercontent.com/d/${driveId}`;
+const id="1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt";
+document.getElementById("qrisImg").src=`https://lh3.googleusercontent.com/d/${id}`;
 document.getElementById("qrisModal").style.display="flex";
 }
-
 function tutupQris(){
 document.getElementById("qrisModal").style.display="none";
 }
