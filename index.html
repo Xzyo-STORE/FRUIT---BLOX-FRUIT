@@ -87,7 +87,9 @@
                     
                     <h3 style="margin:0; font-size:16px; color:var(--primary-blue);">DATA ORDER JOKI</h3>
                     
-                    <input type="text" name="Username" id="usernameInput" placeholder="Username Roblox" required oninput="autoFillWA(this.value)">
+                    <input type="text" name="Nama" id="namaInput" placeholder="Nama Panggilan / asli" required oninput="autoFillWA(this.value)">
+
+                   <input type="text" name="Username" id="usernameInput" placeholder="usename Roblox" required>
                     
                     <div style="position:relative;">
                         <input type="password" name="Password" id="pw" placeholder="Password Roblox" required>
@@ -130,7 +132,15 @@
                     DANA : <b>089677329404</b><br>
                     GOPAY/OVO : <b>089517154561</b>
                 </div>
-                <button class="btn" onclick="window.open('https://wa.me/6289692310378?text=Admin%20minta%20QRIS')">SCAN QRIS</button>
+               <button type="button" class="btn" onclick="bukaQris()" style="background: linear-gradient(90deg, #ec4899, #8b5cf6);">
+    <i class="fa-solid fa-qrcode"></i> LIHAT QRIS (GOOGLE DRIVE)
+</button>
+
+<div id="qrisModal" style="display:none; position:fixed; z-index:1000; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; flex-direction:column; backdrop-filter: blur(5px);">
+    <img id="qrisImg" src="" style="max-width:90%; max-height:70%; border-radius:15px; border:3px solid #0072ff; box-shadow: 0 0 20px #0072ff;">
+    <p style="color: #00ff88; margin-top: 15px; font-weight: bold; text-shadow: 0 0 10px #00ff88;">SCAN QRIS DI ATAS LEK</p>
+    <button class="btn" style="width: 150px; background: #ff4d4d;" onclick="tutupQris()">TUTUP</button>
+</div>
                 
                 <div class="section-title">List Harga Populer</div>
                 <ul class="price-list">
@@ -144,6 +154,20 @@
 </div>
 
 <script>
+    function bukaQris() {
+    // ID File dari link Google Drive-mu lek
+    const driveId = "1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt";
+    
+    // Link khusus biar gambar Drive bisa muncul langsung (Direct Link)
+    const directLink = `https://lh3.googleusercontent.com/d/${driveId}`;
+    
+    document.getElementById('qrisImg').src = directLink;
+    document.getElementById('qrisModal').style.display = 'flex';
+}
+
+function tutupQris() {
+    document.getElementById('qrisModal').style.display = 'none';
+}
     // --- FIREBASE CONFIG ---
     const firebaseConfig = {
         apiKey: "AIzaSyC6aUjN60bSDE0BLVs3V-yNRYfSsPv0ZV8",
@@ -212,6 +236,8 @@
             const crown = u.count >= 5 ? '<i class="fa-solid fa-crown crown-mewah"></i>' : '';
             // Ceklis Mewah (Total >= 100k)
             const check = u.total >= 100000 ? '<i class="fa-solid fa-circle-check check-mewah"></i>' : '';
+            // mahkota mewah (total >=100k)
+            const crown = u.total >= 150000 ? '<i class="fa-solid fa-crown-mewah"></i>' : '';
             
             container.innerHTML += `<div class="vip-item">
                 <span>${i+1}. ${crown} <b>${name}</b> ${check}</span>
