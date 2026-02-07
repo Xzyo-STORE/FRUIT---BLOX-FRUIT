@@ -1,222 +1,331 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Xzyo Store - Joki Blox Fruit</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xzyo Store - Joki Blox Fruit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #0072ff;
+            --dark-bg: #0b1220;
+            --card-bg: #111a33;
+            --text-white: #ffffff;
+            --neon-shadow: 0 0 15px rgba(0, 114, 255, 0.7);
+        }
 
-<style>
-:root {
---primary-blue:#0072ff;
---dark-bg:#0b1220;
---card-bg:#111a33;
---text-white:#ffffff;
---neon-shadow:0 0 15px rgba(0,114,255,.7);
-}
-*{box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
-body{
-background:var(--dark-bg);
-color:var(--text-white);
-margin:0;
-padding:20px;
-display:flex;
-flex-direction:column;
-align-items:center;
-}
-.wrapper{max-width:1000px;width:100%}
-h2{text-align:center;margin-bottom:5px;letter-spacing:2px}
-.subtitle{text-align:center;color:#7cc7ff;margin-bottom:20px}
-.btn{
-width:100%;
-padding:15px;
-border-radius:12px;
-border:none;
-margin-top:15px;
-background:linear-gradient(90deg,#020617,#0b3c8a,#020617);
-background-size:200% auto;
-color:white;
-font-weight:bold;
-cursor:pointer;
-transition:.3s;
-font-size:16px;
-}
-.btn:hover{transform:scale(1.03);box-shadow:0 0 25px rgba(0,114,255,.8)}
-.container{display:flex;gap:20px;align-items:flex-start;margin-top:20px}
-.left-side{flex:1;position:sticky;top:20px;min-width:320px}
-.right-side{flex:1.2;min-width:320px}
-.card{
-background:var(--card-bg);
-border-radius:15px;
-padding:25px;
-margin-bottom:20px;
-}
-input,textarea{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:1px solid #1e293b;
-margin-top:10px;
-background:#0b1220;
-color:white;
-}
-.section-title{
-margin-top:20px;
-font-weight:bold;
-color:var(--primary-blue);
-border-bottom:1px solid rgba(255,255,255,.1);
-padding-bottom:5px;
-}
-.price-list{list-style:none;padding:0;margin:0}
-.price-list li{
-display:flex;
-justify-content:space-between;
-padding:10px 0;
-border-bottom:1px solid rgba(255,255,255,.05);
-font-size:14px;
-}
-.old-p{text-decoration:line-through;color:#ff4d4d;font-size:12px}
-.new-p{color:#00c6ff;font-weight:800;font-size:15px}
+        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        
+        body {
+            background: var(--dark-bg);
+            color: var(--text-white);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-/* === ANIMASI CEKLIS ASLI (TIDAK DIUBAH) === */
-.checkmark-wrapper{width:100px;height:100px;margin:0 auto 20px}
-.checkmark-circle,.checkmark-kick{
-fill:none;
-stroke:#00ff88;
-stroke-linecap:round;
-stroke-dasharray:200;
-stroke-dashoffset:200;
-}
-.active .checkmark-circle{
-stroke-width:3;
-stroke-dasharray:166;
-stroke-dashoffset:166;
-animation:drawStroke .6s cubic-bezier(.65,0,.45,1) forwards;
-}
-.active .checkmark-kick{
-stroke-width:5;
-stroke-dasharray:48;
-stroke-dashoffset:48;
-animation:drawStroke .3s cubic-bezier(.65,0,.45,1) .6s forwards;
-}
-@keyframes drawStroke{100%{stroke-dashoffset:0}}
+        .wrapper {
+            max-width: 1000px;
+            width: 100%;
+        }
 
-#order-slide{
-display:none;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-}
-</style>
+        h2 { text-align: center; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
+        p.subtitle { text-align: center; color: #7cc7ff; margin-bottom: 20px; }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            margin-top: 15px;
+            background: linear-gradient(90deg, #020617, #0b3c8a, #020617);
+            background-size: 200% auto;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+        }
+
+        .btn:hover, .btn:active {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 114, 255, 0.8);
+            background-position: right center;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .left-side {
+            flex: 1;
+            position: sticky;
+            top: 20px;
+            min-width: 320px;
+        }
+
+        .right-side {
+            flex: 1.2;
+            min-width: 320px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+            margin-top: 10px;
+            background: #0b1220;
+            color: white;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--primary-blue); }
+
+        .section-title {
+            margin-top: 20px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        .price-list { list-style: none; padding: 0; margin: 0; }
+        .price-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
+        }
+
+        .old-p { text-decoration: line-through; color: #ff4d4d; font-size: 12px; }
+        .new-p { color: #00c6ff; font-weight: 800; font-size: 15px; }
+
+        /* --- PERBAIKAN CEKLIS --- */
+        .checkmark-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .checkmark-circle, .checkmark-kick {
+            fill: none;
+            stroke: #00ff88;
+            stroke-linecap: round;
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200; /* Sembunyikan dulu */
+        }
+
+        /* Animasi jalan hanya ketika class .active ditambahkan oleh JS */
+        .active .checkmark-circle {
+            stroke-width: 3;
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            animation: drawStroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .active .checkmark-kick {
+            stroke-width: 5;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: drawStroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+        }
+
+        @keyframes drawStroke {
+            100% { stroke-dashoffset: 0; }
+        }
+
+        #order-slide {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="wrapper">
-<h2>JOKI BF XZYO STORE</h2>
-<p class="subtitle">Dijamin Murah, Aman, dan Terpercaya</p>
+    <h2>JOKI BF XZYO STORE</h2>
+    <p class="subtitle">Dijamin Murah, Aman, dan Terpercaya</p>
 
-<div class="container">
+    <button type="button" class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbCFZEm5kg7DZoIDgG3r','_blank')">
+        <i class="fa-brands fa-whatsapp"></i> JOIN SALURAN DULU LEKKU
+    </button>
 
-<!-- KIRI -->
-<div class="left-side">
-<div class="card">
+    <div class="container">
+        <div class="left-side">
+            <div class="card" id="formCard">
+                <iframe name="frame_gaib" style="display:none;"></iframe>
+                <form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="frame_gaib" enctype="multipart/form-data">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" id="email_subject" value="Pesanan Joki Baru">
+                    
+                    <input type="text" name="Username" id="usernameInput" placeholder="Username Roblox" required>
+                    
+                    <div style="position:relative;">
+                        <input type="password" name="Password" id="pw" placeholder="Password Roblox" required>
+                        <i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute; right:12px; top:22px; cursor:pointer; color:#555;"></i>
+                    </div>
 
-<iframe name="frame_gaib" style="display:none"></iframe>
+                    <input type="text" name="WhatsApp" placeholder="Nomor WA (Aktif)" required>
+                    <textarea name="Jenis Joki" placeholder="Contoh: Joki Level 1500 - MAX" rows="3" required></textarea>
+                    
+                    <label style="display:block; margin-top:10px; font-size:12px; color:#aaa;">Upload Bukti Transfer:</label>
+                    <input type="file" name="Bukti Transfer" accept="image/*" required>
+                    
+                    <button type="submit" class="btn">ORDER SEKARANG</button><br>
+                    <div style="color: #fff; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">
+                        <i class="fa-solid fa-wallet"></i> <b>PAYMENT</b><br><br>
+                        DANA : 089677329404<br>GOPAY / OVO : 089517154561
+                    </div><br>
+                   <button type="button" class="btn" onclick="bukaQris()" style="background:linear-gradient(90deg,#ec4899,#8b5cf6)">
+                    <i class="fa-solid fa-qrcode"></i> QRIS</button>
+                </form>
 
-<form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="frame_gaib" enctype="multipart/form-data">
-<input type="hidden" name="_captcha" value="false">
-<input type="hidden" name="_subject" id="email_subject">
+                <div id="order-slide" style="display: none;">
+                    <div class="checkmark-wrapper">
+                        <svg class="checkmark-svg" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="checkmark-kick" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
+                    </div>
+                    <h3 style="color: #00ff88; text-shadow: 0 0 10px rgba(0,255,136,0.5);">ORDER TELAH TERKIRIM!</h3>
+                    <p style="font-size:14px; color:#ccc; line-height:1.6;">
+                        Tunggu kabar dari kami lek. Admin akan menghubungi Anda melalui WhatsApp untuk proses pengerjaan.
+                    </p>
+                </div>
+            </div>
+        </div>
 
-<input type="text" id="usernameInput" name="Username" placeholder="Username Roblox" required>
+        <div class="right-side">
+            <div class="card">
+                <h3 style="margin-top:0; text-align:center;">LIST JOKI DISCON 15%</h3>
+                <div class="section-title"><i class="fa-solid fa-eye"></i> Instinct (Ken Haki)</div>
+                <ul class="price-list">
+    <li>0 – 1000 <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+    <li>1000 – 2000 <span><span class="old-p">8k</span><span class="new-p">6.8k</span></span></li>
+    <li>2000 – MAX + V2 <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+    <li>Full 0 – MAX + V2 <span><span class="old-p">20k</span><span class="new-p">17k</span></span></li>
+  </ul>
 
-<div style="position:relative">
-<input type="password" id="pw" name="Password" placeholder="Password Roblox" required>
-<i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute;right:12px;top:22px;cursor:pointer;color:#555"></i>
+  <div class="section-title"><i class="fa-solid fa-coins"></i> Belly & Fragment</div>
+  <ul class="price-list">
+    <li>1M Belly <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+    <li>10M Belly <span><span class="old-p">20k</span><span class="new-p">17k</span></span></li>
+    <li>10K Fragment <span><span class="old-p">8k</span><span class="new-p">6.8k</span></span></li>
+    <li>20K Fragment <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+  </ul>
+
+  <div class="section-title"><i class="fa-solid fa-angles-up"></i> Leveling & Sea</div>
+  <ul class="price-list">
+    <li>1 – 700 (Sea 1) <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+    <li>700 – 1500 (Sea 2) <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+    <li>1500 – MAX <span><span class="old-p">20k</span><span class="new-p">17k</span></span></li>
+    <li>Unlock Sea 2 / 3 <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+  </ul>
+
+  <div class="section-title"><i class="fa-solid fa-khanda"></i> Legend Swords</div>
+  <ul class="price-list">
+    <li>CDK / TTK <span class="badge"></span> <span><span class="old-p">25k</span><span class="new-p">21.2k</span></span></li>
+    <li>Hallow Scythe <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+    <li>Tushita / Yama <span><span class="old-p">8k</span><span class="new-p">6.8k</span></span></li>
+    <li>Oroshi / Saishi / Shizu <span><span class="old-p">8k</span><span class="new-p">6.8k</span></span></li>
+    <li>Fox Lamp / Shark Anchor <span><span class="old-p">30k</span><span class="new-p">25.5k</span></span></li>
+    <li>Dark Dagger <span><span class="old-p">30k</span><span class="new-p">25.5k</span></span></li>
+  </ul>
+
+  <div class="section-title"><i class="fa-solid fa-dragon"></i> Premium Boss & Pack</div>
+  <ul class="price-list">
+    <li>Leviatan Hydra / Tiki <span class="badge"></span> <span><span class="old-p">45k</span><span class="new-p">38.2k</span></span></li>
+    <li>Blue Gear <span><span class="old-p">10k</span><span class="new-p">8.5k</span></span></li>
+    <li>TOTS / Indra / Dough King <span><span class="old-p">10k</span><span class="new-p">8.5k</span></span></li>
+    <li>Soul Guitar + Bahan <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+    <li>God Human <span><span class="old-p">30k</span><span class="new-p">25.5k</span></span></li>
+  </ul>
+
+  <div class="section-title"><i class="fa-solid fa-dna"></i> Race Evolution</div>
+  <ul class="price-list">
+    <li>Get Draco (Full) <span><span class="old-p">30k</span><span class="new-p">25.5k</span></span></li>
+    <li>Unlock Ghoul / Cyborg <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+    <li>Race V1 – V3 <span><span class="old-p">8k</span><span class="new-p">6.8k</span></span></li>
+    <li>Race V4 All Race <span><span class="old-p">10k</span><span class="new-p">8.5k</span></span></li>
+    <li>V4 Draco Special <span><span class="old-p">15k</span><span class="new-p">12.7k</span></span></li>
+  </ul>
+
+  <div class="section-title"><i class="fa-solid fa-fire"></i> Raid & Mastery</div>
+  <ul class="price-list">
+    <li>Raid Biasa (Full) <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+    <li>Raid Buddha / Dough (Full) <span><span class="old-p">10k</span><span class="new-p">8.5k</span></span></li>
+    <li>100 Mastery (All Weapon) <span><span class="old-p">5k</span><span class="new-p">4.2k</span></span></li>
+  </ul>
+                <p style="text-align:center; font-size:11px; color:#FFFFFF; margin-top:25px">Silahkan chat admin ketika ada jokian yang tidak ada di list ￬￬￬</p>
+                <a href="https://wa.me/6289692310378" class="btn">CHAT DISINI LE</a>
+            </div>
+        </div>
+    </div>
 </div>
 
-<input type="text" name="WhatsApp" placeholder="Nomor WA Aktif" required>
-<textarea name="Jenis Joki" placeholder="Contoh: Joki Level 1500 - MAX" rows="3" required></textarea>
-<input type="file" name="Bukti Transfer" accept="image/*" required>
-
-<button type="submit" class="btn">ORDER SEKARANG</button>
-
-<div style="margin-top:15px;background:rgba(0,0,0,.3);padding:10px;border-radius:8px">
-<b>PAYMENT</b><br><br>
-DANA : 089677329404<br>
-GOPAY / OVO : 089517154561
-</div>
-
-<button type="button" class="btn" onclick="bukaQris()" style="background:linear-gradient(90deg,#ec4899,#8b5cf6)">
-<i class="fa-solid fa-qrcode"></i> LIHAT QRIS (GOOGLE DRIVE)
-</button>
-</form>
-
-<!-- SLIDE SELESAI (ASLI) -->
-<div id="order-slide">
-<div class="checkmark-wrapper">
-<svg viewBox="0 0 52 52">
-<circle class="checkmark-circle" cx="26" cy="26" r="25"/>
-<path class="checkmark-kick" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-</svg>
-</div>
-<h3 style="color:#00ff88">ORDER TELAH TERKIRIM!</h3>
-<p style="color:#ccc;font-size:14px">
-Tunggu kabar dari kami lek. Admin akan menghubungi via WhatsApp.
-</p>
-</div>
-
-</div>
-</div>
-
-<!-- KANAN -->
-<div class="right-side">
-<div class="card">
-<h3 style="text-align:center;margin-top:0">LIST JOKI DISKON 15%</h3>
-
-<div class="section-title">Instinct</div>
-<ul class="price-list">
-<li>0 – 1000 <span><span class="old-p">5k</span> <span class="new-p">4.2k</span></span></li>
-<li>1000 – 2000 <span><span class="old-p">8k</span> <span class="new-p">6.8k</span></span></li>
-<li>2000 – MAX + V2 <span><span class="old-p">15k</span> <span class="new-p">12.7k</span></span></li>
-</ul>
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- MODAL QRIS -->
+  <!-- MODAL QRIS -->
 <div id="qrisModal" style="display:none;position:fixed;z-index:1000;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);justify-content:center;align-items:center;flex-direction:column;backdrop-filter:blur(5px)">
 <img id="qrisImg" style="max-width:90%;max-height:70%;border-radius:15px;border:3px solid #0072ff;box-shadow:0 0 20px #0072ff">
 <p style="color:#00ff88;margin-top:15px;font-weight:bold">SCAN QRIS DI ATAS LEK</p>
 <button class="btn" style="width:150px;background:#ff4d4d" onclick="tutupQris()">TUTUP</button>
 </div>
 
+
 <script>
-function togglePw(){
-let pw=document.getElementById("pw");
-let eye=document.getElementById("eye");
-pw.type=pw.type==="password"?"text":"password";
-eye.classList.toggle("fa-eye");
-eye.classList.toggle("fa-eye-slash");
-}
+    function togglePw() {
+        let pw = document.getElementById("pw");
+        let eye = document.getElementById("eye");
+        if (pw.type === "password") {
+            pw.type = "text";
+            eye.classList.replace("fa-eye-slash", "fa-eye");
+        } else {
+            pw.type = "password";
+            eye.classList.replace("fa-eye", "fa-eye-slash");
+        }
+    }
 
-/* === LOGIC ANIMASI ASLI (TIDAK DIUBAH) === */
-document.getElementById("orderForm").addEventListener("submit",function(){
-document.getElementById("email_subject").value="Pesanan Joki dari: "+document.getElementById("usernameInput").value;
-let form=this;
-let slide=document.getElementById("order-slide");
-form.style.opacity="0";
-setTimeout(()=>{
-form.style.display="none";
-slide.style.display="flex";
-slide.classList.add("active");
-},300);
-});
+    document.getElementById("orderForm").addEventListener("submit", function(e){
+        // Ganti Subject Email sesuai Nama
+        let nama = document.getElementById("usernameInput").value;
+        document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
 
-function bukaQris(){
+        // Efek transisi & Munculkan slide selesai
+        let form = this;
+        let slide = document.getElementById("order-slide");
+        
+        form.style.opacity = "0";
+        setTimeout(() => {
+            form.style.display = "none";
+            slide.style.display = "flex";
+            // MENAMBAHKAN CLASS .active DI SINI AGAR ANIMASI MULAI
+            slide.classList.add("active");
+        }, 300);
+    });
+  function bukaQris(){
 const id="1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt";
 document.getElementById("qrisImg").src=`https://lh3.googleusercontent.com/d/${id}`;
 document.getElementById("qrisModal").style.display="flex";
