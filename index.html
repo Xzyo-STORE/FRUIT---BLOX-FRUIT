@@ -162,47 +162,43 @@
             align-items: center;
             text-align: center;
         }
-        .warning-title {
-  color: #ff4d4d;
+     .warning-box {
+  border: 2px solid #ff4d4d;
+  background: rgba(255, 77, 77, 0.08);
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.warning-title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  font-weight: 700;
+  color: #ff4d4d;
+  margin-bottom: 10px;
 }
 
-.warning-title i {
-  font-size: 18px;
-}
-
-.warning-list {
-  border: 1px solid rgba(255, 77, 77, 0.4);
-  border-radius: 8px;
-  padding: 12px;
-  background: rgba(255, 77, 77, 0.05);
-}
-
-.warning-list li {
-  list-style: none;
-  padding-left: 22px;
-  position: relative;
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-
-.warning-list li::before {
+.warning-title::before {
   content: "!";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 16px;
-  height: 16px;
-  background: #ff4d4d;
-  color: #fff;
-  font-weight: bold;
-  font-size: 12px;
-  border-radius: 50%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff4d4d, #ff0000);
+  color: #fff;
+  font-weight: 900;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.6);
+}
+
+.warning-box ul {
+  padding-left: 18px;
+}
+
+.warning-box li {
+  margin-bottom: 6px;
 }
     </style>
 </head>
@@ -233,18 +229,15 @@
 
                     <input type="text" name="WhatsApp" placeholder="Nomor WA (Aktif)" required>
                     <textarea name="Jenis Joki" placeholder="Contoh: Joki Level 1500 - MAX" rows="3" required></textarea>
-
-                  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<div style="font-size: 48px; color: orange;">
-    <i class="fas fa-shield-exclamation"></i>
-    <p>Peringatan Keamanan</p>
-</div>
-                  <ul class="price-list warning-list">
-                     <li>Akun <b>TIDAK BOLEH LOGIN</b> selama proses joki</li>
-                     <li>Estimasi pengerjaan tergantung antrian</li>
-                     <li>WAJIB ganti password setelah status <b>DONE</b></li>
-                  </ul>
+                    
+                    <div class="warning-box">
+                      <div class="warning-title">PERINGATAN PENTING</div>
+                       <ul>
+                          <li>Akun TIDAK BOLEH LOGIN selama proses joki</li>
+                          <li>Estimasi tergantung antrian</li>
+                          <li>Demi keamanan, ganti password setelah status "DONE"</li>
+                       </ul>
+                    </div>
                     
                     <label style="display:block; margin-top:10px; font-size:12px; color:#aaa;">Upload Bukti Transfer:</label>
                     <input type="file" name="Bukti Transfer" accept="image/*" required>
