@@ -162,9 +162,9 @@
             align-items: center;
             text-align: center;
         }
-     .warning-box {
+  .warning-box {
   border: 2px solid #ff4d4d;
-  background: rgba(255, 77, 77, 0.08);
+  background: rgba(255, 0, 0, 0.08);
   border-radius: 14px;
   padding: 16px;
   margin-top: 20px;
@@ -173,24 +173,32 @@
 .warning-title {
   display: flex;
   align-items: center;
-  font-weight: 700;
+  gap: 12px;
+  font-weight: 800;
   color: #ff4d4d;
   margin-bottom: 10px;
 }
 
-.warning-title::before {
-  content: "!";
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  margin-right: 10px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ff4d4d, #ff0000);
+/* SHIELD ICON */
+.shield-icon {
+  width: 34px;
+  height: 38px;
+  background: linear-gradient(145deg, #ff4d4d, #c90000);
   color: #fff;
   font-weight: 900;
-  box-shadow: 0 0 10px rgba(255, 77, 77, 0.6);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(
+    50% 0%,
+    90% 15%,
+    90% 55%,
+    50% 100%,
+    10% 55%,
+    10% 15%
+  );
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
 }
 
 .warning-box ul {
@@ -231,7 +239,9 @@
                     <textarea name="Jenis Joki" placeholder="Contoh: Joki Level 1500 - MAX" rows="3" required></textarea>
                     
                     <div class="warning-box">
-                      <div class="warning-title">PERINGATAN PENTING</div>
+                      <div class="warning-title">
+                          <span class="sheild-icon">!</span>
+                          PERINGATAN PENTING</div>
                        <ul>
                           <li>Akun TIDAK BOLEH LOGIN selama proses joki</li>
                           <li>Estimasi tergantung antrian</li>
