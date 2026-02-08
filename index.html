@@ -162,6 +162,48 @@
             align-items: center;
             text-align: center;
         }
+        .warning-title {
+  color: #ff4d4d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.warning-title i {
+  font-size: 18px;
+}
+
+.warning-list {
+  border: 1px solid rgba(255, 77, 77, 0.4);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(255, 77, 77, 0.05);
+}
+
+.warning-list li {
+  list-style: none;
+  padding-left: 22px;
+  position: relative;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.warning-list li::before {
+  content: "!";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  background: #ff4d4d;
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
     </style>
 </head>
 <body>
@@ -196,19 +238,15 @@
                       <i class="fa-solid fa-sheild-exclamation"></i> PERINGATAN PENTING
                   </div>
 
+                  <div class="section-title warning-title">
+                     <i class="fa-solid fa-shield-exclamation"></i>
+                     PERINGATAN PENTING
+                  </div>
+
                   <ul class="price-list warning-list">
-                    <li>
-                        <i class="fa-solid fa-sheild-exclamation"></i>
-                        Akun <b>TIDAK BOLEH DILOGIN</b> selama proses joki berlangsung
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-sheild-exclamation"></i>
-                        Estimasi pengerjaan <b>TERGANTUNG JOKI APA</b>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-sheild-exclamation"></i>
-                        Demi keamanan akun anda <b>SEGERA GANTI PASSWORD DAN LOG OUT DARI SEMUA SESI</b> setelah admin mengabarkan akunnya sudah <b>"DONE"</b>
-                    </li>
+                     <li>Akun <b>TIDAK BOLEH LOGIN</b> selama proses joki</li>
+                     <li>Estimasi pengerjaan tergantung antrian</li>
+                     <li>WAJIB ganti password setelah status <b>DONE</b></li>
                   </ul>
                     
                     <label style="display:block; margin-top:10px; font-size:12px; color:#aaa;">Upload Bukti Transfer:</label>
