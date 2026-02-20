@@ -393,26 +393,37 @@
 
 
 <script>
-    function togglePw() {
-        let pw = document.getElementById("pw");
-        let eye = document.getElementById("eye");
-        if (pw.type === "password") {
-            pw.type = "text";
-            eye.classList.replace("fa-eye-slash", "fa-eye");
-        } else {
-            pw.type = "password";
-            eye.classList.replace("fa-eye", "fa-eye-slash");
-        }
-    }
 
-    const voucherList = {
-    "R3Z41SMU": 20,
-    "F4H12I": 15,
-    "124F4": 15,
-    "ADMINGANTENG":99,
+// PASSWORD
+function togglePw(){
+    let pw = document.getElementById("pw");
+    if(pw.type === "password"){
+        pw.type = "text";
+    } else {
+        pw.type = "password";
+    }
+}
+
+// VOUCHER SYSTEM
+let diskonAktif = 0;
+let hargaAsli = [];
+
+const voucherList = {
+    "123⅘5778": 15,
+    "XZYO10": 10,
+    "LEK20": 20
+    
 };
 
-    function cekVoucher(){
+document.addEventListener("DOMContentLoaded", function(){
+    let hargaList = document.querySelectorAll(".new-p");
+    hargaList.forEach((item, index)=>{
+        hargaAsli[index] = item.innerText;
+    });
+    resetMingguan();
+});
+
+function cekVoucher(){
     let kode = document.getElementById("voucherInput").value.trim().toUpperCase();
 
     if(voucherList[kode]){
@@ -421,23 +432,33 @@
             alert("Voucher "+diskonAktif+"% berhasil digunakan 🔥");
             updateHarga();
         } else {
-            alert("Voucher sudah dipakai 5x minggu ini ❌");
+            alert("Voucher sudah dipakai 3x minggu ini ❌");
         }
     } else {
         alert("Kode voucher tidak valid ❌");
     }
 }
 
-    let hargaAsli = [];
-
-    document.addEventListener("DOMContentLoaded", fuction(){
-        let hargaLlist = Document.querySelectorAll(".ne-p");
-        hargaList.forEach((item,index)=>{
-            hargaAsli[index] = item.innerText;
-        });
+function updateHarga(){
+    let hargaList = document.querySelectorAll(".new-p");
+    hargaList.forEach((item,index)=>{
+        let harga = parseFloat(hargaAsli[index].replace("k",""));
+        let hasil = harga - (harga * diskonAktif / 100);
+        item.innerText = hasil.toFixed(1) + "k";
     });
+}
 
-    function cekLimitVoucher(kode){
+function resetHarga(){
+    let hargaList = document.querySelectorAll(".new-p");
+    hargaList.forEach((item,index)=>{
+        item.innerText = hargaAsli[index];
+    });
+    diskonAktif = 0;
+    document.getElementById("voucherInput").value = "";
+}
+
+// LIMIT 3X PER MINGGU
+function cekLimitVoucher(kode){
     let data = JSON.parse(localStorage.getItem("voucherData")) || {};
 
     if(!data[kode]){
@@ -449,7 +470,7 @@
         data[kode].week = getWeek();
     }
 
-    if(data[kode].count >= 5){
+    if(data[kode].count >= 3){
         return false;
     }
 
@@ -457,37 +478,15 @@
     localStorage.setItem("voucherData", JSON.stringify(data));
     return true;
 }
-    
-    function updateHarga(){
-    let hargaList = document.querySelectorAll(".new-p");
-    hargaList.forEach((item,index)=>{
-        let harga = parseFloat(hargaAsli[index].replace("k",""));
-        let hasil = harga - (harga * diskonAktif / 100);
-        item.innerText = hasil.toFixed(1) + "k";
-    });
-        
-}
-    function resetMingguan(){
-    let data = JSON.parse(localStorage.getItem("voucherData")) || {};
-    let mingguSekarang = getWeek();
 
-    for(let kode in data){
-        if(data[kode].week !== mingguSekarang){
-            data[kode].count = 0;
-            data[kode].week = mingguSekarang;
-        }
-    }
-
-    localStorage.setItem("voucherData", JSON.stringify(data));
-}
-    
-    function getWeek(){
+function getWeek(){
     let now = new Date();
     let firstJan = new Date(now.getFullYear(),0,1);
     let days = Math.floor((now - firstJan)/(24*60*60*1000));
     return Math.ceil((days + firstJan.getDay()+1)/7);
 }
-    function resetMingguan(){
+
+function resetMingguan(){
     let data = JSON.parse(localStorage.getItem("voucherData")) || {};
     let mingguSekarang = getWeek();
 
@@ -501,12 +500,13 @@
     localStorage.setItem("voucherData", JSON.stringify(data));
 }
 
-    document.getElementById("orderForm").addEventListener("submit", function(e){
-        // Ganti Subject Email sesuai Nama
-        let nama = document.getElementById("usernameInput").value;
-        document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
-        
- resetHarga();
+document.getElementById("orderForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let nama = document.getElementById("usernameInput").value;
+    document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
+
+    resetHarga();
 
     let form = this;
     let slide = document.getElementById("order-slide");
@@ -514,28 +514,8 @@
     form.style.display = "none";
     slide.classList.add("active");
 });
-    
-        // Efek transisi & Munculkan slide selesai
-        let form = this;
-        let slide = document.getElementById("order-slide");
-        
-        form.style.opacity = "0";
-        setTimeout(() => {
-            form.style.display = "none";
-            slide.style.display = "flex";
-            // MENAMBAHKAN CLASS .active DI SINI AGAR ANIMASI MULAI
-            slide.classList.add("active");
-        }, 300);
-    });
-  function bukaQris(){
-const id="1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt";
-document.getElementById("qrisImg").src=`https://lh3.googleusercontent.com/d/${id}`;
-document.getElementById("qrisModal").style.display="flex";
-}
-function tutupQris(){
-document.getElementById("qrisModal").style.display="none";
-}
-</script>
 
+</script>
+    
 </body>
 </html>
