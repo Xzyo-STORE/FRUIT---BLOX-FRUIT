@@ -81,6 +81,7 @@
             .contaier {
                 felx-direction: colume;
             }
+        }
 
             .form,
             list {
@@ -262,6 +263,11 @@
                     
                     <label style="display:block; margin-top:10px; font-size:12px; color:#aaa;">Upload Bukti Transfer:</label>
                     <input type="file" name="Bukti Transfer" accept="image/*" required>
+
+                    <input type="text" id="VoucherInput" placeholder="Kode Voucher(Opsional)">
+                    <button type="button" class="btn" onclick="cekVoucher()" style="backround:linear-gradient(90deg,#16a34a,#22c55e)">
+                        Gunakan Voucher
+                    </button>
                     
                     <button type="submit" class="btn">ORDER SEKARANG</button><br>
                     <div style="color: #fff; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">
@@ -405,11 +411,115 @@
         }
     }
 
+    const voucherList = {
+    "R3Z41SMU": 20,
+    "F4H12I": 15,
+    "124F4": 15,
+};
+
+    function cekVoucher(){
+    let kode = document.getElementById("voucherInput").value.trim().toUpperCase();
+
+    if(voucherList[kode]){
+        if(cekLimitVoucher(kode)){
+            diskonAktif = voucherList[kode];
+            alert("Voucher "+diskonAktif+"% berhasil digunakan 🔥");
+            updateHarga();
+        } else {
+            alert("Voucher sudah dipakai 5x minggu ini ❌");
+        }
+    } else {
+        alert("Kode voucher tidak valid ❌");
+    }
+}
+
+    let hargaAsli = [];
+
+    document.addEventListener("DOMContentLoaded", fuction(){
+        let hargaLlist = Document.querySelectorAll(".ne-p");
+        hargaList.forEach((item,index)=>{
+            hargaAsli[index] = item.innerText;
+        });
+    });
+
+    function cekLimitVoucher(kode){
+    let data = JSON.parse(localStorage.getItem("voucherData")) || {};
+
+    if(!data[kode]){
+        data[kode] = {count:0, week:getWeek()};
+    }
+
+    if(data[kode].week !== getWeek()){
+        data[kode].count = 0;
+        data[kode].week = getWeek();
+    }
+
+    if(data[kode].count >= 5){
+        return false;
+    }
+
+    data[kode].count++;
+    localStorage.setItem("voucherData", JSON.stringify(data));
+    return true;
+}
+    
+    function updateHarga(){
+    let hargaList = document.querySelectorAll(".new-p");
+    hargaList.forEach((item,index)=>{
+        let harga = parseFloat(hargaAsli[index].replace("k",""));
+        let hasil = harga - (harga * diskonAktif / 100);
+        item.innerText = hasil.toFixed(1) + "k";
+    });
+        
+}
+    function resetMingguan(){
+    let data = JSON.parse(localStorage.getItem("voucherData")) || {};
+    let mingguSekarang = getWeek();
+
+    for(let kode in data){
+        if(data[kode].week !== mingguSekarang){
+            data[kode].count = 0;
+            data[kode].week = mingguSekarang;
+        }
+    }
+
+    localStorage.setItem("voucherData", JSON.stringify(data));
+}
+    
+    function getWeek(){
+    let now = new Date();
+    let firstJan = new Date(now.getFullYear(),0,1);
+    let days = Math.floor((now - firstJan)/(24*60*60*1000));
+    return Math.ceil((days + firstJan.getDay()+1)/7);
+}
+    function resetMingguan(){
+    let data = JSON.parse(localStorage.getItem("voucherData")) || {};
+    let mingguSekarang = getWeek();
+
+    for(let kode in data){
+        if(data[kode].week !== mingguSekarang){
+            data[kode].count = 0;
+            data[kode].week = mingguSekarang;
+        }
+    }
+
+    localStorage.setItem("voucherData", JSON.stringify(data));
+}
+
     document.getElementById("orderForm").addEventListener("submit", function(e){
         // Ganti Subject Email sesuai Nama
         let nama = document.getElementById("usernameInput").value;
         document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
+        
+ resetHarga();
 
+    let form = this;
+    let slide = document.getElementById("order-slide");
+
+    form.style.display = "none";
+    slide.classList.add("active");
+});
+    
         // Efek transisi & Munculkan slide selesai
         let form = this;
         let slide = document.getElementById("order-slide");
