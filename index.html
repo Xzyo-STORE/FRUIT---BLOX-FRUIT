@@ -3,242 +3,187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Xzyo Store - Joki Blox Fruit</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>Xzyo Store - Joki Blox Fruits</title>
 
 <style>
-:root{
---primary-blue:#0072ff;
---dark-bg:#0b1220;
---card-bg:#111a33;
---text-white:#ffffff;
-}
-
-*{box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
-
 body{
-margin:0;
-padding:20px;
-color:var(--text-white);
-background:linear-gradient(-45deg,#0b1220,#0f1c3d,#0b1220,#111a33);
-background-size:400% 400%;
-animation:bgMove 15s ease infinite;
-display:flex;
-justify-content:center;
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
 }
 
-@keyframes bgMove{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
+.container{
+    max-width:500px;
+    margin:30px auto;
+    background:#111;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(0,0,0,0.6);
 }
 
-.wrapper{max-width:1000px;width:100%}
-h2{text-align:center;margin-bottom:5px}
-.subtitle{text-align:center;color:#7cc7ff;margin-bottom:20px}
-
-.container{display:flex;gap:20px;align-items:flex-start}
-.left-side{flex:1;min-width:320px}
-.right-side{flex:1.2;min-width:320px}
-
-.card{
-background:var(--card-bg);
-border-radius:15px;
-padding:25px;
-margin-bottom:20px;
+h2{
+    text-align:center;
+    margin-bottom:20px;
 }
 
-input,textarea{
-width:100%;
-padding:12px;
-border-radius:8px;
-border:1px solid #1e293b;
-margin-top:10px;
-background:#0b1220;
-color:white;
+select,input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:8px;
+    border:none;
+    outline:none;
 }
 
-.btn{
-width:100%;
-padding:15px;
-border-radius:12px;
-border:none;
-margin-top:15px;
-background:linear-gradient(90deg,#020617,#0b3c8a,#020617);
-color:white;
-font-weight:bold;
-cursor:pointer;
-transition:.3s;
-font-size:16px;
-}
-.btn:hover{transform:scale(1.03)}
-
-.section-title{
-margin-top:20px;
-font-weight:bold;
-color:var(--primary-blue);
-border-bottom:1px solid rgba(255,255,255,.1);
-padding-bottom:5px;
+.password-box{
+    position:relative;
 }
 
-.price-list{list-style:none;padding:0;margin:0}
-.price-list li{
-display:flex;
-justify-content:space-between;
-padding:10px 0;
-border-bottom:1px solid rgba(255,255,255,.05);
+.password-box input{
+    width:100%;
+    padding-right:40px;
 }
 
-.old-p{text-decoration:line-through;color:#ff4d4d;font-size:12px}
-.new-p{color:#00c6ff;font-weight:800}
-
-/* Responsive */
-@media(max-width:900px){
-.container{flex-direction:column}
+.eye{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:18px;
+    color:black;
 }
 
-/* Voucher Check */
-#voucherCheck{
-display:none;
-text-align:center;
-margin-top:10px;
-font-size:40px;
-color:#00ff88;
-animation:popCheck .5s ease forwards;
-filter:drop-shadow(0 0 10px #00ff88);
+button{
+    width:100%;
+    padding:12px;
+    background:#00c3ff;
+    border:none;
+    border-radius:8px;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
 }
 
-@keyframes popCheck{
-0%{transform:scale(0);opacity:0}
-60%{transform:scale(1.2);opacity:1}
-100%{transform:scale(1);opacity:1}
+button:hover{
+    background:#00a2d6;
+}
+
+.total{
+    font-size:18px;
+    margin-top:10px;
+}
+
+.hidden{
+    display:none;
+}
+
+.payment-box{
+    margin-top:15px;
+    padding:10px;
+    background:#222;
+    border-radius:10px;
 }
 </style>
 </head>
-
 <body>
 
-<div class="wrapper">
-<h2>JOKI BF XZYO STORE</h2>
-<p class="subtitle">Dijamin Murah, Aman, dan Terpercaya</p>
-
 <div class="container">
+<h2>🏴‍☠️ JOKI BLOX FRUITS - XZYO STORE</h2>
 
-<div class="left-side">
-<div class="card">
+<label>Username Game:</label>
+<input type="text" placeholder="Masukkan username">
 
-<iframe name="frame_gaib" style="display:none"></iframe>
-
-<form id="orderForm" action="https://formsubmit.co/xzyostore@gmail.com" method="POST" target="frame_gaib" enctype="multipart/form-data">
-<input type="hidden" name="_captcha" value="false">
-<input type="hidden" name="_subject" id="email_subject">
-
-<input type="text" id="usernameInput" name="Username" placeholder="Username Roblox" required>
-
-<div style="position:relative">
-<input type="password" id="pw" name="Password" placeholder="Password Roblox" required>
-<i id="eye" class="fa-solid fa-eye-slash" onclick="togglePw()" style="position:absolute;right:12px;top:22px;cursor:pointer;color:#555"></i>
+<label>Password Game:</label>
+<div class="password-box">
+<input type="password" id="password" placeholder="Masukkan password">
+<span class="eye" onclick="togglePassword()">👁</span>
 </div>
 
-<input type="text" name="WhatsApp" placeholder="Nomor WA Aktif" required>
-<textarea name="Jenis Joki" placeholder="Contoh: Joki Level 1500 - MAX" rows="3" required></textarea>
+<label>Pilih Paket Joki:</label>
+<select id="paket" onchange="updateHarga()">
+<option value="0">-- Pilih Paket --</option>
+<option value="50000">Raid 1x - Rp50.000</option>
+<option value="100000">Leveling 1-700 - Rp100.000</option>
+<option value="150000">Leveling 700-1500 - Rp150.000</option>
+<option value="250000">Full Awakening - Rp250.000</option>
+</select>
 
-<input type="text" id="voucherInput" placeholder="Kode Voucher (Opsional)">
-<button type="button" class="btn" onclick="applyVoucher()">Gunakan Voucher</button>
-<div id="voucherMessage"></div>
-<div id="voucherCheck">
-<i class="fa-solid fa-circle-check"></i>
+<label>Kode Voucher:</label>
+<input type="text" id="voucher" placeholder="Masukkan kode voucher">
+
+<button onclick="applyVoucher()">Gunakan Voucher</button>
+
+<div class="total">
+Total: Rp <span id="total">0</span>
 </div>
 
-<input type="file" name="Bukti Transfer" accept="image/*" required>
-<button type="submit" class="btn">ORDER SEKARANG</button>
+<button onclick="lanjutBayar()">Lanjut ke Pembayaran</button>
 
-</form>
-</div>
-</div>
-
-<div class="right-side">
-<div class="card">
-<h3 style="text-align:center;margin-top:0">LIST JOKI DISKON 15%</h3>
-
-<div class="section-title">Instinct</div>
-<ul class="price-list">
-<li>0 – 1000 <span><span class="old-p">5k</span> <span class="new-p">4.2k</span></span></li>
-<li>1000 – 2000 <span><span class="old-p">8k</span> <span class="new-p">6.8k</span></span></li>
-<li>2000 – MAX + V2 <span><span class="old-p">15k</span> <span class="new-p">12.7k</span></span></li>
-</ul>
+<div id="paymentSection" class="hidden">
+<div class="payment-box">
+<h3>Metode Pembayaran</h3>
+<select>
+<option>QRIS</option>
+<option>DANA</option>
+<option>OVO</option>
+<option>Transfer Bank</option>
+</select>
+<button>Bayar Sekarang</button>
 </div>
 </div>
 
-</div>
 </div>
 
 <script>
-function togglePw(){
-let pw=document.getElementById("pw");
-let eye=document.getElementById("eye");
-pw.type=pw.type==="password"?"text":"password";
-eye.classList.toggle("fa-eye");
-eye.classList.toggle("fa-eye-slash");
+let hargaAsli = 0;
+let hargaFinal = 0;
+
+function togglePassword(){
+    let pass = document.getElementById("password");
+    if(pass.type === "password"){
+        pass.type = "text";
+    }else{
+        pass.type = "password";
+    }
 }
 
-/* Voucher */
-const vouchers={
-"XZYO10":10,
-"LEK20":20,
-"PREMIUM30":30
-};
-
-let originalPrices=[];
-let voucherActive=false;
-
-document.querySelectorAll(".new-p").forEach((el,i)=>{
-originalPrices[i]=parseFloat(el.innerText.replace("k",""));
-});
+function updateHarga(){
+    hargaAsli = parseInt(document.getElementById("paket").value);
+    hargaFinal = hargaAsli;
+    document.getElementById("total").innerText = hargaFinal.toLocaleString();
+}
 
 function applyVoucher(){
-let code=document.getElementById("voucherInput").value.trim().toUpperCase();
-let msg=document.getElementById("voucherMessage");
-let check=document.getElementById("voucherCheck");
+    let kode = document.getElementById("voucher").value.toUpperCase();
 
-if(!vouchers[code]){
-msg.style.color="red";
-msg.innerText="Voucher gagal ❌";
-check.style.display="none";
-return;
+    if(kode === "XZYO10"){
+        hargaFinal = hargaAsli - (hargaAsli * 0.10);
+        alert("Voucher 10% berhasil digunakan!");
+    }
+    else if(kode === "XZYO20"){
+        hargaFinal = hargaAsli - (hargaAsli * 0.20);
+        alert("Voucher 20% berhasil digunakan!");
+    }
+    else{
+        alert("Kode voucher tidak valid!");
+        hargaFinal = hargaAsli;
+    }
+
+    document.getElementById("total").innerText = hargaFinal.toLocaleString();
 }
 
-if(voucherActive){
-msg.style.color="orange";
-msg.innerText="Voucher sudah dipakai ⚠️";
-return;
+function lanjutBayar(){
+    if(hargaFinal <= 0){
+        alert("Pilih paket dulu!");
+        return;
+    }
+
+    document.getElementById("paymentSection").classList.remove("hidden");
+    window.scrollTo(0,document.body.scrollHeight);
 }
-
-let discount=vouchers[code];
-document.querySelectorAll(".new-p").forEach((el,i)=>{
-let newPrice=originalPrices[i]-(originalPrices[i]*discount/100);
-el.innerText=newPrice.toFixed(1)+"k";
-});
-
-voucherActive=true;
-msg.style.color="#00ff88";
-msg.innerText="Voucher berhasil digunakan";
-check.style.display="block";
-}
-
-/* ORDER CHECKMARK */
-document.getElementById("orderForm").addEventListener("submit",function(){
-
-let btn=this.querySelector("button[type='submit']");
-btn.innerHTML='<i class="fa-solid fa-circle-check"></i> ORDER BERHASIL';
-btn.style.background="linear-gradient(90deg,#00c853,#00ff88,#00c853)";
-btn.style.boxShadow="0 0 20px rgba(0,255,136,.8)";
-btn.disabled=true;
-
-document.getElementById("email_subject").value=
-"Pesanan Joki dari: "+document.getElementById("usernameInput").value;
-
-});
 </script>
 
 </body>
