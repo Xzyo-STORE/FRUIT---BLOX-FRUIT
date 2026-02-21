@@ -214,8 +214,9 @@ input:focus, textarea:focus {
         position: unset;
     }
 }
+/* Overlay fullscreen */
 #orderSuccessOverlay {
-    display: none;
+    display: none; /* default hidden */
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.85);
@@ -225,32 +226,43 @@ input:focus, textarea:focus {
     display: flex;
 }
 
+/* Container checkmark */
 .checkmark-container {
     text-align: center;
     color: #fff;
     animation: fadeInScale 0.5s ease forwards;
+    overflow: visible; /* pastikan stroke tidak terpotong */
 }
 
+/* Checkmark SVG */
 .checkmark {
     width: 120px;
     height: 120px;
-    stroke: #4ade80;
-    stroke-width: 4;
-    stroke-miterlimit: 10;
-    stroke-dasharray: 166;
-    stroke-dashoffset: 166;
-    animation: drawCheck 0.7s forwards;
 }
 
+/* Lingkaran checkmark */
 .checkmark-circle {
     stroke: #4ade80;
     stroke-width: 4;
-    stroke-dasharray: 157;
-    stroke-dashoffset: 157;
+    fill: none;
+    stroke-dasharray: 339; /* keliling lingkaran */
+    stroke-dashoffset: 339;
     stroke-linecap: round;
     animation: drawCircle 0.6s forwards;
 }
 
+/* Garis checkmark */
+.checkmark-check {
+    stroke: #4ade80;
+    stroke-width: 4;
+    fill: none;
+    stroke-dasharray: 40; /* panjang garis check */
+    stroke-dashoffset: 40;
+    stroke-linecap: round;
+    animation: drawCheck 0.7s 0.6s forwards; /* delay setelah circle */
+}
+
+/* Keyframes animasi */
 @keyframes drawCircle { to { stroke-dashoffset: 0; } }
 @keyframes drawCheck { to { stroke-dashoffset: 0; } }
 @keyframes fadeInScale { from {opacity:0; transform:scale(0.5);} to {opacity:1; transform:scale(1);} }
@@ -291,19 +303,19 @@ input:focus, textarea:focus {
            </div>
    
            <!-- Tombol ORDER -->
-<button id="orderBtn" class="btn">ORDER</button>
+              <button id="orderBtn" class="btn">ORDER</button>
 
-<!-- Fullscreen Checkmark Overlay -->
-<div id="orderSuccessOverlay">
-    <div class="checkmark-container">
-        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-            <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
-        </svg>
-        <h2>Order Sukses!</h2>
-        <p>Terima kasih, order kamu sudah tercatat.</p>
-    </div>
-</div>
+           <!-- Fullscreen Checkmark Overlay -->
+        <div id="orderSuccessOverlay">
+           <div class="checkmark-container">
+               <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                 <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                 <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
+               </svg>
+             <h2>Order Sukses!</h2>
+             <p>Terima kasih, order kamu sudah tercatat.</p>
+           </div>
+        </div>
         </form>
 
        <!-- Bar metode pembayaran langsung -->
@@ -567,21 +579,29 @@ document.getElementById("applyBtn").addEventListener("click", function() {
 const demoForm = document.getElementById("demoForm");
 const overlay = document.getElementById("orderSuccessOverlay");
 
-// Submit form
-demoForm.addEventListener("submit", async (e) => {
-    e.preventDefault(); // cegah reload
-
-    // Ambil data form (bisa dikirim ke Formspree)
+demoForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
     const formData = new FormData(demoForm);
-    // Simulasi submit sukses (jika pakai Formspree, ganti fetch)
-    overlay.style.display = "flex";
+    try {
+        // submit ke Formspree
+        await fetch(demoForm.action, { method:'POST', body:formData, headers:{'Accept':'application/json'} });
 
-    // Reset form + total
-    demoForm.reset();
-    selectedTotal = 0;
-    discountAmount = 0;
-    appliedVoucher = null;
-    updateTotal();
+        overlay.style.display = "flex"; // tampilkan checkmark
+
+        // reset form & total
+        demoForm.reset();
+        selectedTotal = 0;
+        discountAmount = 0;
+        appliedVoucher = null;
+        updateTotal();
+
+        // hide overlay otomatis 3 detik
+        setTimeout(()=>{ overlay.style.display="none"; }, 3000);
+
+    } catch(err){
+        console.error("Error submit form:", err);
+        alert("Gagal submit, coba lagi.");
+    }
 });
 
 // ======= QRIS TOGGLE =======
