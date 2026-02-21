@@ -3,86 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XZYO STORE | JOKI BLOX FRUIT</title>
+    <title>XZYO STORE | JOKI BLOX FRUITS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --main: #00d2ff; --premium: #3a7bd5; --dark: #020617; }
         body { font-family: 'Inter', sans-serif; background: var(--dark); color: white; margin: 0; padding: 15px; }
         
-        .container { max-width: 1100px; margin: auto; display: flex; flex-direction: column; gap: 20px; }
-        @media (min-width: 850px) { .container { flex-direction: row; align-items: flex-start; } .side { flex: 1.2; position: sticky; top: 20px; } .main-form { flex: 1; } }
+        .container { max-width: 1200px; margin: auto; display: flex; flex-direction: column; gap: 20px; }
+        @media (min-width: 900px) { .container { flex-direction: row; align-items: flex-start; } .side { flex: 1.2; position: sticky; top: 15px; } .main-form { flex: 0.8; } }
 
         .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
         h2, h3 { color: var(--main); margin-top: 0; text-transform: uppercase; letter-spacing: 1px; }
 
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: white; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: white; box-sizing: border-box; outline: none; transition: 0.3s; font-size: 14px; }
         input:focus, textarea:focus { border-color: var(--main); box-shadow: 0 0 10px var(--main); }
 
-        /* LIST TABEL HARGA MEWAH */
-        .price-list { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .price-list tr { border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .price-list tr:hover { background: rgba(0, 210, 255, 0.05); border-left: 3px solid var(--main); }
-        .price-list td { padding: 12px 8px; font-size: 14px; }
-        .price-list td:last-child { text-align: right; color: #4ade80; font-weight: bold; }
+        /* LIST HARGA SCROLLABLE */
+        .scroll-list { max-height: 550px; overflow-y: auto; padding-right: 10px; margin-top: 15px; }
+        .category-title { background: linear-gradient(90deg, rgba(0, 210, 255, 0.2), transparent); padding: 8px 12px; margin: 15px 0 5px 0; font-weight: bold; font-size: 13px; border-left: 4px solid var(--main); color: var(--main); text-transform: uppercase; }
+        
+        .price-list { width: 100%; border-collapse: collapse; }
+        .price-list tr { border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; cursor: default; }
+        .price-list tr:hover { background: rgba(0, 210, 255, 0.08); border-left: 3px solid var(--main); }
+        .price-list td { padding: 10px 8px; font-size: 13px; color: #cbd5e1; }
+        .price-list td:last-child { text-align: right; color: #4ade80; font-weight: bold; min-width: 80px; }
 
-        .btn { 
-            width: 100%; padding: 15px; border: none; border-radius: 10px; 
-            background: linear-gradient(45deg, var(--main), var(--premium));
-            color: white; font-weight: bold; cursor: pointer; margin-top: 15px;
-            transition: 0.3s;
-        }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; background: linear-gradient(45deg, var(--main), var(--premium)); color: white; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.3s; text-transform: uppercase; }
         .btn:hover { filter: brightness(1.2); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4); }
 
         .pass-box { position: relative; }
-        .eye { position: absolute; right: 12px; top: 22px; cursor: pointer; color: var(--main); }
+        .eye { position: absolute; right: 12px; top: 22px; cursor: pointer; color: var(--main); z-index: 10; }
         
-        #pay-area { display: none; margin-top: 20px; text-align: center; background: white; color: black; padding: 20px; border-radius: 15px; }
-        #pay-area img { width: 180px; border-radius: 10px; margin-bottom: 10px; }
+        #pay-area { display: none; margin-top: 20px; text-align: center; background: white; color: black; padding: 20px; border-radius: 15px; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        #pay-area img { width: 180px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #ddd; }
         #vm { font-size: 12px; font-weight: bold; margin-bottom: 10px; }
+
+        /* Custom Scrollbar */
+        .scroll-list::-webkit-scrollbar { width: 4px; }
+        .scroll-list::-webkit-scrollbar-thumb { background: var(--main); border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="main-form card">
-        <h2>ORDER JOKI</h2>
+        <h2>ORDER FORM</h2>
         <form action="https://formspree.io/f/xzyostore@gmail.com" method="POST" id="jokiForm">
-            <input type="text" name="User" placeholder="USN RBLX" required>
+            <input type="text" name="USN_RBLX" placeholder="USN RBLX" required>
             <div class="pass-box">
-                <input type="password" name="Pass" id="p" placeholder="PW RBLX" required>
+                <input type="password" name="PW_RBLX" id="p" placeholder="PW RBLX" required>
                 <i class="fas fa-eye eye" onclick="document.getElementById('p').type = (document.getElementById('p').type === 'password' ? 'text' : 'password')"></i>
             </div>
-            <input type="number" name="WA" placeholder="NO WA (08xxx)" required>
-            
-            <textarea name="Joki_Apa" rows="2" placeholder="JOKI APA LEK? (Contoh: Leveling 1000 level)" required></textarea>
+            <input type="number" name="NO_WA" placeholder="NO WA (08xxx)" required>
+            <textarea name="JOKI_APA_LEK" rows="3" placeholder="JOKI APA LEK? (Tulis detail pesananmu di sini)" required></textarea>
             
             <input type="text" id="v" placeholder="KODE VOUCHER" oninput="cekV()">
             <div id="vm"></div>
 
-            <button type="button" class="btn" onclick="gas()">BAYAR SEKARANG</button>
+            <button type="button" class="btn" onclick="gas()">GAS BAYAR SEKARANG</button>
         </form>
+
+        <div id="pay-area">
+            <b style="font-size: 16px;">SCAN QRIS XZYO STORE</b><br>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://drive.google.com/file/d/1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt/view" alt="QRIS">
+            <div style="text-align:left; font-size:13px; line-height: 1.6; background: #f8fafc; padding: 12px; border-radius: 10px; margin-top: 10px;">
+                <b>DANA:</b> 089677329404 <br>
+                <b>GOPAY / OVO:</b> 089517154561 <br>
+                <small>*Biaya admin QRIS berlaku</small>
+            </div>
+            <button type="submit" form="jokiForm" class="btn">KONFIRMASI SUDAH BAYAR</button>
+        </div>
     </div>
 
     <div class="side card">
-        <h3>LIST JOKI BLOX FRUIT</h3>
-        <table class="price-list">
-            <tr><td><i class="fas fa-level-up-alt"></i> Leveling (Per 100 Lvl)</td><td>Rp 5k</td></tr>
-            <tr><td><i class="fas fa-star"></i> Mastery Fruit/Sword</td><td>Rp 15k</td></tr>
-            <tr><td><i class="fas fa-fist-raised"></i> Godhuman</td><td>Rp 70k</td></tr>
-            <tr><td><i class="fas fa-bolt"></i> Race V4 (Full)</td><td>Rp 50k</td></tr>
-            <tr><td><i class="fas fa-khanda"></i> Cursed Dual Katana</td><td>Rp 100k</td></tr>
-            <tr><td><i class="fas fa-guitar"></i> Soul Guitar</td><td>Rp 35k</td></tr>
-            <tr><td><i class="fas fa-crosshairs"></i> Bounty (1M)</td><td>Rp 15k</td></tr>
-        </table>
+        <h3>🏴‍☠️ PRICELIST BLOX FRUITS</h3>
+        <p style="font-size: 11px; opacity: 0.6; margin-top: -5px;">Scroll ke bawah untuk lihat semua jasa</p>
+        
+        <div class="scroll-list">
+            <div class="category-title">👁️ KEN HAKI (INSTINCT)</div>
+            <table class="price-list">
+                <tr><td>✦ 0 – 1.000</td><td>5.000</td></tr>
+                <tr><td>✦ 1.000 – 2.000</td><td>8.000</td></tr>
+                <tr><td>✦ 2.000 – 5.000 (MAX) + V2(Full)</td><td>15.000</td></tr>
+                <tr><td>✦ 0 – 5.000 (MAX) + V2(Full)</td><td>20.000</td></tr>
+            </table>
 
-        <div id="pay-area">
-            <b>SCAN QRIS XZYO</b><br>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://drive.google.com/file/d/1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt/view" alt="QRIS">
-            <div style="text-align:left; font-size:13px; line-height: 1.6;">
-                <b>DANA:</b> 089677329404 <br>
-                <b>GOPAY/OVO:</b> 089517154561
-            </div>
-            <button type="submit" form="jokiForm" class="btn">SAYA SUDAH BAYAR</button>
+            <div class="category-title">🏴‍☠️ JOKI BOUNTY / HONOR</div>
+            <table class="price-list">
+                <tr><td>✦ 0.5M</td><td>10.000</td></tr>
+                <tr><td>✦ 1M</td><td>20.000</td></tr>
+                <tr><td>✦ 5M</td><td>90.000</td></tr>
+                <tr><td>✦ 10M</td><td>180.000</td></tr>
+            </table>
+
+            <div class="category-title">💸 JOKI BELLY</div>
+            <table class="price-list">
+                <tr><td>✦ 1M</td><td>5.000</td></tr>
+                <tr><td>✦ 3M</td><td>10.000</td></tr>
+                <tr><td>✦ 10M</td><td>20.000</td></tr>
+            </table>
+
+            <div class="category-title">🔮 JOKI FRAGMENT</div>
+            <table class="price-list">
+                <tr><td>✦ 1K</td><td>1.000</td></tr>
+                <tr><td>✦ 5K</td><td>4.000</td></tr>
+                <tr><td>✦ 10K</td><td>8.000</td></tr>
+                <tr><td>✦ 20K</td><td>15.000</td></tr>
+            </table>
+
+            <div class="category-title">🔥 JOKI LEVEL</div>
+            <table class="price-list">
+                <tr><td>✦ 0 – 100</td><td>3.000</td></tr>
+                <tr><td>✦ 1 – 700</td><td>15.000</td></tr>
+                <tr><td>✦ 700 – 1.500</td><td>15.000</td></tr>
+                <tr><td>✦ 1.500 – MAX</td><td>20.000</td></tr>
+            </table>
+
+            <div class="category-title">🌊 UNLOCK SEA</div>
+            <table class="price-list">
+                <tr><td>✦ Unlock Sea 2 / 3</td><td>5.000</td></tr>
+            </table>
+
+            <div class="category-title">⚔️ JOKI MASTERY</div>
+            <table class="price-list">
+                <tr><td>✦ 100 Mastery (Fruit/Sword/FS)</td><td>5.000</td></tr>
+            </table>
+
+            <div class="category-title">💥 RAID SERVICE</div>
+            <table class="price-list">
+                <tr><td>✦ Raid Biasa (Max)</td><td>5.000</td></tr>
+                <tr><td>✦ Raid Buddha / Dough (Max)</td><td>10.000</td></tr>
+            </table>
+
+            <div class="category-title">👑 EXCLUSIVE ITEM / BOSS</div>
+            <table class="price-list">
+                <tr><td>✦ Leviathan Heart / Scale</td><td>45.000</td></tr>
+                <tr><td>✦ Freeze Hydra (Wajib Draco V3)</td><td>45.000</td></tr>
+                <tr><td>✦ Blue Gear</td><td>10.000</td></tr>
+                <tr><td>✦ TOTS / Indra / D-King</td><td>10.000</td></tr>
+                <tr><td>✦ Tushita / Yama</td><td>8.000</td></tr>
+                <tr><td>✦ CDK (Cursed Dual Katana)</td><td>20.000</td></tr>
+                <tr><td>✦ Soul Guitar / Godhuman</td><td>30.000</td></tr>
+                <tr><td>✦ TTK (True Triple Katana)</td><td>25.000</td></tr>
+                <tr><td>✦ Dragon Heart / Storm</td><td>20.000</td></tr>
+                <tr><td>✦ Shark Anchor / Fox Lamp</td><td>30.000</td></tr>
+                <tr><td>✦ Hallow Scythe / Dark Dagger</td><td>30.000</td></tr>
+                <tr><td>✦ Rengoku / Saber</td><td>5.000</td></tr>
+            </table>
+
+            <div class="category-title">🧬 RACE SERVICE</div>
+            <table class="price-list">
+                <tr><td>✦ Unlock Ghoul / Cyborg</td><td>15.000</td></tr>
+                <tr><td>✦ Race V1 – V3</td><td>8.000</td></tr>
+                <tr><td>✦ Race V4</td><td>10.000</td></tr>
+                <tr><td>✦ Draco (Full)</td><td>20.000</td></tr>
+                <tr><td>✦ Draco V4</td><td>15.000</td></tr>
+            </table>
         </div>
     </div>
 </div>
@@ -94,7 +171,7 @@
         const vouchers = { "code": 15, "2ejhxu": 20 };
 
         if (vouchers[code]) {
-            msg.innerHTML = "✅ DISKON " + vouchers[code] + "% AKTIF!";
+            msg.innerHTML = "✅ DISKON " + vouchers[code] + "% AKTIF LEK!";
             msg.style.color = "#00d2ff";
         } else if (code === "") {
             msg.innerHTML = "";
@@ -105,15 +182,14 @@
     }
 
     function gas() {
-        // Cek input simple
         const inputs = document.querySelectorAll('#jokiForm input[required], #jokiForm textarea[required]');
         let valid = true;
         inputs.forEach(i => { if(!i.value) valid = false; });
 
-        if(!valid) return alert("Isi dulu semua datanya lek!");
+        if(!valid) return alert("Eits, isi dulu semua datanya lek!");
 
         document.getElementById('pay-area').style.display = 'block';
-        if(window.innerWidth < 850) {
+        if(window.innerWidth < 900) {
             document.getElementById('pay-area').scrollIntoView({behavior:'smooth'});
         }
     }
