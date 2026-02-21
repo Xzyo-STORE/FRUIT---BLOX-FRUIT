@@ -322,6 +322,7 @@ input:focus, textarea:focus {
 
        <!-- Bar metode pembayaran langsung -->
          <div class="payment-bar">
+              <i class="fa-solid fa-walet"></i><br>
            <div><b>DANA:</b> 089677329404</div>
            <div><b>GOPAY / OVO:</b> 089517154561</div>
          </div>
@@ -331,7 +332,7 @@ input:focus, textarea:focus {
 
 <!-- Container QRIS -->
 <div id="qrisArea" style="display:none; margin-top:10px; text-align:center;">
-    <b style="font-size:16px;">SCAN QRIS XZYO STORE</b><br>
+    <b style="font-size:16px;">QRIS ALL PAYMENT XZYO STORE</b><br>
     <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://drive.google.com/file/d/1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt/view" alt="QRIS" style="margin:10px 0; width:200px; height:200px;">
     <br>
     <button id="closeQrisBtn" class="btn">Tutup QRIS</button>
@@ -526,9 +527,9 @@ let appliedVoucher = null;
 
 // Voucher list: kode => diskon %
 const vouchers = {
-    "FEB2026": 10,
-    "PROMO20": 20,
-    "VIP5": 5
+    "FEB2026": { discount: 15, expires: "2026-02-28" },
+    "PROMO20": { discount: 15, },
+    "ADMING4NT3NG": { discount: 100, }
 };
 
 // ======= ITEM SELECTION =======
