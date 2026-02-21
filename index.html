@@ -505,24 +505,28 @@ input:focus, textarea:focus {
     </div>
 </div>
 <script>
+// ======= GLOBAL VARIABLES =======
 let selectedTotal = 0;
 let discountAmount = 0;
 let appliedVoucher = null;
 
+// Voucher list: kode => diskon %
 const vouchers = {
     "FEB2026": 10,
     "PROMO20": 20,
     "VIP5": 5
 };
 
+// ======= ITEM SELECTION =======
 document.querySelectorAll(".item-joki").forEach(item => {
     item.addEventListener("click", function() {
         const price = parseInt(this.dataset.price);
-        selectedTotal += price;
+        selectedTotal += price; // Tambahkan ke total
         updateTotal();
     });
 });
 
+// ======= UPDATE TOTAL =======
 function updateTotal() {
     let finalTotal = selectedTotal - discountAmount;
     if (finalTotal < 0) finalTotal = 0;
@@ -531,8 +535,8 @@ function updateTotal() {
         "Rp " + finalTotal.toLocaleString("id-ID");
 }
 
+// ======= APPLY VOUCHER =======
 document.getElementById("applyBtn").addEventListener("click", function() {
-
     if (appliedVoucher !== null) {
         alert("Hanya bisa 1 voucher per transaksi!");
         return;
@@ -540,7 +544,8 @@ document.getElementById("applyBtn").addEventListener("click", function() {
 
     const code = document.getElementById("voucherInput").value.toUpperCase().trim();
 
-    if (!vouchers[code]) {
+    // Validasi voucher
+    if (!(code in vouchers)) {
         alert("Kode tidak valid!");
         return;
     }
@@ -552,47 +557,49 @@ document.getElementById("applyBtn").addEventListener("click", function() {
 
     const percent = vouchers[code];
     discountAmount = selectedTotal * (percent / 100);
-
     appliedVoucher = code;
     updateTotal();
 
     alert("Voucher " + percent + "% berhasil digunakan!");
 });
-    
-// ORDER overlay
+
+// ======= ORDER FORM & CHECKMARK OVERLAY =======
 const demoForm = document.getElementById("demoForm");
 const overlay = document.getElementById("orderSuccessOverlay");
-const closeOverlayBtn = document.getElementById("closeOverlayBtn");
 
-demoForm.addEventListener("submit", (e) => {
+// Submit form
+demoForm.addEventListener("submit", async (e) => {
     e.preventDefault(); // cegah reload
 
-    // Simulasi submit sukses
+    // Ambil data form (bisa dikirim ke Formspree)
+    const formData = new FormData(demoForm);
+    // Simulasi submit sukses (jika pakai Formspree, ganti fetch)
     overlay.style.display = "flex";
 
-    // Reset form opsional
+    // Reset form + total
     demoForm.reset();
+    selectedTotal = 0;
+    discountAmount = 0;
+    appliedVoucher = null;
+    updateTotal();
 });
 
-// tombol tutup overlay
-closeOverlayBtn.addEventListener("click", () => {
-    overlay.style.display = "none";
-});
-
-// QRIS toggle
+// ======= QRIS TOGGLE =======
 const showQrisBtn = document.getElementById("showQrisBtn");
 const qrisArea = document.getElementById("qrisArea");
 const closeQrisBtn = document.getElementById("closeQrisBtn");
 
-showQrisBtn.addEventListener("click", () => {
-    qrisArea.style.display = "block";
-    showQrisBtn.style.display = "none"; // sembunyikan tombol scan
-});
+if (showQrisBtn && qrisArea && closeQrisBtn) {
+    showQrisBtn.addEventListener("click", () => {
+        qrisArea.style.display = "block";
+        showQrisBtn.style.display = "none";
+    });
 
-closeQrisBtn.addEventListener("click", () => {
-    qrisArea.style.display = "none";
-    showQrisBtn.style.display = "block"; // munculkan tombol scan lagi
-});
+    closeQrisBtn.addEventListener("click", () => {
+        qrisArea.style.display = "none";
+        showQrisBtn.style.display = "block";
+    });
+}
 </script>
 </body>
 </html>
