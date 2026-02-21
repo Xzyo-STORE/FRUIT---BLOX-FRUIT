@@ -561,14 +561,21 @@ document.getElementById("applyBtn").addEventListener("click", function() {
 });
     
 // ORDER overlay
-const orderBtn = document.getElementById("orderBtn");
+const demoForm = document.getElementById("demoForm");
 const overlay = document.getElementById("orderSuccessOverlay");
 const closeOverlayBtn = document.getElementById("closeOverlayBtn");
 
-orderBtn.addEventListener("click", () => {
+demoForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // cegah reload
+
+    // Simulasi submit sukses
     overlay.style.display = "flex";
+
+    // Reset form opsional
+    demoForm.reset();
 });
 
+// tombol tutup overlay
 closeOverlayBtn.addEventListener("click", () => {
     overlay.style.display = "none";
 });
