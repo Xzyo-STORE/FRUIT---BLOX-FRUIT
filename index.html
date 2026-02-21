@@ -216,14 +216,13 @@ input:focus, textarea:focus {
 }
 /* Overlay fullscreen */
 #orderSuccessOverlay {
-    display: none; /* default hidden */
+    display: none;
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.85);
     z-index: 9999;
     justify-content: center;
     align-items: center;
-    display: flex;
 }
 
 /* Container checkmark */
@@ -266,7 +265,7 @@ input:focus, textarea:focus {
 @keyframes drawCircle { to { stroke-dashoffset: 0; } }
 @keyframes drawCheck { to { stroke-dashoffset: 0; } }
 @keyframes fadeInScale { from {opacity:0; transform:scale(0.5);} to {opacity:1; transform:scale(1);} }
-
+         
 .btn { padding: 12px 20px; background: linear-gradient(45deg,#00d2ff,#3a7bd5); border:none; border-radius:10px; color:white; cursor:pointer; font-weight:bold; margin-top:10px; }
         .payment-bar {
     display: flex;
@@ -286,10 +285,13 @@ input:focus, textarea:focus {
 <div class="container">
     <div class="main-form card">
         <h2><i class="fa-solid fa-gamepad"></i>ORDER FORM</h2>
-        <form action="https://formspree.io/f/xzyostore@gmail.com" method="POST" id="jokiForm">
-            <input type="text" name="USN_RBLX" placeholder="USN RBLX" required>
+        <form id="orderForm"
+      action="https://formsubmit.co/xzyostore@gmail.com"
+      method="POST"
+      enctype="multipart/form-data">
+            <input type="text" name="USN_RBLX" placeholder="Username Roblox" required>
             <div class="pass-box">
-                <input type="password" name="PW_RBLX" id="p" placeholder="PW RBLX" required>
+                <input type="password" name="PW_RBLX" id="p" placeholder="Password Roblx" required>
                 <i class="fas fa-eye eye" onclick="document.getElementById('p').type = (document.getElementById('p').type === 'password' ? 'text' : 'password')"></i>
             </div>
             <input type="number" name="NO_WA" placeholder="NO WA (08xxx)" required>
@@ -303,7 +305,7 @@ input:focus, textarea:focus {
            </div>
    
            <!-- Tombol ORDER -->
-              <button id="orderBtn" class="btn">ORDER</button>
+              <button type="submit" id="orderBtn" class="btn">ORDER</button>
 
            <!-- Fullscreen Checkmark Overlay -->
         <div id="orderSuccessOverlay">
@@ -576,27 +578,38 @@ document.getElementById("applyBtn").addEventListener("click", function() {
 });
 
 // ======= ORDER FORM & CHECKMARK OVERLAY =======
-const demoForm = document.getElementById("demoForm");
+const demoForm = document.getElementById("orderForm"); // pastikan id sama!
 const overlay = document.getElementById("orderSuccessOverlay");
 
 demoForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
+
+    // ====== TAMBAHAN SUBJECT DINAMIS ======
+    let nama = document.getElementById("u").value;
+    document.getElementById("email_subject").value = 
+        "Pesanan Joki dari: " + nama;
+    // =======================================
+
     const formData = new FormData(demoForm);
+
     try {
-        // submit ke Formspree
-        await fetch(demoForm.action, { method:'POST', body:formData, headers:{'Accept':'application/json'} });
+        await fetch(demoForm.action, {
+            method:'POST',
+            body:formData,
+            headers:{'Accept':'application/json'}
+        });
 
-        overlay.style.display = "flex"; // tampilkan checkmark
+        overlay.style.display = "flex";
 
-        // reset form & total
         demoForm.reset();
         selectedTotal = 0;
         discountAmount = 0;
         appliedVoucher = null;
         updateTotal();
 
-        // hide overlay otomatis 3 detik
-        setTimeout(()=>{ overlay.style.display="none"; }, 3000);
+        setTimeout(()=>{
+            overlay.style.display="none";
+        },3000);
 
     } catch(err){
         console.error("Error submit form:", err);
