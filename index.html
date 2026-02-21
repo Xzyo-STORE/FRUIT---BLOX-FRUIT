@@ -214,28 +214,48 @@ input:focus, textarea:focus {
         position: unset;
     }
 }
-        /* checkmark ala ala wkwkw */
-        .checkmark {
-    font-size: 50px;
-    color: #4ade80; /* hijau */
-    opacity: 0;
-    transform: scale(0.5);
-    transition: all 0.5s ease;
-    display: inline-block;
-    margin-top: 15px;
+#orderSuccessOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
-.checkmark.show {
-    opacity: 1;
-    transform: scale(1);
-    animation: popCheck 0.6s ease;
+.checkmark-container {
+    text-align: center;
+    color: #fff;
+    animation: fadeInScale 0.5s ease forwards;
 }
 
-@keyframes popCheck {
-    0% { transform: scale(0.5); opacity: 0; }
-    50% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
+.checkmark {
+    width: 120px;
+    height: 120px;
+    stroke: #4ade80;
+    stroke-width: 4;
+    stroke-miterlimit: 10;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: drawCheck 0.7s forwards;
 }
+
+.checkmark-circle {
+    stroke: #4ade80;
+    stroke-width: 4;
+    stroke-dasharray: 157;
+    stroke-dashoffset: 157;
+    stroke-linecap: round;
+    animation: drawCircle 0.6s forwards;
+}
+
+@keyframes drawCircle { to { stroke-dashoffset: 0; } }
+@keyframes drawCheck { to { stroke-dashoffset: 0; } }
+@keyframes fadeInScale { from {opacity:0; transform:scale(0.5);} to {opacity:1; transform:scale(1);} }
+
+.btn { padding: 12px 20px; background: linear-gradient(45deg,#00d2ff,#3a7bd5); border:none; border-radius:10px; color:white; cursor:pointer; font-weight:bold; margin-top:10px; }
         .payment-bar {
     display: flex;
     flex-direction: column;
@@ -270,13 +290,21 @@ input:focus, textarea:focus {
              <small id="voucherMessage" style="display:block; margin-top:5px;"></small>
            </div>
    
-           <div id="order-area">
-             <button id="orderBtn" class="btn">Order Sekarang</button>
-             <div id="checkmark" class="checkmark">
-             <i class="fa-solid fa-circle-check"></i>
-             <span id="checkText" class="check-text"></span>
-           </div>
-           </div>
+           <!-- Tombol ORDER -->
+<button id="orderBtn" class="btn">ORDER</button>
+
+<!-- Fullscreen Checkmark Overlay -->
+<div id="orderSuccessOverlay">
+    <div class="checkmark-container">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
+        </svg>
+        <h2>Order Sukses!</h2>
+        <p>Terima kasih, order kamu sudah tercatat.</p>
+        <button id="closeOverlayBtn" class="btn">Tutup</button>
+    </div>
+</div>
         </form>
 
        <!-- Bar metode pembayaran langsung -->
@@ -285,15 +313,16 @@ input:focus, textarea:focus {
            <div><b>GOPAY / OVO:</b> 089517154561</div>
          </div>
 
-       <!-- Tombol QRIS -->
-          <button id="showQrisBtn" class="btn" style="margin-top:10px;">Scan QRIS</button>
+       <!-- Tombol Scan QRIS -->
+<button id="showQrisBtn" class="btn" style="margin-top:10px;">Scan QRIS</button>
 
-       <!-- Container QRIS -->
-         <div id="qrisArea" style="display:none; margin-top:10px;">
-           <b style="font-size: 16px;">SCAN QRIS XZYO STORE</b><br>
-           <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://drive.google.com/file/d/1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt/view" alt="QRIS" style="margin:10px 0; width:200px; height:200px;">
-           <button id="closeQrisBtn" class="btn" style="margin-top:10px;">Tutup QRIS</button>
-        </div>
+<!-- Container QRIS -->
+<div id="qrisArea" style="display:none; margin-top:10px; text-align:center;">
+    <b style="font-size:16px;">SCAN QRIS XZYO STORE</b><br>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://drive.google.com/file/d/1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt/view" alt="QRIS" style="margin:10px 0; width:200px; height:200px;">
+    <br>
+    <button id="closeQrisBtn" class="btn">Tutup QRIS</button>
+</div>
     </div>
 
     <div class="side card">
@@ -531,46 +560,29 @@ document.getElementById("applyBtn").addEventListener("click", function() {
     alert("Voucher " + percent + "% berhasil digunakan!");
 });
     
-    const orderBtn = document.getElementById("orderBtn");
-const checkmark = document.getElementById("checkmark");
+// ORDER overlay
+const orderBtn = document.getElementById("orderBtn");
+const overlay = document.getElementById("orderSuccessOverlay");
+const closeOverlayBtn = document.getElementById("closeOverlayBtn");
 
 orderBtn.addEventListener("click", () => {
-    // tampilkan checkmark
-    checkmark.classList.add("show");
-
-    // hide lagi setelah 2 detik
-    setTimeout(() => {
-        checkmark.classList.remove("show");
-    }, 2000);
-
-    // panggil fungsi order / hitung total disini
+    overlay.style.display = "flex";
 });
 
-const orderForm = document.getElementById("orderForm");
-
-orderForm.addEventListener("submit", () => {
-    let subjectInput = orderForm.querySelector('input[name="_subject"]');
-    if (!subjectInput) {
-        subjectInput = document.createElement("input");
-        subjectInput.type = "hidden";
-        subjectInput.name = "_subject";
-        orderForm.appendChild(subjectInput);
-    }
-
-    const nama = orderForm.namaJoki.value;
-    subjectInput.value = `Form Joki dari ${nama}`;
+closeOverlayBtn.addEventListener("click", () => {
+    overlay.style.display = "none";
 });
-    const showQrisBtn = document.getElementById("showQrisBtn");
-const closeQrisBtn = document.getElementById("closeQrisBtn");
+
+// QRIS toggle
+const showQrisBtn = document.getElementById("showQrisBtn");
 const qrisArea = document.getElementById("qrisArea");
+const closeQrisBtn = document.getElementById("closeQrisBtn");
 
-// Klik tombol "Scan QRIS" → munculkan QRIS
 showQrisBtn.addEventListener("click", () => {
     qrisArea.style.display = "block";
     showQrisBtn.style.display = "none"; // sembunyikan tombol scan
 });
 
-// Klik tombol "Tutup QRIS" → sembunyikan QRIS
 closeQrisBtn.addEventListener("click", () => {
     qrisArea.style.display = "none";
     showQrisBtn.style.display = "block"; // munculkan tombol scan lagi
