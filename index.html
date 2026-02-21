@@ -3,139 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XZYO STORE | JOKI PREMIUM</title>
+    <title>XZYO STORE | JOKI BLOX FRUIT</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --main: #00d2ff; --premium: #3a7bd5; --dark: #050a14; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: white; margin: 0; padding: 15px; }
+        :root { --main: #00d2ff; --premium: #3a7bd5; --dark: #020617; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark); color: white; margin: 0; padding: 15px; }
         
-        .container { max-width: 1000px; margin: auto; display: flex; flex-direction: column; gap: 15px; }
-        @media (min-width: 800px) { .container { flex-direction: row; } .side { flex: 1; } .main-form { flex: 1.5; } }
+        .container { max-width: 1100px; margin: auto; display: flex; flex-direction: column; gap: 20px; }
+        @media (min-width: 850px) { .container { flex-direction: row; align-items: flex-start; } .side { flex: 1.2; position: sticky; top: 20px; } .main-form { flex: 1; } }
 
-        .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        
-        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: white; box-sizing: border-box; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--main); box-shadow: 0 0 8px var(--main); }
-        
-        /* OPSI JOKI DENGAN STROKE BIRU */
-        .grid-joki { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 10px 0; }
-        .item-joki { 
-            background: #111; border: 2px solid transparent; padding: 15px; border-radius: 12px; 
-            text-align: center; cursor: pointer; transition: 0.2s; 
-        }
-        /* Efek Hover & Klik */
-        .item-joki:hover { border-color: var(--main); box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); transform: translateY(-3px); }
-        .item-joki.active { border-color: var(--main); background: rgba(0, 210, 255, 0.15); box-shadow: 0 0 20px var(--main); }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        h2, h3 { color: var(--main); margin-top: 0; text-transform: uppercase; letter-spacing: 1px; }
 
-        .item-joki i { font-size: 22px; color: var(--main); margin-bottom: 5px; }
-        .item-joki b { display: block; font-size: 14px; }
-        .item-joki small { color: #4ade80; font-weight: bold; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #000; color: white; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus, textarea:focus { border-color: var(--main); box-shadow: 0 0 10px var(--main); }
+
+        /* LIST TABEL HARGA MEWAH */
+        .price-list { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .price-list tr { border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .price-list tr:hover { background: rgba(0, 210, 255, 0.05); border-left: 3px solid var(--main); }
+        .price-list td { padding: 12px 8px; font-size: 14px; }
+        .price-list td:last-child { text-align: right; color: #4ade80; font-weight: bold; }
 
         .btn { 
             width: 100%; padding: 15px; border: none; border-radius: 10px; 
             background: linear-gradient(45deg, var(--main), var(--premium));
-            color: white; font-weight: bold; cursor: pointer; margin-top: 10px;
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+            color: white; font-weight: bold; cursor: pointer; margin-top: 15px;
+            transition: 0.3s;
         }
-        .btn:hover { filter: brightness(1.2); transform: scale(1.02); }
+        .btn:hover { filter: brightness(1.2); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4); }
 
-        #pay-area { display: none; margin-top: 15px; text-align: center; background: white; color: black; padding: 15px; border-radius: 15px; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        #pay-area img { width: 180px; margin: 10px 0; border: 1px solid #eee; border-radius: 8px; }
-        
         .pass-box { position: relative; }
-        .eye { position: absolute; right: 12px; top: 20px; cursor: pointer; color: var(--main); }
-        #vm { font-weight: bold; font-size: 13px; margin-top: -5px; margin-bottom: 10px; }
+        .eye { position: absolute; right: 12px; top: 22px; cursor: pointer; color: var(--main); }
+        
+        #pay-area { display: none; margin-top: 20px; text-align: center; background: white; color: black; padding: 20px; border-radius: 15px; }
+        #pay-area img { width: 180px; border-radius: 10px; margin-bottom: 10px; }
+        #vm { font-size: 12px; font-weight: bold; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="main-form card">
-        <h2 style="margin:0; color:var(--main); letter-spacing: 2px;">XZYO STORE</h2>
-        <p style="font-size: 12px; opacity: 0.6; margin-bottom: 20px;">Fast Response & Trusted Joki Roblox</p>
-        
+        <h2>ORDER JOKI</h2>
         <form action="https://formspree.io/f/xzyostore@gmail.com" method="POST" id="jokiForm">
             <input type="text" name="User" placeholder="USN RBLX" required>
             <div class="pass-box">
                 <input type="password" name="Pass" id="p" placeholder="PW RBLX" required>
-                <i class="fas fa-eye eye" onclick="togglePw()"></i>
+                <i class="fas fa-eye eye" onclick="document.getElementById('p').type = (document.getElementById('p').type === 'password' ? 'text' : 'password')"></i>
             </div>
             <input type="number" name="WA" placeholder="NO WA (08xxx)" required>
+            
+            <textarea name="Joki_Apa" rows="2" placeholder="JOKI APA LEK? (Contoh: Leveling 1000 level)" required></textarea>
             
             <input type="text" id="v" placeholder="KODE VOUCHER" oninput="cekV()">
             <div id="vm"></div>
 
-            <b style="font-size: 14px; color: var(--main);">PILIH PAKET JOKI:</b>
-            <div class="grid-joki">
-                <div class="item-joki" onclick="pilih(this, 'Leveling', '10k')"><i class="fas fa-bolt"></i><b>Leveling</b><small>10k</small></div>
-                <div class="item-joki" onclick="pilih(this, 'Bounty', '20k')"><i class="fas fa-crosshairs"></i><b>Bounty</b><small>20k</small></div>
-                <div class="item-joki" onclick="pokus(this, 'Raid', '15k')"><i class="fas fa-ship"></i><b>Raid</b><small>15k</small></div>
-                <div class="item-joki" onclick="pilih(this, 'Full Pack', '50k')"><i class="fas fa-crown"></i><b>Full Pack</b><small>50k</small></div>
-            </div>
-
-            <input type="hidden" name="Paket" id="pk">
-            <button type="button" class="btn" onclick="gas()">GAS ORDER LEK!</button>
+            <button type="button" class="btn" onclick="gas()">BAYAR SEKARANG</button>
         </form>
     </div>
 
     <div class="side card">
-        <h3 style="margin:0"><i class="fas fa-wallet"></i> PEMBAYARAN</h3>
-        <p id="tutor" style="font-size: 13px; color: #94a3b8;">Selesaikan form untuk melihat detail pembayaran.</p>
-        
+        <h3>LIST JOKI BLOX FRUIT</h3>
+        <table class="price-list">
+            <tr><td><i class="fas fa-level-up-alt"></i> Leveling (Per 100 Lvl)</td><td>Rp 5k</td></tr>
+            <tr><td><i class="fas fa-star"></i> Mastery Fruit/Sword</td><td>Rp 15k</td></tr>
+            <tr><td><i class="fas fa-fist-raised"></i> Godhuman</td><td>Rp 70k</td></tr>
+            <tr><td><i class="fas fa-bolt"></i> Race V4 (Full)</td><td>Rp 50k</td></tr>
+            <tr><td><i class="fas fa-khanda"></i> Cursed Dual Katana</td><td>Rp 100k</td></tr>
+            <tr><td><i class="fas fa-guitar"></i> Soul Guitar</td><td>Rp 35k</td></tr>
+            <tr><td><i class="fas fa-crosshairs"></i> Bounty (1M)</td><td>Rp 15k</td></tr>
+        </table>
+
         <div id="pay-area">
-            <b style="font-size: 14px;">SILAHKAN SCAN QRIS</b><br>
+            <b>SCAN QRIS XZYO</b><br>
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://drive.google.com/file/d/1emJk_GFVcRN6Dd0Mnha_MrNyGHxL8QLt/view" alt="QRIS">
-            <div style="text-align:left; font-size:13px; background: #f1f5f9; padding: 10px; border-radius: 8px;">
+            <div style="text-align:left; font-size:13px; line-height: 1.6;">
                 <b>DANA:</b> 089677329404 <br>
                 <b>GOPAY/OVO:</b> 089517154561
             </div>
-            <button type="submit" form="jokiForm" class="btn">SAYA SUDAH TRANSFER</button>
+            <button type="submit" form="jokiForm" class="btn">SAYA SUDAH BAYAR</button>
         </div>
     </div>
 </div>
 
 <script>
-    // SISTEM VOUCHER SESUAI REQUEST
     function cekV() {
-        const code = document.getElementById('v').value; // Ambil input
+        const code = document.getElementById('v').value;
         const msg = document.getElementById('vm');
-        
-        // Data Voucher (Tambah disini Lek)
-        const vouchers = {
-            "code": 15,
-            "2ejhxu": 20,
-            "XZYO": 50 // Contoh kalau mau tambah
-        };
+        const vouchers = { "code": 15, "2ejhxu": 20 };
 
         if (vouchers[code]) {
-            msg.innerHTML = "✅ KODE BERHASIL! DISKON " + vouchers[code] + "%";
+            msg.innerHTML = "✅ DISKON " + vouchers[code] + "% AKTIF!";
             msg.style.color = "#00d2ff";
         } else if (code === "") {
             msg.innerHTML = "";
         } else {
-            msg.innerHTML = "❌ KODE SALAH";
+            msg.innerHTML = "❌ KODE TIDAK VALID";
             msg.style.color = "#ff4d4d";
         }
     }
 
-    function togglePw() {
-        const p = document.getElementById('p');
-        p.type = p.type === 'password' ? 'text' : 'password';
-    }
-
-    function pilih(el, n, h) {
-        document.querySelectorAll('.item-joki').forEach(i => i.classList.remove('active'));
-        el.classList.add('active');
-        document.getElementById('pk').value = n + " (" + h + ")";
-    }
-
     function gas() {
-        if(!document.getElementById('pk').value) return alert("Pilih paket joki dulu lek!");
+        // Cek input simple
+        const inputs = document.querySelectorAll('#jokiForm input[required], #jokiForm textarea[required]');
+        let valid = true;
+        inputs.forEach(i => { if(!i.value) valid = false; });
+
+        if(!valid) return alert("Isi dulu semua datanya lek!");
+
         document.getElementById('pay-area').style.display = 'block';
-        document.getElementById('tutor').style.display = 'none';
-        if(window.innerWidth < 800) document.getElementById('pay-area').scrollIntoView({behavior:'smooth'});
+        if(window.innerWidth < 850) {
+            document.getElementById('pay-area').scrollIntoView({behavior:'smooth'});
+        }
     }
 </script>
 </body>
