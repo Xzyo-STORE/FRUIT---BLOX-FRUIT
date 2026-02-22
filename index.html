@@ -278,6 +278,18 @@ input:focus, textarea:focus {
     margin-top: 10px;
     border-left: 4px solid #00d2ff;
 }
+         .rules {
+              backround-color: #2b0000;
+              padding: 15px;
+              border-raidus:8px;
+         }
+         
+         .rules i {
+              color: red;
+              text-shadow: 0 0 5px red,
+                 0 0 10px red,
+                 0 0 20px darkred;
+         }
     </style>
 </head>
 <body>
@@ -290,15 +302,15 @@ input:focus, textarea:focus {
       method="POST"
       enctype="multipart/form-data">
              <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_subject" id="email_subject" value="Pesanan Joki Baru">
+             <input type="hidden" name="_subject" id="email_subject" value="Pesanan Joki Baru">
                     
-            <input type="text" name="USN" placeholder="Username Roblox" required>
+            <input type="text" name="Usename" id="usernameInput" placeholder="Username Roblox" required>
             <div class="pass-box">
-                <input type="password" name="PW" id="p" placeholder="Password Roblx" required>
-                <i class="fas fa-eye eye" onclick="document.getElementById('p').type = (document.getElementById('p').type === 'password' ? 'text' : 'password')"></i>
+                <input type="password" name="Password" id="p" placeholder="Password Roblox" required>
+                 <i class="fa-solid fa-eye-slash" onclick="document.getElementById('p').type = (document.getElementById('p').type === 'password' ? 'text' : 'password')"></i>
             </div>
-            <input type="number" name="NO_WA" placeholder="NO WA (08xxx)" required>
-            <textarea name="JOKI_APA_LEK" rows="3" placeholder="JOKI APA LEK? (Tulis detail pesananmu di sini)" required></textarea>
+            <input type="number" name="No wathsapp" placeholder="No WA contoh=08xxx (wajib on)" required>
+            <textarea name="" rows="3" placeholder="JOKI APA LEK? (Tulis detail pesananmu di sini)" required></textarea>
             <input type="file" name="buktiPembayaran" accept="image/*,.pdf" required>
             
            <div class="voucher-area">
@@ -306,7 +318,15 @@ input:focus, textarea:focus {
                <button type="button" id="applyBtn">Apply</button>
                <div id="totalDisplay">Rp 0</div>
            </div>
-   
+
+             <div class="rules">
+                  <h2><i class="fa-solid fa-shield-exclamation" style="color: red; font-size: 24px;"></i>PERINGATAN !!!</h2>
+                  <P>  • MATIKAN VERIFIKASI 2 LANGKAH UNTUK LOGIN
+                       • PASTIKAN SANDI DAN USERNAME ANDA BENAR
+                       • SELAMA PROSES JOKI AKUN TIDAK BOLEH DI LOGIN/DIPAKI
+                       • JIKA SELAMA PROSES AKUNNYA DI TABRAK LEBIH DARI 3x AKAN DIANGGAP DONE
+                  </P>
+             </div>
            <!-- Tombol ORDER -->
               <button type="submit" id="orderBtn" class="btn">ORDER</button>
 
@@ -318,7 +338,7 @@ input:focus, textarea:focus {
                  <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
                </svg>
              <h2>Order Sukses!</h2>
-             <p>Terima kasih, order kamu sudah tercatat.</p>
+             <p>Makasih lek udah order, tunggu aja lek kabar akunnya nmanti ada admin yang chat lek kalau akunnya udah done.</p>
            </div>
         </div>
         </form>
