@@ -299,9 +299,9 @@ input:focus, textarea:focus {
             <input type="file" name="buktiPembayaran" accept="image/*,.pdf" required>
             
            <div class="voucher-area">
-             <input type="text" id="voucherInput" placeholder="Masukkan kode promo">
-             <button id="applyBtn">Gunakan</button>
-             <small id="voucherMessage" style="display:block; margin-top:5px;"></small>
+             <input type="text" id="voucherInput" placeholder="Masukkan code voucher (opsional)">
+               <button id="applyBtn">Apply</button>
+               <div id="totalDisplay">Rp 0</div>
            </div>
    
            <!-- Tombol ORDER -->
@@ -525,59 +525,87 @@ let selectedTotal = 0;
 let discountAmount = 0;
 let appliedVoucher = null;
 
-// Voucher list: kode => diskon %
+/// ===== GLOBAL =====
+let selectedTotal = 0;
+let appliedVoucher = null;
+
+// ===== VOUCHER LIST =====
 const vouchers = {
-    "FEB2026": { discount: 15, expires: "2026-02-28" },
-    "PROMO20": { discount: 15, },
-    "ADMING4NT3NG": { discount: 100, }
+    "FEB2026": { discount: 15 },
+    "PROMO20": { discount: 20 },
+    "ADMING4NT3NG": { discount: 100 }
 };
 
-// ======= ITEM SELECTION =======
+// ===== ITEM CLICK =====
 document.querySelectorAll(".item-joki").forEach(item => {
+
     item.addEventListener("click", function() {
+
         const price = parseInt(this.dataset.price);
-        selectedTotal += price; // Tambahkan ke total
+
+        if (this.classList.contains("active")) {
+            this.classList.remove("active");
+            selectedTotal -= price;
+        } else {
+            this.classList.add("active");
+            selectedTotal += price;
+        }
+
         updateTotal();
     });
+
 });
 
-// ======= UPDATE TOTAL =======
+// ===== UPDATE TOTAL =====
 function updateTotal() {
+
+    let discountAmount = 0;
+
+    if (appliedVoucher && vouchers[appliedVoucher]) {
+        const percent = vouchers[appliedVoucher].discount;
+        discountAmount = selectedTotal * (percent / 100);
+    }
+
     let finalTotal = selectedTotal - discountAmount;
     if (finalTotal < 0) finalTotal = 0;
 
     document.getElementById("totalDisplay").innerText =
-        "Rp " + finalTotal.toLocaleString("id-ID");
+        "Rp " + Math.floor(finalTotal).toLocaleString("id-ID");
 }
 
-// ======= APPLY VOUCHER =======
+// ===== APPLY VOUCHER =====
 document.getElementById("applyBtn").addEventListener("click", function() {
-    if (appliedVoucher !== null) {
-        alert("Hanya bisa 1 voucher per transaksi!");
-        return;
-    }
 
-    const code = document.getElementById("voucherInput").value.toUpperCase().trim();
+    const code = document.getElementById("voucherInput")
+        .value.toUpperCase().trim();
 
-    // Validasi voucher
     if (!(code in vouchers)) {
         alert("Kode tidak valid!");
         return;
     }
 
-    if (selectedTotal === 0) {
-        alert("Pilih layanan dulu!");
-        return;
-    }
-
-    const percent = vouchers[code];
-    discountAmount = selectedTotal * (percent / 100);
+    const percent = vouchers[code].discount;
     appliedVoucher = code;
+
+    // Ubah tampilan harga di list
+    document.querySelectorAll(".item-joki").forEach(item => {
+
+        const originalPrice = parseInt(item.dataset.price);
+        const discountedPrice = originalPrice - (originalPrice * percent / 100);
+
+        const priceText = item.querySelector("span:last-child");
+
+        priceText.innerHTML =
+            `<s>Rp ${originalPrice.toLocaleString("id-ID")}</s><br>
+             Rp ${Math.floor(discountedPrice).toLocaleString("id-ID")}`;
+    });
+
     updateTotal();
 
     alert("Voucher " + percent + "% berhasil digunakan!");
-});
 
+});
+     
 // ======= ORDER FORM & CHECKMARK OVERLAY =======
 const demoForm = document.getElementById("orderForm"); // pastikan id sama!
 const overlay = document.getElementById("orderSuccessOverlay");
