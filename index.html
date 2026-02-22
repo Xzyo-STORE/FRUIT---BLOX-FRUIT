@@ -523,6 +523,16 @@ input:focus, textarea:focus {
     </div>
 </div>
 <script>
+     document.getElementById("orderForm").addEventListener("submit", function(e){
+
+    e.preventDefault(); // ⛔ cegah pindah halaman
+
+    // Ganti Subject Email sesuai Nama
+    let nama = document.getElementById("usernameInput").value;
+    document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
+
+});
+     
 document.addEventListener("DOMContentLoaded", function() {
     // 1. Data Voucher
     const vouchers = {
