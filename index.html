@@ -521,11 +521,7 @@ input:focus, textarea:focus {
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. Inisialisasi Variabel (Harus di dalam DOMContentLoaded)
-    let selectedTotal = 0;
-    let appliedVoucher = null;
-    let selectedItems = []; // Untuk mencatat item yang dipilih
-
+    // 1. Data Voucher
     const vouchers = {
         "FEB2026": { discount: 15 },
         "PROMO20": { discount: 20 },
@@ -533,70 +529,67 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // Elemen DOM
-    const totalDisplay = document.getElementById("totalDisplay");
     const voucherInput = document.getElementById("voucherInput");
-    const textAreaDetail = document.querySelector('textarea[name="JOKI_APA_LEK"]');
+    const applyBtn = document.getElementById("applyBtn");
+    const allJokiItems = document.querySelectorAll(".item-joki");
     const orderForm = document.getElementById("orderForm");
 
-    // 2. Fungsi Update Total & Detail Pesanan
-    function refreshOrderInfo() {
-        // Hitung Diskon
-        let discountPercent = 0;
-        if (appliedVoucher && vouchers[appliedVoucher]) {
-            discountPercent = vouchers[appliedVoucher].discount;
-        }
+    // 2. FUNGSI UTAMA: Mengubah Semua Harga di List
+    function updateAllPrices(discountPercent) {
+        const multiplier = (100 - discountPercent) / 100;
 
-        let discountAmount = selectedTotal * (discountPercent / 100);
-        let finalTotal = selectedTotal - discountAmount;
+        allJokiItems.forEach(item => {
+            // Ambil harga asli dari data-price
+            const hargaAsli = parseInt(item.getAttribute("data-price"));
+            
+            // Hitung harga baru
+            const hargaBaru = hargaAsli * multiplier;
 
-        // Update Tampilan Harga
-        totalDisplay.innerText = "Rp " + Math.floor(finalTotal).toLocaleString("id-ID");
+            // Cari span kedua (tempat teks harga)
+            const spanHarga = item.querySelectorAll("span")[1];
 
-        // Update Textarea Detail Otomatis
-        if (selectedItems.length > 0) {
-            textAreaDetail.value = "PESANAN SAYA:\n- " + selectedItems.join("\n- ") + 
-                                  "\n\nTotal Harga: Rp " + Math.floor(finalTotal).toLocaleString("id-ID");
+            if (spanHarga) {
+                // Update tampilan teks
+                spanHarga.innerText = "Rp " + Math.floor(hargaBaru).toLocaleString("id-ID");
+                
+                // Beri tanda visual kalau harga sudah diskon
+                if (discountPercent > 0) {
+                    spanHarga.style.color = "#4ade80"; // Warna Hijau
+                    spanHarga.style.fontWeight = "bold";
+                } else {
+                    spanHarga.style.color = ""; // Balik ke normal
+                    spanHarga.style.fontWeight = "";
+                }
+            }
+        });
+        
+        // Update display total di bawah input voucher (opsional)
+        const totalDisplay = document.getElementById("totalDisplay");
+        if(discountPercent > 0) {
+            totalDisplay.innerText = "Voucher Aktif: Diskon " + discountPercent + "%";
+            totalDisplay.style.color = "#4ade80";
         } else {
-            textAreaDetail.value = "";
+            totalDisplay.innerText = "Rp 0";
+            totalDisplay.style.color = "";
         }
     }
 
-    // 3. Logika Klik Item Joki
-    document.querySelectorAll(".item-joki").forEach(item => {
-        item.addEventListener("click", function() {
-            const price = parseInt(this.getAttribute("data-price"));
-            const itemName = this.getAttribute("data-name");
-
-            this.classList.toggle("active");
-
-            if (this.classList.contains("active")) {
-                selectedTotal += price;
-                selectedItems.push(itemName);
-            } else {
-                selectedTotal -= price;
-                selectedItems = selectedItems.filter(i => i !== itemName);
-            }
-
-            refreshOrderInfo();
-        });
-    });
-
-    // 4. Logika Apply Voucher
-    document.getElementById("applyBtn").addEventListener("click", function(e) {
-        e.preventDefault(); // Mencegah submit
+    // 3. Logika Klik Tombol Apply Voucher
+    applyBtn.addEventListener("click", function(e) {
+        e.preventDefault(); 
         const code = voucherInput.value.toUpperCase().trim();
 
         if (vouchers[code]) {
-            appliedVoucher = code;
-            alert("Voucher Mantap! Diskon " + vouchers[code].discount + "% Berhasil Dipasang.");
+            const diskon = vouchers[code].discount;
+            alert("Mantap Lek! Voucher " + code + " Aktif. Semua harga dipotong " + diskon + "%");
+            updateAllPrices(diskon);
         } else {
-            appliedVoucher = null;
-            alert("Kode Voucher Salah/Expired Lek!");
+            alert("Kode Voucher Salah Lek!");
+            updateAllPrices(0); // Reset ke harga normal
         }
-        refreshOrderInfo();
     });
 
-    // 5. Logika QRIS Show/Hide
+    // 4. Logika QRIS Show/Hide
     document.getElementById("showQrisBtn").addEventListener("click", function() {
         document.getElementById("qrisArea").style.display = "block";
     });
@@ -604,11 +597,12 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("qrisArea").style.display = "none";
     });
 
-    // 6. Submit Form
-    orderForm.addEventListener("submit", function() {
-        // Tampilkan overlay sukses
-        document.getElementById("orderSuccessOverlay").style.display = "flex";
-    });
+    // 5. Submit Form Overlay
+    if (orderForm) {
+        orderForm.addEventListener("submit", function() {
+            document.getElementById("orderSuccessOverlay").style.display = "flex";
+        });
+    }
 });
 </script>
 </body>
