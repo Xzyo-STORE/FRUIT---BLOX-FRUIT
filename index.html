@@ -521,115 +521,111 @@ input:focus, textarea:focus {
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+    // 1. Inisialisasi Variabel Global di dalam Scope DOM
+    let selectedTotal = 0;
+    let appliedVoucher = null;
 
-let selectedTotal = 0;
-let appliedVoucher = null; // cuma 1 voucher aktif
+    const vouchers = {
+        "FEB2026": { discount: 15 },
+        "PROMO20": { discount: 20 },
+        "ADMING4NT3NG": { discount: 100 }
+    };
 
-const vouchers = {
-    "FEB2026": { discount: 15 },
-    "PROMO20": { discount: 20 },
-    "ADMING4NT3NG": { discount: 100 }
-};
+    const totalDisplay = document.getElementById("totalDisplay");
+    const voucherInput = document.getElementById("voucherInput");
+    const orderForm = document.getElementById("orderForm");
+    const overlay = document.getElementById("orderSuccessOverlay");
 
-// ===== UPDATE TOTAL =====
-function updateTotal() {
+    // 2. Fungsi Update Total (Ditaruh di dalam agar bisa akses variabel di atas)
+    function updateTotal() {
+        let discountPercent = 0;
 
-    let discountPercent = 0;
-
-    if (appliedVoucher && vouchers[appliedVoucher]) {
-        discountPercent = vouchers[appliedVoucher].discount;
-    }
-
-    let discountAmount = selectedTotal * (discountPercent / 100);
-    let finalTotal = selectedTotal - discountAmount;
-
-    if (finalTotal < 0) finalTotal = 0;
-
-    document.getElementById("totalDisplay").innerText =
-        "Rp " + Math.floor(finalTotal).toLocaleString("id-ID");
-}
-
-// ===== ITEM CLICK =====
-document.querySelectorAll(".item-joki").forEach(item => {
-
-    item.addEventListener("click", function() {
-
-        const price = Number(this.dataset.price);
-        this.classList.toggle("active");
-
-        if (this.classList.contains("active")) {
-            selectedTotal += price;
-        } else {
-            selectedTotal -= price;
+        if (appliedVoucher && vouchers[appliedVoucher]) {
+            discountPercent = vouchers[appliedVoucher].discount;
         }
 
+        let discountAmount = selectedTotal * (discountPercent / 100);
+        let finalTotal = selectedTotal - discountAmount;
+
+        if (finalTotal < 0) finalTotal = 0;
+
+        totalDisplay.innerText = "Rp " + Math.floor(finalTotal).toLocaleString("id-ID");
+    }
+
+    // 3. Event Listener Klik Item Joki
+    document.querySelectorAll(".item-joki").forEach(item => {
+        item.addEventListener("click", function() {
+            const price = Number(this.dataset.price);
+            this.classList.toggle("active");
+
+            if (this.classList.contains("active")) {
+                selectedTotal += price;
+            } else {
+                selectedTotal -= price;
+            }
+            updateTotal();
+        });
+    });
+
+    // 4. Tombol Apply Voucher
+    document.getElementById("applyBtn").addEventListener("click", function(e) {
+        e.preventDefault();
+        const code = voucherInput.value.toUpperCase().trim();
+
+        if (vouchers[code]) {
+            appliedVoucher = code;
+            alert("Voucher Berhasil: " + code + " (Diskon " + vouchers[code].discount + "%)");
+        } else {
+            appliedVoucher = null;
+            alert("Kode voucher tidak valid!");
+        }
         updateTotal();
     });
 
-});
+    // 5. Handling Submit Form
+    if (orderForm) {
+        orderForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(orderForm);
 
-// ===== APPLY VOUCHER (OVERWRITE SYSTEM) =====
-document.getElementById("applyBtn").addEventListener("click", function(e){
+            try {
+                // Tambahkan info total harga ke form sebelum dikirim (opsional)
+                formData.append("TOTAL_BAYAR", totalDisplay.innerText);
 
-    e.preventDefault();
+                const response = await fetch(orderForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
 
-    const input = document.getElementById("voucherInput");
-    const code = input.value.toUpperCase().trim();
+                if (response.ok) {
+                    if (overlay) overlay.style.display = "flex";
+                    
+                    // Reset Form & Harga
+                    orderForm.reset();
+                    selectedTotal = 0;
+                    appliedVoucher = null;
+                    document.querySelectorAll(".item-joki").forEach(i => i.classList.remove("active"));
+                    updateTotal();
 
-    if (!(code in vouchers)) {
-        alert("Kode tidak valid!");
-        return;
+                    setTimeout(() => {
+                        if (overlay) overlay.style.display = "none";
+                    }, 3000);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Gagal kirim pesanan. Cek koneksi internetmu.");
+            }
+        });
     }
 
-    appliedVoucher = code; // overwrite voucher lama
+    // 6. QRIS Toggle Logic
+    const qrisArea = document.getElementById("qrisArea");
+    document.getElementById("showQrisBtn").addEventListener("click", () => qrisArea.style.display = "block");
+    document.getElementById("closeQrisBtn").addEventListener("click", () => qrisArea.style.display = "none");
 
-    alert("Voucher aktif: " + code + 
-          " (" + vouchers[code].discount + "%)");
-
+    // Jalankan awal
     updateTotal();
-});
-
-updateTotal();
-
-});
-
-// ==== ORDER FORM ====
-const demoForm = document.getElementById("orderForm");
-const overlay = document.getElementById("orderSuccessOverlay");
-
-if (demoForm) {
-    demoForm.addEventListener("submit", async (e)=>{
-        e.preventDefault();
-
-        const formData = new FormData(demoForm);
-
-        try {
-            await fetch(demoForm.action, {
-                method:'POST',
-                body:formData,
-                headers:{'Accept':'application/json'}
-            });
-
-            if (overlay) overlay.style.display = "flex";
-
-            demoForm.reset();
-            selectedTotal = 0;
-            appliedVoucher = null;
-            updateTotal();
-
-            setTimeout(()=>{
-                if (overlay) overlay.style.display="none";
-            },3000);
-
-        } catch(err){
-            console.error(err);
-            alert("Gagal submit, coba lagi.");
-        }
-    });
-}
-
-updateTotal();
-
 });
 </script>
 </body>
