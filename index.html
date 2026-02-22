@@ -574,7 +574,8 @@ function updateTotal() {
 }
 
 // ===== APPLY VOUCHER =====
-document.getElementById("applyBtn").addEventListener("click", function() {
+document.getElementById("applyBtn").addEventListener("click", function(e) {
+    e.preventDefault(); // pastikan ini mencegah submit
 
     const code = document.getElementById("voucherInput")
         .value.toUpperCase().trim();
@@ -587,23 +588,23 @@ document.getElementById("applyBtn").addEventListener("click", function() {
     const percent = vouchers[code].discount;
     appliedVoucher = code;
 
-    // Ubah tampilan harga di list
+    // UBAH SEMUA HARGA LIST
     document.querySelectorAll(".item-joki").forEach(item => {
 
         const originalPrice = parseInt(item.dataset.price);
-        const discountedPrice = originalPrice - (originalPrice * percent / 100);
+        const discountedPrice = Math.floor(originalPrice - (originalPrice * percent / 100));
 
-        const priceText = item.querySelector("span:last-child");
+        // ambil span terakhir
+        const priceSpan = item.querySelector("span:last-child");
 
-        priceText.innerHTML =
+        priceSpan.innerHTML =
             `<s>Rp ${originalPrice.toLocaleString("id-ID")}</s><br>
-             Rp ${Math.floor(discountedPrice).toLocaleString("id-ID")}`;
+             Rp ${discountedPrice.toLocaleString("id-ID")}`;
     });
 
     updateTotal();
 
     alert("Voucher " + percent + "% berhasil digunakan!");
-
 });
      
 // ======= ORDER FORM & CHECKMARK OVERLAY =======
