@@ -525,6 +525,20 @@ input:focus, textarea:focus {
     </div>
 </div>
 <script>
+     // 5. Logika Kirim Form & Munculkan Overlay
+    if (orderForm) {
+        orderForm.addEventListener("submit", function(e) {
+            // Update Subject Email otomatis sebelum terkirim
+            let nama = document.getElementById("usernameInput").value;
+            document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
+
+            // Munculkan overlay centang hijau
+            document.getElementById("orderSuccessOverlay").style.display = "flex";
+
+            // CATATAN: Jangan pakai e.preventDefault() di sini 
+            // supaya data beneran "terbang" ke emailmu via FormSubmit.
+        });
+    }
      document.addEventListener("DOMContentLoaded", function() {
     // 1. Data Voucher
     const vouchers = {
@@ -601,21 +615,6 @@ input:focus, textarea:focus {
     document.getElementById("closeQrisBtn").addEventListener("click", function() {
         document.getElementById("qrisArea").style.display = "none";
     });
-
-    // 5. Logika Kirim Form & Munculkan Overlay
-    if (orderForm) {
-        orderForm.addEventListener("submit", function(e) {
-            // Update Subject Email otomatis sebelum terkirim
-            let nama = document.getElementById("usernameInput").value;
-            document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
-
-            // Munculkan overlay centang hijau
-            document.getElementById("orderSuccessOverlay").style.display = "flex";
-
-            // CATATAN: Jangan pakai e.preventDefault() di sini 
-            // supaya data beneran "terbang" ke emailmu via FormSubmit.
-        });
-    }
 </script>
 </body>
 </html>
