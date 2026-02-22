@@ -607,6 +607,13 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+     document.querySelector("form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+          document.getElementById("orderForm").addEventListener("submit", function(e){
+        // Ganti Subject Email sesuai Nama
+        let nama = document.getElementById("usernameInput").value;
+        document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
 </script>
 </body>
 </html>
