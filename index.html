@@ -528,9 +528,12 @@ input:focus, textarea:focus {
      document.addEventListener("DOMContentLoaded", function() {
     // 1. Data Voucher
     const vouchers = {
-        "FEB2026": { discount: 15 },
-        "PROMO20": { discount: 20 },
-        "ADMING4NT3NG": { discount: 100 }
+        "FEB2026": { discount: 15, expires: "2026-02-28" },
+        "R3Z4": { discount: 20 },
+        "F4HR1": { discount: 15 },
+        "R4F4": { discount: 15 },
+         //====== code konpensasi keterlambatan proses ======
+        "T1M30FG0LD": { discount: 15, expires: "2026-06-23"}
     };
 
     // Elemen DOM
