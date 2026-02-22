@@ -520,12 +520,9 @@ input:focus, textarea:focus {
     </div>
 </div>
 <script>
-// ======= GLOBAL VARIABLES =======
-let selectedTotal = 0;
-let discountAmount = 0;
-let appliedVoucher = null;
+document.addEventListener("DOMContentLoaded", function() {
 
-/// ===== GLOBAL =====
+// ===== GLOBAL =====
 let selectedTotal = 0;
 let appliedVoucher = null;
 
@@ -541,7 +538,7 @@ document.querySelectorAll(".item-joki").forEach(item => {
 
     item.addEventListener("click", function() {
 
-        const price = parseInt(this.dataset.price);
+        const price = Number(this.getAttribute("data-price"));
 
         if (this.classList.contains("active")) {
             this.classList.remove("active");
@@ -575,7 +572,8 @@ function updateTotal() {
 
 // ===== APPLY VOUCHER =====
 document.getElementById("applyBtn").addEventListener("click", function(e) {
-    e.preventDefault(); // pastikan ini mencegah submit
+
+    e.preventDefault();
 
     const code = document.getElementById("voucherInput")
         .value.toUpperCase().trim();
@@ -585,84 +583,51 @@ document.getElementById("applyBtn").addEventListener("click", function(e) {
         return;
     }
 
-    const percent = vouchers[code].discount;
     appliedVoucher = code;
-
-    // UBAH SEMUA HARGA LIST
-    document.querySelectorAll(".item-joki").forEach(item => {
-
-        const originalPrice = parseInt(item.dataset.price);
-        const discountedPrice = Math.floor(originalPrice - (originalPrice * percent / 100));
-
-        // ambil span terakhir
-        const priceSpan = item.querySelector("span:last-child");
-
-        priceSpan.innerHTML =
-            `<s>Rp ${originalPrice.toLocaleString("id-ID")}</s><br>
-             Rp ${discountedPrice.toLocaleString("id-ID")}`;
-    });
 
     updateTotal();
 
-    alert("Voucher " + percent + "% berhasil digunakan!");
+    alert("Voucher " + vouchers[code].discount + "% aktif!");
 });
-     
-// ======= ORDER FORM & CHECKMARK OVERLAY =======
-const demoForm = document.getElementById("orderForm"); // pastikan id sama!
+
+// ===== ORDER FORM =====
+const demoForm = document.getElementById("orderForm");
 const overlay = document.getElementById("orderSuccessOverlay");
 
-demoForm.addEventListener("submit", async (e)=>{
-    e.preventDefault();
+if (demoForm) {
+    demoForm.addEventListener("submit", async (e)=>{
+        e.preventDefault();
 
-    // ====== TAMBAHAN SUBJECT DINAMIS ======
-    let nama = document.getElementById("u").value;
-    document.getElementById("email_subject").value = 
-        "Pesanan Joki dari: " + nama;
-    // =======================================
+        const formData = new FormData(demoForm);
 
-    const formData = new FormData(demoForm);
+        try {
+            await fetch(demoForm.action, {
+                method:'POST',
+                body:formData,
+                headers:{'Accept':'application/json'}
+            });
 
-    try {
-        await fetch(demoForm.action, {
-            method:'POST',
-            body:formData,
-            headers:{'Accept':'application/json'}
-        });
+            overlay.style.display = "flex";
 
-        overlay.style.display = "flex";
+            demoForm.reset();
+            selectedTotal = 0;
+            appliedVoucher = null;
+            updateTotal();
 
-        demoForm.reset();
-        selectedTotal = 0;
-        discountAmount = 0;
-        appliedVoucher = null;
-        updateTotal();
+            setTimeout(()=>{
+                overlay.style.display="none";
+            },3000);
 
-        setTimeout(()=>{
-            overlay.style.display="none";
-        },3000);
-
-    } catch(err){
-        console.error("Error submit form:", err);
-        alert("Gagal submit, coba lagi.");
-    }
-});
-
-// ======= QRIS TOGGLE =======
-const showQrisBtn = document.getElementById("showQrisBtn");
-const qrisArea = document.getElementById("qrisArea");
-const closeQrisBtn = document.getElementById("closeQrisBtn");
-
-if (showQrisBtn && qrisArea && closeQrisBtn) {
-    showQrisBtn.addEventListener("click", () => {
-        qrisArea.style.display = "block";
-        showQrisBtn.style.display = "none";
-    });
-
-    closeQrisBtn.addEventListener("click", () => {
-        qrisArea.style.display = "none";
-        showQrisBtn.style.display = "block";
+        } catch(err){
+            console.error("Error submit form:", err);
+            alert("Gagal submit, coba lagi.");
+        }
     });
 }
+
+updateTotal();
+
+});
 </script>
 </body>
 </html>
