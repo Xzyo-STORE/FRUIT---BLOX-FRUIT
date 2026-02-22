@@ -291,6 +291,8 @@ input:focus, textarea:focus {
       enctype="multipart/form-data">
              <input type="hidden" name="_captcha" value="false">
              <input type="hidden" name="_subject" id="email_subject" value="Pesanan Joki Baru">
+             
+             <input type="hidden" name="_next" value="https://xzyo-store.github.io/JOKI-BLOX-FRUIT/">
                     
             <input type="text" name="Usename" id="usernameInput" placeholder="Username Roblox" required>
             <div class="pass-box">
@@ -298,7 +300,7 @@ input:focus, textarea:focus {
                 <i class="fas fa-eye eye" onclick="document.getElementById('p').type = (document.getElementById('p').type === 'password' ? 'text' : 'password')"></i>
             </div>
             <input type="number" name="No wathsapp" placeholder="No WA contoh=08xxx (wajib on)" required>
-            <textarea name="" rows="3" placeholder="JOKI APA LEK? (Tulis detail pesananmu di sini)" required></textarea>
+            <textarea name="Detail_Pesanan" rows="3" placeholder="JOKI APA LEK? (Tulis detail pesananmu di sini)" required></textarea>
             <input type="file" name="buktiPembayaran" accept="image/*,.pdf" required>
             
            <div class="voucher-area">
@@ -610,13 +612,20 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("qrisArea").style.display = "none";
     });
 
-    // 5. Submit Form Overlay
+    // 5. Logika Kirim Form & Munculkan Overlay
     if (orderForm) {
-        orderForm.addEventListener("submit", function() {
+        orderForm.addEventListener("submit", function(e) {
+            // Update Subject Email otomatis sebelum terkirim
+            let nama = document.getElementById("usernameInput").value;
+            document.getElementById("email_subject").value = "Pesanan Joki dari: " + nama;
+
+            // Munculkan overlay centang hijau
             document.getElementById("orderSuccessOverlay").style.display = "flex";
+
+            // CATATAN: Jangan pakai e.preventDefault() di sini 
+            // supaya data beneran "terbang" ke emailmu via FormSubmit.
         });
     }
-});
 </script>
 </body>
 </html>
