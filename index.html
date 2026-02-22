@@ -514,6 +514,9 @@ input:focus, textarea:focus {
             </div>
             <div class="item-joki" data-name="Draco V4" data-price="15000">
                 <span>✦ Draco V4</span><span>Rp 15.000</span>
+                 <div class="total-box">
+                     Total: <span id="total-price">Rp 0</span>
+                 </div>
             </div>
         </div>
 
@@ -522,30 +525,45 @@ input:focus, textarea:focus {
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
-// ===== GLOBAL =====
 let selectedTotal = 0;
-let appliedVoucher = null;
+let appliedVoucher = null; // cuma 1 voucher aktif
 
-// ===== VOUCHER LIST =====
 const vouchers = {
     "FEB2026": { discount: 15 },
     "PROMO20": { discount: 20 },
     "ADMING4NT3NG": { discount: 100 }
 };
 
+// ===== UPDATE TOTAL =====
+function updateTotal() {
+
+    let discountPercent = 0;
+
+    if (appliedVoucher && vouchers[appliedVoucher]) {
+        discountPercent = vouchers[appliedVoucher].discount;
+    }
+
+    let discountAmount = selectedTotal * (discountPercent / 100);
+    let finalTotal = selectedTotal - discountAmount;
+
+    if (finalTotal < 0) finalTotal = 0;
+
+    document.getElementById("totalDisplay").innerText =
+        "Rp " + Math.floor(finalTotal).toLocaleString("id-ID");
+}
+
 // ===== ITEM CLICK =====
 document.querySelectorAll(".item-joki").forEach(item => {
 
     item.addEventListener("click", function() {
 
-        const price = Number(this.getAttribute("data-price"));
+        const price = Number(this.dataset.price);
+        this.classList.toggle("active");
 
         if (this.classList.contains("active")) {
-            this.classList.remove("active");
-            selectedTotal -= price;
-        } else {
-            this.classList.add("active");
             selectedTotal += price;
+        } else {
+            selectedTotal -= price;
         }
 
         updateTotal();
@@ -553,44 +571,32 @@ document.querySelectorAll(".item-joki").forEach(item => {
 
 });
 
-// ===== UPDATE TOTAL =====
-function updateTotal() {
-
-    let discountAmount = 0;
-
-    if (appliedVoucher && vouchers[appliedVoucher]) {
-        const percent = vouchers[appliedVoucher].discount;
-        discountAmount = selectedTotal * (percent / 100);
-    }
-
-    let finalTotal = selectedTotal - discountAmount;
-    if (finalTotal < 0) finalTotal = 0;
-
-    document.getElementById("totalDisplay").innerText =
-        "Rp " + Math.floor(finalTotal).toLocaleString("id-ID");
-}
-
-// ===== APPLY VOUCHER =====
-document.getElementById("applyBtn").addEventListener("click", function(e) {
+// ===== APPLY VOUCHER (OVERWRITE SYSTEM) =====
+document.getElementById("applyBtn").addEventListener("click", function(e){
 
     e.preventDefault();
 
-    const code = document.getElementById("voucherInput")
-        .value.toUpperCase().trim();
+    const input = document.getElementById("voucherInput");
+    const code = input.value.toUpperCase().trim();
 
     if (!(code in vouchers)) {
         alert("Kode tidak valid!");
         return;
     }
 
-    appliedVoucher = code;
+    appliedVoucher = code; // overwrite voucher lama
+
+    alert("Voucher aktif: " + code + 
+          " (" + vouchers[code].discount + "%)");
 
     updateTotal();
-
-    alert("Voucher " + vouchers[code].discount + "% aktif!");
 });
 
-// ===== ORDER FORM =====
+updateTotal();
+
+});
+
+// ==== ORDER FORM ====
 const demoForm = document.getElementById("orderForm");
 const overlay = document.getElementById("orderSuccessOverlay");
 
@@ -607,7 +613,7 @@ if (demoForm) {
                 headers:{'Accept':'application/json'}
             });
 
-            overlay.style.display = "flex";
+            if (overlay) overlay.style.display = "flex";
 
             demoForm.reset();
             selectedTotal = 0;
@@ -615,11 +621,11 @@ if (demoForm) {
             updateTotal();
 
             setTimeout(()=>{
-                overlay.style.display="none";
+                if (overlay) overlay.style.display="none";
             },3000);
 
         } catch(err){
-            console.error("Error submit form:", err);
+            console.error(err);
             alert("Gagal submit, coba lagi.");
         }
     });
