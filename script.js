@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIG FIREBASE (Tetap Gunakan Milikmu)
+// CONFIG FIREBASE
 // ==========================================
 const firebaseConfig = {
     apiKey: "AIzaSyAOU2RNedLbO5QpKm9gEHF7KQC9XFACMdc",
@@ -14,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // ==========================================
-// DATA MENU FRUIT DENGAN LOGIK STOK
+// DATA MENU FRUIT
 // ==========================================
 const MENU_FRUIT = [
     { n: "🍎 PHYSICAL FRUIT (VIA TRADE)", header: true },
@@ -42,9 +42,13 @@ let selectedPay = "", currentTid = "", discount = 0;
 
 // RENDER LIST KE HTML
 function init() {
-    // PASTIKAN ID INI SAMA DENGAN DI HTML (fruit-list atau joki-list)
-    const box = document.getElementById('fruit-list') || document.getElementById('joki-list'); 
-    if(!box) return;
+    // Kita cari container-nya
+    const box = document.getElementById('fruit-list'); 
+    if(!box) {
+        console.error("Elemen fruit-list tidak ditemukan!");
+        return;
+    }
+    
     box.innerHTML = ""; 
     
     MENU_FRUIT.forEach((item, index) => {
@@ -59,20 +63,19 @@ function init() {
                     <div style="color:var(--primary); font-size:12px;">Rp ${item.p.toLocaleString()} | Stock: ${item.s}</div>
                 </div>
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <button onclick="${out ? '' : `updateCart(${index}, -1)`}" style="width:28px; height:28px; border-radius:8px; border:none; background:#30363d; color:white; cursor:${out ? 'not-allowed' : 'pointer'};">-</button>
+                    <button onclick="updateCart(${index}, -1)" style="width:28px; height:28px; border-radius:8px; border:none; background:#30363d; color:white; cursor:pointer;">-</button>
                     <span id="qty-${index}" style="font-weight:800; min-width:15px; text-align:center;">0</span>
-                    <button onclick="${out ? '' : `updateCart(${index}, 1)`}" style="width:28px; height:28px; border-radius:8px; border:none; background:${out ? '#21262d' : 'var(--primary)'}; color:${out ? '#484f58' : 'black'}; cursor:${out ? 'not-allowed' : 'pointer'}; font-weight:800;">${out ? 'X' : '+'}</button>
+                    <button onclick="updateCart(${index}, 1)" style="width:28px; height:28px; border-radius:8px; border:none; background:${out ? '#21262d' : 'var(--primary)'}; color:${out ? '#484f58' : 'black'}; cursor:${out ? 'not-allowed' : 'pointer'}; font-weight:800;">${out ? 'X' : '+'}</button>
                 </div>
             </div>`;
         }
     });
 }
 
-// LOGIKA UPDATE KERANJANG
 function updateCart(index, delta) {
+    if (MENU_FRUIT[index].s <= 0 && delta > 0) return alert("Stok Habis Lek!");
     if (!cart[index]) cart[index] = 0;
     
-    // Cek Stok Maksimal
     if (delta > 0 && cart[index] >= MENU_FRUIT[index].s) {
         return alert("Stok tidak mencukupi Lek!");
     }
@@ -98,18 +101,6 @@ function hitung() {
     validasi();
 }
 
-function applyVoucher() {
-    const code = document.getElementById('vouchCode').value.toUpperCase();
-    if (code === "XZYO") {
-        discount = 0.1;
-        alert("✅ Voucher Berhasil! Diskon 10%");
-    } else {
-        discount = 0;
-        alert("❌ Voucher Tidak Valid!");
-    }
-    hitung();
-}
-
 function selectPay(m, el) {
     selectedPay = m;
     document.querySelectorAll('.pay-bar').forEach(p => p.classList.remove('selected'));
@@ -121,8 +112,12 @@ function validasi() {
     const u = document.getElementById('userRoblox').value;
     const w = document.getElementById('waUser').value;
     const hasItems = Object.values(cart).some(q => q > 0);
-    document.getElementById('btnGas').disabled = !(u && w && hasItems && selectedPay);
+    const btn = document.getElementById('btnGas');
+    if(btn) btn.disabled = !(u && w && hasItems && selectedPay);
 }
+
+// Tambahkan listener manual untuk input agar validasi real-time
+document.addEventListener('input', validasi);
 
 async function prosesPesanan() {
     document.getElementById('loading-overlay').style.display = 'flex';
@@ -137,7 +132,6 @@ async function prosesPesanan() {
             tid: currentTid, status: "pending", user: u, wa: w, items: itm, total: tot, method: selectedPay, timestamp: Date.now()
         });
         
-        // Panggil FormSubmit
         const form = document.getElementById('hiddenForm');
         document.getElementById('f_subject').value = `PESANAN FRUIT [${currentTid}]`;
         document.getElementById('f_tid').value = currentTid;
@@ -163,27 +157,18 @@ async function prosesPesanan() {
             }
         }, 1500);
 
-        // Auto Update Jika Admin Ubah Status ke Success
         db.ref('orders/' + currentTid + '/status').on('value', snap => {
-            if(snap.val() === 'success') {
-                tampilkanSlide3(currentTid, u, itm, tot);
-            }
+            if(snap.val() === 'success') tampilkanSlide3(currentTid, u, itm, tot);
         });
 
     } catch (e) { alert("Database Error!"); }
 }
 
-function tampilkanSlide3(tid, u, itm, tot) {
-    switchSlide(2, 3);
-    document.getElementById('res-id').innerText = tid;
-    document.getElementById('res-user').innerText = u;
-    document.getElementById('res-item').innerText = itm;
-    document.getElementById('res-total').innerText = tot;
-}
-
 function switchSlide(from, to) {
-    document.getElementById('slide-' + from).classList.remove('active');
-    setTimeout(() => { document.getElementById('slide-' + to).classList.add('active'); }, 150);
+    document.getElementById('slide-' + from).style.display = 'none';
+    document.getElementById('slide-' + to).style.display = 'block';
+    document.getElementById('slide-' + to).classList.add('active');
 }
 
-window.onload = init;
+// PAKAI INI AGAR LEBIH AMAN
+document.addEventListener('DOMContentLoaded', init);
