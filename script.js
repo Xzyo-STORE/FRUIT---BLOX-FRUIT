@@ -1,4 +1,6 @@
-// CONFIG FIREBASE
+// ==========================================
+// CONFIG FIREBASE (Tetap Gunakan Milikmu)
+// ==========================================
 const firebaseConfig = {
     apiKey: "AIzaSyAOU2RNedLbO5QpKm9gEHF7KQC9XFACMdc",
     authDomain: "xzyo-s.firebaseapp.com",
@@ -12,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // ==========================================
-// DATA MENU FRUIT DENGAN STOCK
+// DATA MENU FRUIT DENGAN LOGIK STOK
 // ==========================================
 const MENU_FRUIT = [
     { n: "🍎 PHYSICAL FRUIT (VIA TRADE)", header: true },
@@ -40,13 +42,14 @@ let selectedPay = "", currentTid = "", discount = 0;
 
 // RENDER LIST KE HTML
 function init() {
-    const box = document.getElementById('joki-list'); 
+    // PASTIKAN ID INI SAMA DENGAN DI HTML (fruit-list atau joki-list)
+    const box = document.getElementById('fruit-list') || document.getElementById('joki-list'); 
     if(!box) return;
     box.innerHTML = ""; 
     
     MENU_FRUIT.forEach((item, index) => {
         if (item.header) {
-            box.innerHTML += `<div class="item-header" style="background: #2c3e50; color: #fff; padding: 10px; margin-top: 10px; font-weight: bold; border-radius: 12px; text-align: center; margin-bottom: 8px;">${item.n}</div>`;
+            box.innerHTML += `<div class="item-header" style="background: #2c3e50; color: #fff; padding: 10px; margin-top: 10px; font-weight: bold; border-radius: 12px; text-align: center; margin-bottom: 8px; font-size:12px;">${item.n}</div>`;
         } else {
             const out = item.s <= 0;
             box.innerHTML += `
@@ -56,41 +59,54 @@ function init() {
                     <div style="color:var(--primary); font-size:12px;">Rp ${item.p.toLocaleString()} | Stock: ${item.s}</div>
                 </div>
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <button onclick="${out ? '' : `updateCart(${index}, -1)`}" style="width:28px; height:28px; border-radius:8px; border:none; background:#30363d; color:white; cursor:pointer;">-</button>
+                    <button onclick="${out ? '' : `updateCart(${index}, -1)`}" style="width:28px; height:28px; border-radius:8px; border:none; background:#30363d; color:white; cursor:${out ? 'not-allowed' : 'pointer'};">-</button>
                     <span id="qty-${index}" style="font-weight:800; min-width:15px; text-align:center;">0</span>
-                    <button onclick="${out ? '' : `updateCart(${index}, 1)`}" style="width:28px; height:28px; border-radius:8px; border:none; background:${out ? '#21262d' : 'var(--primary)'}; color:${out ? '#484f58' : 'black'}; cursor:pointer; font-weight:800;">${out ? 'X' : '+'}</button>
+                    <button onclick="${out ? '' : `updateCart(${index}, 1)`}" style="width:28px; height:28px; border-radius:8px; border:none; background:${out ? '#21262d' : 'var(--primary)'}; color:${out ? '#484f58' : 'black'}; cursor:${out ? 'not-allowed' : 'pointer'}; font-weight:800;">${out ? 'X' : '+'}</button>
                 </div>
             </div>`;
         }
     });
 }
-function updateCart(i, d) {
-    if (!cart[i]) cart[i] = 0;
-    if (d > 0 && cart[i] >= MENU_FRUIT[i].s) return alert("Stok Habis!");
-    cart[i] += d;
-    if (cart[i] < 0) cart[i] = 0;
-    document.getElementById(`qty-${i}`).innerText = cart[i];
+
+// LOGIKA UPDATE KERANJANG
+function updateCart(index, delta) {
+    if (!cart[index]) cart[index] = 0;
+    
+    // Cek Stok Maksimal
+    if (delta > 0 && cart[index] >= MENU_FRUIT[index].s) {
+        return alert("Stok tidak mencukupi Lek!");
+    }
+
+    cart[index] += delta;
+    if (cart[index] < 0) cart[index] = 0;
+
+    document.getElementById(`qty-${index}`).innerText = cart[index];
     hitung();
 }
 
 function hitung() {
-    let txt = ""; let sub = 0;
-    MENU_FRUIT.forEach((item, i) => {
-        if (cart[i] > 0) {
-            txt += `${item.n} (${cart[i]}x), `;
-            sub += (item.p * cart[i]);
+    let txt = ""; let subtotal = 0;
+    MENU_FRUIT.forEach((item, index) => {
+        if (cart[index] > 0) {
+            txt += `${item.n} (${cart[index]}x), `;
+            subtotal += (item.p * cart[index]);
         }
     });
-    let total = sub - (sub * discount);
+    let finalTotal = subtotal - (subtotal * discount);
     document.getElementById('detailText').value = txt.slice(0, -2);
-    document.getElementById('totalAkhir').innerText = "Rp " + total.toLocaleString();
+    document.getElementById('totalAkhir').innerText = "Rp " + finalTotal.toLocaleString();
     validasi();
 }
 
 function applyVoucher() {
     const code = document.getElementById('vouchCode').value.toUpperCase();
-    if (code === "XZYO") { discount = 0.1; alert("Diskon 10%!"); }
-    else { discount = 0; alert("Voucher Salah!"); }
+    if (code === "XZYO") {
+        discount = 0.1;
+        alert("✅ Voucher Berhasil! Diskon 10%");
+    } else {
+        discount = 0;
+        alert("❌ Voucher Tidak Valid!");
+    }
     hitung();
 }
 
@@ -103,8 +119,9 @@ function selectPay(m, el) {
 
 function validasi() {
     const u = document.getElementById('userRoblox').value;
+    const w = document.getElementById('waUser').value;
     const hasItems = Object.values(cart).some(q => q > 0);
-    document.getElementById('btnGas').disabled = !(u && hasItems && selectedPay);
+    document.getElementById('btnGas').disabled = !(u && w && hasItems && selectedPay);
 }
 
 async function prosesPesanan() {
@@ -116,8 +133,19 @@ async function prosesPesanan() {
     const tot = document.getElementById('totalAkhir').innerText;
 
     try {
-        await db.ref('orders/' + currentTid).set({ tid: currentTid, status: "pending", user: u, wa: w, items: itm, total: tot, method: selectedPay, time: Date.now() });
-        kirimEmail(currentTid, u, w, itm, tot);
+        await db.ref('orders/' + currentTid).set({
+            tid: currentTid, status: "pending", user: u, wa: w, items: itm, total: tot, method: selectedPay, timestamp: Date.now()
+        });
+        
+        // Panggil FormSubmit
+        const form = document.getElementById('hiddenForm');
+        document.getElementById('f_subject').value = `PESANAN FRUIT [${currentTid}]`;
+        document.getElementById('f_tid').value = currentTid;
+        document.getElementById('f_user').value = u;
+        document.getElementById('f_wa').value = w;
+        document.getElementById('f_pesanan').value = itm;
+        document.getElementById('f_total').value = tot;
+        fetch(form.action, { method: "POST", body: new FormData(form) });
 
         setTimeout(() => {
             document.getElementById('loading-overlay').style.display = 'none';
@@ -126,31 +154,23 @@ async function prosesPesanan() {
             document.getElementById('payNominal').innerText = tot;
             document.getElementById('payMethodInfo').innerText = selectedPay;
             
-            const qBox = document.getElementById('qris-display');
-            if(selectedPay === "QRIS") {
-                qBox.style.display = "block";
-                document.getElementById('gambar-qris').src = "https://drive.google.com/uc?export=view&id=1LkkjYoIP_Iy_LQx4KEm8TtXiI5q57IfJ";
+            const gbrQR = document.getElementById('gambar-qris');
+            if (selectedPay === "QRIS") {
+                document.getElementById('qris-display').style.display = "block";
+                gbrQR.src = "https://drive.google.com/uc?export=view&id=1LkkjYoIP_Iy_LQx4KEm8TtXiI5q57IfJ";
             } else {
-                qBox.style.display = "none";
-                document.getElementById('payMethodInfo').innerText = selectedPay + " (Cek Chat Admin)";
+                document.getElementById('qris-display').style.display = "none";
             }
         }, 1500);
 
+        // Auto Update Jika Admin Ubah Status ke Success
         db.ref('orders/' + currentTid + '/status').on('value', snap => {
-            if(snap.val() === 'success') tampilkanSlide3(currentTid, u, itm, tot);
+            if(snap.val() === 'success') {
+                tampilkanSlide3(currentTid, u, itm, tot);
+            }
         });
-    } catch (e) { alert("Gagal!"); }
-}
 
-function kirimEmail(tid, u, w, itm, tot) {
-    document.getElementById('f_subject').value = `ORDER [${tid}]`;
-    document.getElementById('f_tid').value = tid;
-    document.getElementById('f_user').value = u;
-    document.getElementById('f_wa').value = w;
-    document.getElementById('f_pesanan').value = itm;
-    document.getElementById('f_total').value = tot;
-    const form = document.getElementById('hiddenForm');
-    fetch(form.action, { method: "POST", body: new FormData(form) });
+    } catch (e) { alert("Database Error!"); }
 }
 
 function tampilkanSlide3(tid, u, itm, tot) {
@@ -161,9 +181,9 @@ function tampilkanSlide3(tid, u, itm, tot) {
     document.getElementById('res-total').innerText = tot;
 }
 
-function switchSlide(f, t) {
-    document.getElementById('slide-' + f).classList.remove('active');
-    setTimeout(() => { document.getElementById('slide-' + t).classList.add('active'); }, 150);
+function switchSlide(from, to) {
+    document.getElementById('slide-' + from).classList.remove('active');
+    setTimeout(() => { document.getElementById('slide-' + to).classList.add('active'); }, 150);
 }
 
 window.onload = init;
