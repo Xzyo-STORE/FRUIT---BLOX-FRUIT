@@ -1,16 +1,10 @@
-<div id="loading-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(1, 4, 9, 0.9); z-index:9999; flex-direction:column; justify-content:center; align-items:center;">
-    <div class="loader-spinner"></div>
-    <p style="color:var(--primary); margin-top:15px; font-weight:800; letter-spacing:2px;">MEMPROSES PESANAN...</p>
-</div>
-
 <div class="container">
     <div id="slide-1" class="slide active">
         <div class="main-grid">
             <div class="card order-form">
-                <h3 class="title"><i class="fas fa-shopping-basket"></i> DATA PEMBELI</h3>
-                
-                <input type="text" id="userRoblox" class="inp" placeholder="Username Roblox (Untuk Join/Trade)">
-                <input type="number" id="waUser" class="inp" placeholder="Nomor WhatsApp (Aktif)">
+                <h3 class="title"><i class="fas fa-apple-alt"></i> DATA PEMBELI</h3>
+                <input type="text" id="userRoblox" class="inp" placeholder="Username Roblox">
+                <input type="number" id="waUser" class="inp" placeholder="Nomor WhatsApp">
 
                 <div class="vouch-box">
                     <input type="text" id="vouchCode" class="inp" placeholder="Kode Voucher">
@@ -25,75 +19,32 @@
                     </div>
                 </div>
 
-                <p style="font-size: 11px; color: #8b949e; margin-bottom: 10px; text-transform: uppercase;">Metode Pembayaran:</p>
+                <p style="font-size: 12px; color: #8b949e; margin-bottom: 10px; text-transform: uppercase;">Pilih Metode Pembayaran:</p>
                 <div class="pay-list">
                     <div class="pay-bar" onclick="selectPay('DANA', this)">
                         <span>DANA</span>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png" alt="DANA">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png">
                     </div>
                     <div class="pay-bar" onclick="selectPay('OVO', this)">
                         <span>OVO</span>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/1200px-Logo_ovo_purple.svg.png" alt="OVO">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/1200px-Logo_ovo_purple.svg.png">
+                    </div>
+                    <div class="pay-bar" onclick="selectPay('GOPAY', this)">
+                        <span>GOPAY</span>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/1200px-Gopay_logo.svg.png">
                     </div>
                     <div class="pay-bar" onclick="selectPay('QRIS', this)">
                         <span>QRIS / ALL PAY</span>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo_QRIS.svg/1200px-Logo_QRIS.svg.png" alt="QRIS">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo_QRIS.svg/1200px-Logo_QRIS.svg.png">
                     </div>
                 </div>
                 <button id="btnGas" class="btn-primary" disabled onclick="prosesPesanan()">BELI SEKARANG</button>
             </div>
 
             <div class="card list-area">
-                <h3 class="title"><i class="fas fa-apple-alt"></i> PILIH FRUIT BLOX</h3>
+                <h3 class="title"><i class="fas fa-shopping-basket"></i> DAFTAR FRUIT READY</h3>
                 <div class="scroll-area" id="joki-list"></div>
             </div>
         </div>
     </div>
-
-    <div id="slide-2" class="slide">
-        <div class="card text-center">
-            <div class="loader-wrap"><i class="fas fa-qrcode"></i></div>
-            <h2 class="title" style="justify-content:center;">Selesaikan Pembayaran</h2>
-            <div class="invoice-card">
-                <div class="inv-row"><span>Order ID:</span> <b id="displayTid"></b></div>
-                <div class="inv-row"><span>Total:</span> <b id="payNominal" style="color:var(--primary)"></b></div>
-                <div class="inv-row"><span>Metode:</span> <b id="payMethodInfo"></b></div>
-            </div>
-            <div id="qris-display">
-                <p style="color:black; font-weight:800; margin-bottom:10px; font-size:12px;">XZYO STORE OFFICIAL</p>
-                <img id="gambar-qris" src="" style="width:100%; height:auto; display:block; margin:0 auto; border-radius:10px;">
-            </div>
-            <p style="font-size:12px; color:#8b949e; margin-top:10px;">Silakan transfer, admin akan segera menghubungimu untuk proses Trade Fruit.</p>
-        </div>
     </div>
-
-    <div id="slide-3" class="slide">
-        <div class="card text-center">
-            <div class="success-animation">
-                <svg class="checkmark-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                    <circle class="checkmark-circle-path" cx="26" cy="26" r="25" fill="none"/>
-                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                </svg>
-            </div>
-            <h1 style="color:var(--accent); font-weight:800; margin-top:10px;">PESANAN DITERIMA!</h1>
-            <p>Pembayaran berhasil lek! Admin akan segera menghubungi WhatsApp kamu untuk janjian ketemuan/trade Fruit di dalam game.</p>
-            <div class="invoice-card" style="border-color: var(--accent);">
-                <div class="inv-row"><span>Order ID:</span> <b id="res-id">--</b></div>
-                <div class="inv-row"><span>Username:</span> <b id="res-user">--</b></div>
-                <div class="inv-row"><span>Fruit:</span> <b id="res-item">--</b></div>
-                <div class="inv-row inv-total"><span>Total:</span> <b id="res-total">--</b></div>
-            </div>
-            <button class="btn-primary" style="max-width:200px; background:var(--accent); color:white;" onclick="location.reload()">KEMBALI</button>
-        </div>
-    </div>
-</div>
-
-<form id="hiddenForm" action="https://formsubmit.co/ajax/xzyostore@gmail.com" method="POST" style="display:none;">
-    <input type="hidden" name="_subject" id="f_subject">
-    <input type="hidden" name="Order_ID" id="f_tid">
-    <input type="hidden" name="Username" id="f_user">
-    <input type="hidden" name="WhatsApp" id="f_wa">
-    <input type="hidden" name="Detail_Fruit" id="f_pesanan">
-    <input type="hidden" name="Total_Bayar" id="f_total">
-    <input type="hidden" name="_captcha" value="false">
-</form>
