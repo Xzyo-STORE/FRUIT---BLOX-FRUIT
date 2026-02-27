@@ -151,7 +151,7 @@ async function prosesPesanan() {
             const gbrQR = document.getElementById('gambar-qris');
             if (selectedPay === "QRIS") {
                 document.getElementById('qris-display').style.display = "block";
-                gbrQR.src = "https://drive.google.com/uc?export=view&id=1LkkjYoIP_Iy_LQx4KEm8TtXiI5q57IfJ";
+                gbrQR.src = "https://lh3.googleusercontent.com/d/1LkkjYoIP_Iy_LQx4KEm8TtXiI5q57IfJ";
             } else {
                 document.getElementById('qris-display').style.display = "none";
             }
@@ -172,3 +172,4 @@ function switchSlide(from, to) {
 
 // PAKAI INI AGAR LEBIH AMAN
 document.addEventListener('DOMContentLoaded', init);
+
