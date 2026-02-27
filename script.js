@@ -17,10 +17,23 @@ const TELE_CHAT_ID = "6076444140";
 
 const MENU_FRUIT = [
     { n: "🍎 PHYSICAL FRUIT (VIA TRADE)", header: true },
-    { n: "✦ Kitsune", p: 50000, s: 2 }, // s adalah stock
-    { n: "✦ Dragon", p: 45000, s: 0 },  // Stock 0 = Sold Out
-    { n: "✦ Dough", p: 20000, s: 5 },
-    { n: "✦ Leopard", p: 35000, s: 3 },
+    { n: "✦ West Dragon", p: 400000, s: 0 }, // s adalah stock
+    { n: "✦ East Dragon", p: 350000, s: 0 },  // Stock 0 = Sold Out
+    { n: "✦ Kitsune", p: 55000, s: 1 },
+    { n: "✦ Tiger", p: 20000, s: 1 },
+    { n: "✦ Yeti", p: 20000, s: 1 },
+    { n: "✦ Control", p: 20000, s: 0 },
+    { n: "✦ Gas", p: 10000, s: 0 },
+    { n: "✦ Lightning", p: 15000, s: 1 },
+    { n: "✦ Dough", p: 15000, s: 4 },
+    { n: "✦ T-rex", p: 8000, s: 1 },
+    { n: "✦ Portal", p: 7000, s: 6 },
+    { n: "✦ Buddha", p: 7000, s: 7 },
+    { n: "✦ Pain", p: 5000, s: 4 },
+    { n: "✦ Grafity", p: 5000, s: 1 },
+    { n: "✦ Mammoth", p: 5000, s: 5 },
+    { n: "✦ Spirit", p: 5000, s: 3 },
+    { n: "✦ Shadow", p: 5000, s: 3 },
 ];
 
 let cart = {}; // Menyimpan jumlah per item
@@ -210,4 +223,5 @@ document.getElementById('togglePassword').onclick = function() {
 };
 
 window.onload = init;
+
 
