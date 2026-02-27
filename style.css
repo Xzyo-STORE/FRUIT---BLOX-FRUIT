@@ -9,14 +9,11 @@
     --inactive:#161b22; 
 }
 
-* { box-sizing: border-box; }
-
 body { 
     background: var(--bg); 
     color: var(--text); 
     font-family: 'Inter', sans-serif; 
-    margin: 0; 
-    padding: 15px; 
+    margin: 0; padding: 15px; 
 }
 
 .container { max-width: 1100px; margin: auto; }
@@ -25,71 +22,47 @@ body {
 .slide { display: none; opacity: 0; transform: scale(0.95); transition: 0.4s ease; }
 .slide.active { display: block; opacity: 1; transform: scale(1); }
 
-/* --- GRID SYSTEM --- */
-.main-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; align-items: start; }
-@media (max-width: 850px) { 
-    .main-grid { display: flex; flex-direction: column; } 
-}
+/* --- GRID --- */
+.main-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; }
+@media (max-width: 850px) { .main-grid { display: flex; flex-direction: column; } }
 
-/* --- CARDS --- */
+/* --- CARDS & INPUTS --- */
 .card { background: var(--card); padding: 25px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 20px; }
-.title { color: var(--primary); font-weight: 800; text-transform: uppercase; font-size: 14px; margin-bottom: 20px; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+.title { color: var(--primary); font-weight: 800; text-transform: uppercase; font-size: 14px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
-/* --- INPUTS (Sesuai ID HTML Kamu) --- */
-.inp { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 12px; background: var(--bg); color: white; border: 1px solid var(--border); font-family: inherit; }
+.inp { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 12px; background: var(--bg); color: white; border: 1px solid var(--border); box-sizing: border-box; }
 
 .pw-wrapper { position: relative; }
 #togglePassword { position: absolute; right: 15px; top: 18px; cursor: pointer; color: #484f58; }
 
-.vouch-box { display: flex; gap: 8px; margin-bottom: 15px; }
-.btn-vouch { background: var(--inactive); border: 1px solid var(--border); color: var(--primary); padding: 0 15px; border-radius: 12px; cursor: pointer; font-weight: 800; }
+.summary-box { background: var(--inactive); padding: 15px; border-radius: 18px; border: 1px solid var(--border); margin-bottom: 20px; }
+textarea { width: 100%; height: 50px; background: transparent; border: none; color: white; resize: none; outline: none; }
 
-.summary-box { background: var(--inactive); padding: 15px; border-radius: 18px; margin-bottom: 20px; border: 1px solid var(--border); }
-#detailText { width: 100%; height: 55px; background: transparent; border: none; color: white; resize: none; font-family: inherit; font-size: 13px; outline: none; }
-
-/* --- PAYMENT LIST (ID: pay-list) --- */
+/* --- PAYMENT LIST --- */
 .pay-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .pay-bar { 
     background: #1c2128; padding: 15px 20px; border-radius: 16px; 
     display: flex; justify-content: space-between; align-items: center; 
-    cursor: pointer; border: 2px solid #30363d; transition: 0.3s; font-weight: 800;
+    cursor: pointer; border: 2px solid #30363d; transition: 0.3s; 
 }
-.pay-bar img { height: 18px; width: auto; }
-.pay-bar.selected { border-color: var(--primary); background: rgba(0, 210, 255, 0.1); transform: translateX(5px); }
+.pay-bar.selected { border-color: var(--primary); background: rgba(0, 210, 255, 0.1); }
+.pay-bar img { height: 18px; }
 
-/* --- BUTTON (ID: btnGas) --- */
-.btn-primary { width: 100%; padding: 18px; background: var(--primary); border: none; border-radius: 18px; font-weight: 800; cursor: pointer; text-transform: uppercase; color: #000; box-shadow: 0 10px 20px rgba(0, 210, 255, 0.2); }
-.btn-primary:disabled { background: #21262d; color: #484f58; box-shadow: none; cursor: not-allowed; }
-
-/* --- QRIS AREA (ID: qris-display) --- */
-#qris-display { text-align: center; }
-#gambar-qris { border-radius: 10px; margin-top: 10px; border: 1px solid var(--border); }
-
-/* --- LIST ITEM AREA (ID: joki-list) --- */
+/* --- FRUIT LIST AREA --- */
 .scroll-area { max-height: 520px; overflow-y: auto; padding-right: 5px; }
-/* Style untuk item yang di-generate JS nantinya */
 .item-joki-cart { 
-    display:flex; justify-content:space-between; align-items:center; 
-    padding:12px; background:var(--inactive); margin-bottom:8px; 
-    border-radius:15px; border:1px solid var(--border); 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 12px; background: var(--inactive); margin-bottom: 8px; 
+    border-radius: 15px; border: 1px solid var(--border); 
 }
 
-/* --- INVOICE --- */
-.invoice-card { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: left; margin: 15px auto; }
-.inv-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; }
-.inv-total { border-top: 1px dashed var(--border); padding-top: 10px; color: var(--accent); font-weight: 800; font-size: 18px; }
+/* --- BUTTONS --- */
+.btn-primary { width: 100%; padding: 18px; background: var(--primary); border: none; border-radius: 18px; font-weight: 800; cursor: pointer; color: #000; }
+.btn-primary:disabled { background: #21262d; color: #484f58; cursor: not-allowed; }
 
-/* --- SUCCESS ANIMATION --- */
-.success-animation { margin: 20px auto; }
+/* --- SUCCESS & LOADING --- */
 .checkmark-circle { width: 80px; height: 80px; border: 5px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
 .checkmark-icon { font-size: 40px; color: var(--accent); }
 
-/* --- LOADING --- */
-.loader-spinner {
-    width: 40px; height: 40px;
-    border: 4px solid var(--inactive);
-    border-top: 4px solid var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
+.loader-spinner { width: 40px; height: 40px; border: 4px solid var(--inactive); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
