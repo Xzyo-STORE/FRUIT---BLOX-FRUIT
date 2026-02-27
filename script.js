@@ -15,106 +15,37 @@ const db = firebase.database();
 const TELE_TOKEN = "8583864388:AAFjsa4xFHym5s1s2FRDMS04DrCaUYHKMPk"; 
 const TELE_CHAT_ID = "6076444140"; 
 
-const MENU_JOKI = [
-    //===== KEN HAKI =====//
-    { n: "👁️ KEN HAKI (INSTINCT)", header: true },
-    { n: "✦ 0 – 1.000", p: 5000 },
-    { n: "✦ 1.000 – 2.000", p: 8000 },
-    { n: "✦ 2.000 – 5.000 (MAX) + V2(Full)", p: 15000 },
-    { n: "✦ 0 – 5.000 (MAX) + V2(Full)", p: 20000 },
-    //===== BOUNTY =====//
-    { n: "🏴‍☠️ JOKI BOUNTY / HONOR", p: 0, header: true },
-    { n: "✦ 1M Bounty / Honor", p: 25000 },
-    { n: "✦ 5M Bounty / Honor", p: 100000 },
-    { n: "✦ 10M Bounty / Honor", p: 225000 },
-    { n: "✦ 30M Bounty (MAX)", p: 700000 },
-    //===== BELLY AND FRAGMENT =====//
-    { n: "💸 JOKI BELLY & FRAGMENT", p: 0, header: true },
-    { n: "✦ Belly 1M", p: 5000 },
-    { n: "✦ Belly 5M", p: 20000 },
-    { n: "✦ Fragment 1K", p: 1000 },
-    { n: "✦ Fragment 20K", p: 20000 },
-    //===== LEVEL AND SEA =====//
-    { n: "🔥 JOKI LEVEL & SEA", p: 0, header: true },
-    { n: "✦ Level 1 – 100", p: 15000 },
-    { n: "✦ Level 1 – 700 (Free Unlock Sea 2)", p: 15000 },
-    { n: "✦ Level 700 – 1500 (Free Unlock Sea 3)", p: 15000 },
-    { n: "✦ Lexvel 1500 – MAX (Sea 3)", p: 20000 },
-    { n: "✦ Paket Level 1 - MAX(Bonus GH)", p: 100000 },
-    { n: "✦ Unlock Sea 2 / 3", p: 5000 },
-    //===== FIGHTING STYLE =====//
-    { n: "👊 FIGHTING STYLE (MELEE)", p: 0, header: true },
-    { n: "✦ God Human (Full)", p: 30000 },
-    { n: "✦ Superhuman", p: 15000 },
-    { n: "✦ Sharkman Karate / Electric Claw", p: 5000 },
-    { n: "✦ Death Step", p: 5000 },
-    //===== PAKETAN =====//
-    { n: "⚔️ BOSS • WEAPON • EXCLUSIVE", p: 0, header: true },
-    { n: "✦ CDK (Cursed Dual Katana)", p: 20000 },
-    { n: "✦ Soul Guitar (Full Quest)", p: 10000 },
-    { n: "✦ TTK (True Triple Katana)", p: 25000 },
-    { n: "✦ Shark Anchor (Full)", p: 30000 },
-    { n: "✦ Fox Lamp (Kitsune)", p: 30000 },
-    { n: "✦ Tushita / Yama", p: 8000 },
-    { n: "✦ Hallow Scythe", p: 15000 },
-    { n: "✦ Dark Dagger", p: 25000 },
-    { n: "✦ Rip Indra / Dough King / DB", p: 10000 },
-    { n: "✦ Koko", p: 10000 },
-    { n: "✦ Saber / Rengoku", p: 5000 },
-    //===== AWEKEN AND MASTERY =====//
-    { n: "💥 AWEKENING FRUIT & MASTERY", p: 0, header: true },
-    { n: "✦ Mastery Fruit/Sword/FS (per 100)", p: 5000 },
-    { n: "✦ Mastery Max (600 Mastery)", p: 25000 },
-    { n: "✦ Awekening Fruit biasa(Full)", p: 10000 },
-    { n: "✦ Awekening Phoenix / Buddha / Dough (Full)", p: 10000 },
-    //===== RACE =====//
-    { n: "🧬 RACE EVOLUTION", p: 0, header: true },
-    { n: "✦ Unlock Cyborg", p: 15000 },
-    { n: "✦ Unlock Ghoul", p: 25000 },
-    { n: "✦ Race V1 – V3 (All Race)", p: 8000 },
-    { n: "✦ Blue Gear(Sudah Kill DK Dan Rip Indra)", p: 10000 },
-    { n: "✦ 1x Trial", p: 10000 },
-    { n: "✦ Full Gear", p: 30000 },
-    { n: "✦ True Gear(All Race)", p: 10000 },
-    //===== DRACO =====//
-    { n: "🔱 RACE DRACO (PREMIUM)", p: 0, header: true },
-    { n: "✦ Unlock Draco", p: 20000 },
-    { n: "✦ Draco V1 – V3", p: 10000 },
-    { n: "✦ 1x Trial Draco", p: 15000 },
-    { n: "✦ Full Gear Draco", p: 40000 },
-    //===== MATERIALS AND SEA EVEMNT =====//
-    { n: "🌋 SEA EVENTS & MATERIALS", p: 0, header: true },
-    { n: "✦ Leviathan Heart / Scale", p: 45000 },
-    { n: "✦ Unlock V4 Draco(Freze Hydra)", p: 45000 },
-    { n: "✦ Terror Shark Hunt (Eyes/Tooth)x1", p: 5000 },
-    { n: "✦ Blaze Ember (99x)", p: 10000 },
-    { n: "✦ Kitsune Mask / Ribbon", p: 10000 },
-    { n: "✦ Bones / Ectoplasm Farming(100x)", p: 1000 },
-    { n: "✦ Dragon Heart / Storm", p: 20000 },
-    { n: "✦ TOTS (Tyrant Of The Sky)", p: 5000 }
+const MENU_FRUIT = [
+    { n: "🍎 PHYSICAL FRUIT (VIA TRADE)", header: true },
+    { n: "✦ Kitsune", p: 50000, s: 2 }, // s adalah stock
+    { n: "✦ Dragon", p: 45000, s: 0 },  // Stock 0 = Sold Out
+    { n: "✦ Dough", p: 20000, s: 5 },
+    { n: "✦ Leopard", p: 35000, s: 3 },
 ];
 
 let cart = {}; // Menyimpan jumlah per item
 let selectedPay = "", currentTid = "", discount = 0;
 
 function init() {
-    const box = document.getElementById('joki-list');
+    const box = document.getElementById('joki-list'); // Tetap pakai ID yang sama dari HTML
     box.innerHTML = ""; 
     
-    MENU_JOKI.forEach((item, index) => {
+    MENU_FRUIT.forEach((item, index) => {
         if (item.header) {
             box.innerHTML += `<div class="item-header" style="background: #2c3e50; color: #fff; padding: 10px; margin-top: 10px; font-weight: bold; border-radius: 12px; text-align: center; margin-bottom: 8px;">${item.n}</div>`;
         } else {
+            const isSoldOut = item.s <= 0;
+            
             box.innerHTML += `
-            <div class="item-joki-cart" id="item-${index}" style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:var(--inactive); margin-bottom:8px; border-radius:15px; border:1px solid var(--border);">
+            <div class="item-joki-cart" id="item-${index}" style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:${isSoldOut ? '#1a1a1a' : 'var(--inactive)'}; margin-bottom:8px; border-radius:15px; border:1px solid ${isSoldOut ? '#333' : 'var(--border)'}; opacity: ${isSoldOut ? '0.6' : '1'};">
                 <div style="flex:1">
-                    <div style="font-weight:600; font-size:14px;">${item.n}</div>
-                    <div style="color:var(--primary); font-size:12px;">Rp ${item.p.toLocaleString()}</div>
+                    <div style="font-weight:600; font-size:14px; color:${isSoldOut ? '#777' : 'white'}">${item.n}</div>
+                    <div style="color:${isSoldOut ? '#555' : 'var(--primary)'}; font-size:12px;">Rp ${item.p.toLocaleString()} | Stock: ${item.s}</div>
                 </div>
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <button onclick="updateCart(${index}, -1)" style="width:28px; height:28px; border-radius:8px; border:none; background:#30363d; color:white; cursor:pointer;">-</button>
+                    <button onclick="${isSoldOut ? '' : `updateCart(${index}, -1)`}" style="width:28px; height:28px; border-radius:8px; border:none; background:#30363d; color:white; cursor:${isSoldOut ? 'not-allowed' : 'pointer'};">-</button>
                     <span id="qty-${index}" style="font-weight:800; min-width:15px; text-align:center;">0</span>
-                    <button onclick="updateCart(${index}, 1)" style="width:28px; height:28px; border-radius:8px; border:none; background:var(--primary); color:black; cursor:pointer; font-weight:800;">+</button>
+                    <button onclick="${isSoldOut ? '' : `updateCart(${index}, 1)`}" style="width:28px; height:28px; border-radius:8px; border:none; background:${isSoldOut ? '#444' : 'var(--primary)'}; color:black; cursor:${isSoldOut ? 'not-allowed' : 'pointer'}; font-weight:800;">${isSoldOut ? 'X' : '+'}</button>
                 </div>
             </div>`;
         }
@@ -279,3 +210,4 @@ document.getElementById('togglePassword').onclick = function() {
 };
 
 window.onload = init;
+
