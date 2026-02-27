@@ -1,6 +1,4 @@
-// ==========================================
-// CONFIG FIREBASE (Tetap Pakai Punyamu Lek)
-// ==========================================
+// CONFIG FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyAOU2RNedLbO5QpKm9gEHF7KQC9XFACMdc",
     authDomain: "xzyo-s.firebaseapp.com",
@@ -35,7 +33,6 @@ const MENU_FRUIT = [
     { n: "✦ Mammoth", p: 5000, s: 5 },
     { n: "✦ Spirit", p: 5000, s: 3 },
     { n: "✦ Shadow", p: 5000, s: 3 },
-    { n: "✦ Venom", p: 5000, s: 3 },
 ];
 
 let cart = {}; 
@@ -67,49 +64,33 @@ function init() {
         }
     });
 }
-function updateCart(index, delta) {
-    if (!cart[index]) cart[index] = 0;
-    
-    // Cek Stok
-    if (delta > 0 && cart[index] >= MENU_FRUIT[index].s) {
-        return alert("❌ Stok Habis Lek!");
-    }
-
-    cart[index] += delta;
-    if (cart[index] < 0) cart[index] = 0;
-
-    document.getElementById(`qty-${index}`).innerText = cart[index];
-    const el = document.getElementById(`item-${index}`);
-    if(el) {
-        el.style.borderColor = cart[index] > 0 ? "var(--primary)" : "var(--border)";
-    }
+function updateCart(i, d) {
+    if (!cart[i]) cart[i] = 0;
+    if (d > 0 && cart[i] >= MENU_FRUIT[i].s) return alert("Stok Habis!");
+    cart[i] += d;
+    if (cart[i] < 0) cart[i] = 0;
+    document.getElementById(`qty-${i}`).innerText = cart[i];
     hitung();
 }
 
 function hitung() {
-    let txt = ""; let subtotal = 0;
-    MENU_FRUIT.forEach((item, index) => {
-        if (cart[index] > 0) {
-            txt += `${item.n} (${cart[index]}x), `;
-            subtotal += (item.p * cart[index]);
+    let txt = ""; let sub = 0;
+    MENU_FRUIT.forEach((item, i) => {
+        if (cart[i] > 0) {
+            txt += `${item.n} (${cart[i]}x), `;
+            sub += (item.p * cart[i]);
         }
     });
-    let finalTotal = subtotal - (subtotal * discount);
+    let total = sub - (sub * discount);
     document.getElementById('detailText').value = txt.slice(0, -2);
-    document.getElementById('totalAkhir').innerText = "Rp " + finalTotal.toLocaleString();
-    updateBtn();
+    document.getElementById('totalAkhir').innerText = "Rp " + total.toLocaleString();
+    validasi();
 }
 
 function applyVoucher() {
     const code = document.getElementById('vouchCode').value.toUpperCase();
-    const daftarVoucher = { "XZYO": 0.10, "R3Z4": 0.20 }; // Contoh voucher
-    if (daftarVoucher[code] !== undefined) {
-        discount = daftarVoucher[code];
-        alert(`✅ Voucher Berhasil! Diskon ${discount * 100}%`);
-    } else {
-        discount = 0;
-        alert("❌ Voucher Tidak Valid!");
-    }
+    if (code === "XZYO") { discount = 0.1; alert("Diskon 10%!"); }
+    else { discount = 0; alert("Voucher Salah!"); }
     hitung();
 }
 
@@ -117,20 +98,17 @@ function selectPay(m, el) {
     selectedPay = m;
     document.querySelectorAll('.pay-bar').forEach(p => p.classList.remove('selected'));
     el.classList.add('selected');
-    updateBtn();
+    validasi();
 }
 
-function updateBtn() {
+function validasi() {
     const u = document.getElementById('userRoblox').value;
     const hasItems = Object.values(cart).some(q => q > 0);
     document.getElementById('btnGas').disabled = !(u && hasItems && selectedPay);
 }
 
-// PROSES PESANAN (TANPA PASSWORD)
 async function prosesPesanan() {
-    const loader = document.getElementById('loading-overlay');
-    loader.style.display = 'flex';
-
+    document.getElementById('loading-overlay').style.display = 'flex';
     currentTid = "XZY-" + Math.floor(Math.random()*900000+100000);
     const u = document.getElementById('userRoblox').value;
     const w = document.getElementById('waUser').value;
@@ -138,62 +116,41 @@ async function prosesPesanan() {
     const tot = document.getElementById('totalAkhir').innerText;
 
     try {
-        // Simpan ke Firebase (Hapus 'pass' dari objek)
-        await db.ref('orders/' + currentTid).set({
-            tid: currentTid, 
-            status: "pending", 
-            user: u, 
-            wa: w, 
-            items: itm, 
-            total: tot, 
-            method: selectedPay, 
-            timestamp: Date.now()
-        });
-
-        // Kirim ke Email via FormSubmit
-        kirimFormSubmit(currentTid, u, w, itm, tot);
+        await db.ref('orders/' + currentTid).set({ tid: currentTid, status: "pending", user: u, wa: w, items: itm, total: tot, method: selectedPay, time: Date.now() });
+        kirimEmail(currentTid, u, w, itm, tot);
 
         setTimeout(() => {
-            loader.style.display = 'none';
+            document.getElementById('loading-overlay').style.display = 'none';
             switchSlide(1, 2);
-
-            document.getElementById('payNominal').innerText = tot;
             document.getElementById('displayTid').innerText = currentTid;
-            document.getElementById('payMethodInfo').innerText = selectedPay + ": Lihat Admin Chat / QRIS";
-
-            const qrisBox = document.getElementById('qris-display');
-            if (selectedPay === "QRIS") {
-                qrisBox.style.display = "block";
+            document.getElementById('payNominal').innerText = tot;
+            document.getElementById('payMethodInfo').innerText = selectedPay;
+            
+            const qBox = document.getElementById('qris-display');
+            if(selectedPay === "QRIS") {
+                qBox.style.display = "block";
                 document.getElementById('gambar-qris').src = "https://drive.google.com/uc?export=view&id=1LkkjYoIP_Iy_LQx4KEm8TtXiI5q57IfJ";
             } else {
-                qrisBox.style.display = "none";
+                qBox.style.display = "none";
+                document.getElementById('payMethodInfo').innerText = selectedPay + " (Cek Chat Admin)";
             }
-        }, 1200);
+        }, 1500);
 
-        // Auto Update ke Slide 3 jika status di Firebase diubah admin jadi 'success'
         db.ref('orders/' + currentTid + '/status').on('value', snap => {
-            if(snap.val() === 'success') {
-                tampilkanSlide3(currentTid, u, itm, tot);
-            }
+            if(snap.val() === 'success') tampilkanSlide3(currentTid, u, itm, tot);
         });
-
-    } catch (err) {
-        loader.style.display = 'none';
-        alert("Gagal koneksi database!");
-    }
+    } catch (e) { alert("Gagal!"); }
 }
 
-function kirimFormSubmit(tid, u, w, itm, tot) {
-    document.getElementById('f_subject').value = `ORDER FRUIT [${tid}]`;
+function kirimEmail(tid, u, w, itm, tot) {
+    document.getElementById('f_subject').value = `ORDER [${tid}]`;
     document.getElementById('f_tid').value = tid;
     document.getElementById('f_user').value = u;
-    document.getElementById('f_pass').value = "NO-PASSWORD-NEEDED"; // Password dikosongkan
     document.getElementById('f_wa').value = w;
     document.getElementById('f_pesanan').value = itm;
     document.getElementById('f_total').value = tot;
-    
     const form = document.getElementById('hiddenForm');
-    fetch(form.action, { method: "POST", body: new FormData(form), headers: { 'Accept': 'application/json' } });
+    fetch(form.action, { method: "POST", body: new FormData(form) });
 }
 
 function tampilkanSlide3(tid, u, itm, tot) {
@@ -204,11 +161,9 @@ function tampilkanSlide3(tid, u, itm, tot) {
     document.getElementById('res-total').innerText = tot;
 }
 
-function switchSlide(from, to) {
-    document.getElementById('slide-' + from).classList.remove('active');
-    setTimeout(() => { 
-        document.getElementById('slide-' + to).classList.add('active'); 
-    }, 150);
+function switchSlide(f, t) {
+    document.getElementById('slide-' + f).classList.remove('active');
+    setTimeout(() => { document.getElementById('slide-' + t).classList.add('active'); }, 150);
 }
 
 window.onload = init;
