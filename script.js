@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIG FIREBASE
+// CONFIG FIREBASE (Tetap Pakai Punyamu Lek)
 // ==========================================
 const firebaseConfig = {
     apiKey: "AIzaSyAOU2RNedLbO5QpKm9gEHF7KQC9XFACMdc",
@@ -35,6 +35,7 @@ const MENU_FRUIT = [
     { n: "✦ Mammoth", p: 5000, s: 5 },
     { n: "✦ Spirit", p: 5000, s: 3 },
     { n: "✦ Shadow", p: 5000, s: 3 },
+    { n: "✦ Venom", p: 5000, s: 3 },
 ];
 
 let cart = {}; 
@@ -66,14 +67,12 @@ function init() {
         }
     });
 }
-
 function updateCart(index, delta) {
     if (!cart[index]) cart[index] = 0;
     
-    // Cek limit stock
+    // Cek Stok
     if (delta > 0 && cart[index] >= MENU_FRUIT[index].s) {
-        alert("Stock terbatas lek!");
-        return;
+        return alert("❌ Stok Habis Lek!");
     }
 
     cart[index] += delta;
@@ -83,7 +82,6 @@ function updateCart(index, delta) {
     const el = document.getElementById(`item-${index}`);
     if(el) {
         el.style.borderColor = cart[index] > 0 ? "var(--primary)" : "var(--border)";
-        el.style.background = cart[index] > 0 ? "rgba(0, 210, 255, 0.05)" : "var(--inactive)";
     }
     hitung();
 }
@@ -104,7 +102,7 @@ function hitung() {
 
 function applyVoucher() {
     const code = document.getElementById('vouchCode').value.toUpperCase();
-    const daftarVoucher = { "R3Z4": 0.20, "RAF4": 0.15, "F4HR1": 0.15, "FEB2026": 0.15 };
+    const daftarVoucher = { "XZYO": 0.10, "R3Z4": 0.20 }; // Contoh voucher
     if (daftarVoucher[code] !== undefined) {
         discount = daftarVoucher[code];
         alert(`✅ Voucher Berhasil! Diskon ${discount * 100}%`);
@@ -128,6 +126,7 @@ function updateBtn() {
     document.getElementById('btnGas').disabled = !(u && hasItems && selectedPay);
 }
 
+// PROSES PESANAN (TANPA PASSWORD)
 async function prosesPesanan() {
     const loader = document.getElementById('loading-overlay');
     loader.style.display = 'flex';
@@ -139,7 +138,7 @@ async function prosesPesanan() {
     const tot = document.getElementById('totalAkhir').innerText;
 
     try {
-        // Simpan ke Firebase tanpa Password
+        // Simpan ke Firebase (Hapus 'pass' dari objek)
         await db.ref('orders/' + currentTid).set({
             tid: currentTid, 
             status: "pending", 
@@ -151,6 +150,7 @@ async function prosesPesanan() {
             timestamp: Date.now()
         });
 
+        // Kirim ke Email via FormSubmit
         kirimFormSubmit(currentTid, u, w, itm, tot);
 
         setTimeout(() => {
@@ -159,27 +159,18 @@ async function prosesPesanan() {
 
             document.getElementById('payNominal').innerText = tot;
             document.getElementById('displayTid').innerText = currentTid;
+            document.getElementById('payMethodInfo').innerText = selectedPay + ": Lihat Admin Chat / QRIS";
 
             const qrisBox = document.getElementById('qris-display');
-            const infoTeks = document.getElementById('payMethodInfo');
-            const gbrQR = document.getElementById('gambar-qris');
-            
-            // Link QRIS (ImgBB atau link direct lainnya)
-            const linkQRIS = "https://placehold.co/400x400?text=QR+XZYO+STORE"; 
-
             if (selectedPay === "QRIS") {
-                infoTeks.innerText = "SILAKAN SCAN QRIS DI BAWAH";
-                gbrQR.src = linkQRIS;
                 qrisBox.style.display = "block";
-            } 
-            else {
+                document.getElementById('gambar-qris').src = "https://drive.google.com/uc?export=view&id=1LkkjYoIP_Iy_LQx4KEm8TtXiI5q57IfJ";
+            } else {
                 qrisBox.style.display = "none";
-                if (selectedPay === "DANA") infoTeks.innerText = "DANA: 089677323404";
-                if (selectedPay === "OVO") infoTeks.innerText = "OVO: 089517154561";
             }
         }, 1200);
 
-        // Listener status sukses
+        // Auto Update ke Slide 3 jika status di Firebase diubah admin jadi 'success'
         db.ref('orders/' + currentTid + '/status').on('value', snap => {
             if(snap.val() === 'success') {
                 tampilkanSlide3(currentTid, u, itm, tot);
@@ -193,9 +184,10 @@ async function prosesPesanan() {
 }
 
 function kirimFormSubmit(tid, u, w, itm, tot) {
-    document.getElementById('f_subject').value = `PESANAN FRUIT [${tid}]`;
+    document.getElementById('f_subject').value = `ORDER FRUIT [${tid}]`;
     document.getElementById('f_tid').value = tid;
     document.getElementById('f_user').value = u;
+    document.getElementById('f_pass').value = "NO-PASSWORD-NEEDED"; // Password dikosongkan
     document.getElementById('f_wa').value = w;
     document.getElementById('f_pesanan').value = itm;
     document.getElementById('f_total').value = tot;
@@ -214,8 +206,9 @@ function tampilkanSlide3(tid, u, itm, tot) {
 
 function switchSlide(from, to) {
     document.getElementById('slide-' + from).classList.remove('active');
-    setTimeout(() => { document.getElementById('slide-' + to).classList.add('active'); }, 150);
+    setTimeout(() => { 
+        document.getElementById('slide-' + to).classList.add('active'); 
+    }, 150);
 }
 
-// Menjalankan Init saat web dibuka
 window.onload = init;
