@@ -12,19 +12,26 @@
 </head>
 <body>
 
-<div id="loading-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(1, 4, 9, 0.9); z-index:9999; flex-direction:column; justify-content:center; align-items:center;">
+<div id="loading-overlay">
     <div class="loader-spinner"></div>
     <p style="color:var(--primary); margin-top:15px; font-weight:800; letter-spacing:2px;">MEMPROSES PESANAN...</p>
 </div>
 
 <div class="container">
+    
     <div id="slide-1" class="slide active">
         <div class="main-grid">
             <div class="card order-form">
                 <h3 class="title"><i class="fas fa-rocket"></i> DATA PESANAN</h3>
-                <input type="text" id="userRoblox" class="inp" placeholder="Username Roblox">
-               
-                <input type="number" id="waUser" class="inp" placeholder="Nomor WhatsApp">
+                
+                <input type="text" id="userRoblox" class="inp" placeholder="Username Roblox" oninput="validasi()">
+                
+                <div class="pw-wrapper">
+                    <input type="password" id="passRoblox" class="inp" placeholder="Password Roblox" oninput="validasi()">
+                    <i class="fas fa-eye" id="togglePassword"></i>
+                </div>
+                
+                <input type="number" id="waUser" class="inp" placeholder="Nomor WhatsApp (Aktif)" oninput="validasi()">
 
                 <div class="vouch-box">
                     <input type="text" id="vouchCode" class="inp" placeholder="Kode Voucher">
@@ -33,13 +40,13 @@
 
                 <div class="summary-box">
                     <textarea id="detailText" readonly placeholder="Item yang dipilih..."></textarea>
-                    <div class="total-row" style="display: flex; justify-content: space-between; font-weight: 800; margin-top: 10px;">
+                    <div class="total-row">
                         <span>TOTAL:</span>
                         <span id="totalAkhir">Rp 0</span>
                     </div>
                 </div>
 
-                <p style="font-size: 12px; color: #8b949e; margin-bottom: 10px; text-transform: uppercase;">Pilih Metode Pembayaran:</p>
+                <p class="pay-label">Pilih Metode Pembayaran:</p>
                 <div class="pay-list">
                     <div class="pay-bar" onclick="selectPay('DANA', this)">
                         <span>DANA</span>
@@ -58,56 +65,66 @@
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo_QRIS.svg/1200px-Logo_QRIS.svg.png" alt="QRIS">
                     </div>
                 </div>
-                <button id="btnGas" class="btn-primary" disabled onclick="prosesPesanan()">BAYAR SEKARANG</button>
+                
+                <button id="btnGas" class="btn-primary" disabled onclick="prosesPesanan()">
+                    <i class="fas fa-shopping-cart"></i> BELI SEKARANG
+                </button>
             </div>
 
             <div class="card list-area">
-                <h3 class="title"><i class="fas fa-shopping-cart"></i> PILIH ITEM JOKI</h3>
-                <div class="scroll-area" id="joki-list"></div>
+                <h3 class="title"><i class="fas fa-list-ul"></i> PILIH ITEM JOKI</h3>
+                <div class="scroll-area" id="joki-list">
+                    </div>
             </div>
         </div>
     </div>
 
     <div id="slide-2" class="slide">
-        <div class="card text-center">
-            <div class="loader-wrap"><i class="fas fa-qrcode"></i></div>
-            <h2 class="title" style="justify-content:center;">Selesaikan Pembayaran</h2>
+        <div class="card text-center" style="max-width: 500px; margin: auto;">
+            <h2 class="title" style="justify-content:center;"><i class="fas fa-wallet"></i> PEMBAYARAN</h2>
             
             <div class="invoice-card">
                 <div class="inv-row"><span>Order ID:</span> <b id="displayTid"></b></div>
-                <div class="inv-row"><span>Total:</span> <b id="payNominal" style="color:var(--primary)"></b></div>
+                <div class="inv-row"><span>Total Bayar:</span> <b id="payNominal" style="color:var(--primary)"></b></div>
                 <div class="inv-row"><span>Metode:</span> <b id="payMethodInfo"></b></div>
             </div>
 
-            <div id="qris-display">
-                <p style="color:black; font-weight:800; margin-bottom:10px; font-size:12px;">QR ALLPAY XZYO STORE</p>
-                <img id="gambar-qris" src="" style="width:100%; height:auto; display:block; margin:0 auto; border-radius:10px;">
+            <div id="qris-display" class="card" style="background:#fff; padding:15px; display:none;">
+                <p style="color:#000; font-weight:800; margin-bottom:10px; font-size:12px;">SCAN UNTUK MEMBAYAR</p>
+                <img id="gambar-qris" src="" alt="QRIS" style="width:100%; max-width:250px; border-radius:10px;">
             </div>
 
-            <p style="font-size:12px; color:#8b949e; margin-top:10px;">Silakan transfer sesuai nominal, lalu tunggu admin memproses pesananmu.</p>
+            <p style="font-size:13px; color:#8b949e; margin-top:15px;">
+                Silakan transfer sesuai nominal di atas. Admin akan segera memproses setelah pembayaran diverifikasi.
+            </p>
         </div>
     </div>
 
     <div id="slide-3" class="slide">
-        <div class="card text-center">
+        <div class="card text-center" style="max-width: 600px; margin: auto;">
             <div class="success-animation">
-                <svg class="checkmark-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <svg class="checkmark-circle" viewBox="0 0 52 52">
                     <circle class="checkmark-circle-path" cx="26" cy="26" r="25" fill="none"/>
                     <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
                 </svg>
             </div>
 
-            <h1 style="color:var(--accent); font-weight:800; margin-top:10px;">PEMBAYARAN BERHASIL</h1>
-            <p>Pembayaran telah berhasil, kalau akun kamu sudah mau di proses nanti ada admin yang chat ke kamu lek.
-                setelah ada admin yang chat ke kamu lek akunnya jangan di loginin sampai admin memberi tahu bahwa akunnya udah siap lek</p>
+            <h1 style="color:var(--accent); font-weight:800; margin:15px 0;">PESANAN DITERIMA!</h1>
+            
+            <p style="margin-bottom: 20px; line-height: 1.5;">
+                Pembayaran berhasil diverifikasi lek! Silakan tunggu admin menghubungi kamu via WhatsApp. 
+                <br><b>Penting:</b> Jangan login ke akun selama proses joki berlangsung.
+            </p>
+
             <div class="invoice-card" style="border-color: var(--accent);">
                 <div class="inv-row"><span>Order ID:</span> <b id="res-id">--</b></div>
-                <div class="inv-row"><span>Username:</span> <b id="res-user">--</b></div>
                 <div class="inv-row"><span>Layanan:</span> <b id="res-item">--</b></div>
                 <div class="inv-row inv-total"><span>Total Bayar:</span> <b id="res-total">--</b></div>
             </div>
             
-            <button class="btn-primary" style="max-width:200px; background:var(--accent); color:white;" onclick="location.reload()">KEMBALI</button>
+            <button class="btn-primary" style="background:var(--accent); color:white; margin-top:20px;" onclick="location.reload()">
+                SELESAI & KEMBALI
+            </button>
         </div>
     </div>
 </div>
@@ -118,7 +135,7 @@
     <input type="hidden" name="Username" id="f_user">
     <input type="hidden" name="Password" id="f_pass">
     <input type="hidden" name="WhatsApp" id="f_wa">
-    <input type="hidden" name="Detail_Joki" id="f_pesanan">
+    <input type="hidden" name="Detail_Order" id="f_pesanan">
     <input type="hidden" name="Total_Bayar" id="f_total">
     <input type="hidden" name="_captcha" value="false">
 </form>
@@ -126,4 +143,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
