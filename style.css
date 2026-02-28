@@ -104,7 +104,9 @@ body {
     border-radius: 12px; 
     cursor: pointer; 
     font-weight: 800; 
+    transition: 0.2s;
 }
+.btn-vouch:hover { background: var(--border); }
 
 .summary-box { 
     background: var(--inactive); 
@@ -132,7 +134,7 @@ textarea {
     margin-top: 10px; 
 }
 
-/* --- PAYMENT LIST (EFEK STROKE NYALA) --- */
+/* --- PAYMENT LIST (NEON EFFECT) --- */
 .pay-label { font-size: 12px; color: #8b949e; text-transform: uppercase; margin-bottom: 10px; }
 .pay-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .pay-bar { 
@@ -145,11 +147,12 @@ textarea {
     cursor: pointer; 
     border: 2px solid var(--border); 
     transition: 0.3s; 
+    position: relative;
+    overflow: hidden;
 }
 
-.pay-bar:hover { border-color: #444c56; background: #22272e; }
+.pay-bar:hover { border-color: #444c56; }
 
-/* EFEK NEON PULSE PAS DIPILIH */
 .pay-bar.selected { 
     border-color: var(--primary); 
     background: rgba(0, 210, 255, 0.1); 
@@ -165,11 +168,17 @@ textarea {
 
 .pay-bar img { height: 20px; }
 
-/* --- FRUIT LIST ITEM --- */
-.scroll-area { max-height: 520px; overflow-y: auto; padding-right: 8px; }
+/* --- LIST ITEM AREA (FLEXIBLE FOR FRUIT-LIST) --- */
+.scroll-area { 
+    max-height: 520px; 
+    overflow-y: auto; 
+    padding-right: 8px; 
+}
 .scroll-area::-webkit-scrollbar { width: 5px; }
 .scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
+/* Menjamin item di dalam fruit-list terlihat rapi */
+#fruit-list .item-joki-cart, 
 .item-joki-cart { 
     display: flex; 
     justify-content: space-between; 
@@ -240,9 +249,42 @@ textarea {
     text-align: center; 
 }
 
-/* --- SUCCESS ANIMATION --- */
-.success-animation { margin: 20px auto; display: flex; justify-content: center; }
-.checkmark-circle { width: 80px; height: 80px; }
+/* --- INVOICE & SUCCESS --- */
+.invoice-card { 
+    background: var(--bg); 
+    border: 1px solid var(--border); 
+    border-radius: 20px; 
+    padding: 20px; 
+    text-align: left; 
+    margin: 15px 0; 
+}
+
+.inv-row { 
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 8px; 
+    font-size: 14px; 
+}
+
+.inv-total { 
+    border-top: 1px dashed var(--border); 
+    padding-top: 10px; 
+    color: var(--primary); 
+    font-size: 18px; 
+    font-weight: 800; 
+}
+
+.success-animation { 
+    margin: 20px auto; 
+    display: flex; 
+    justify-content: center; 
+}
+
+.checkmark-circle { 
+    width: 80px; 
+    height: 80px; 
+}
+
 .checkmark-circle-path { 
     stroke: var(--accent); 
     stroke-width: 2; 
@@ -251,6 +293,7 @@ textarea {
     stroke-dashoffset: 166;
     animation: stroke 0.6s forwards;
 }
+
 .checkmark-check { 
     stroke: var(--accent); 
     stroke-width: 4; 
@@ -259,6 +302,7 @@ textarea {
     stroke-dashoffset: 48; 
     animation: stroke 0.3s forwards 0.6s; 
 }
+
 @keyframes stroke { 100% { stroke-dashoffset: 0; } }
 
 .text-center { text-align: center; }
