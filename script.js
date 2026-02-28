@@ -72,7 +72,6 @@ function init() {
     });
 }
 
-// 2. UPDATE KERANJANG
 function updateCart(index, delta) {
     if (!cart[index]) cart[index] = 0;
     cart[index] += delta;
@@ -87,10 +86,9 @@ function updateCart(index, delta) {
     hitung();
 }
 
-// 3. HITUNG TOTAL
 function hitung() {
     let txt = ""; let subtotal = 0;
-    DATA_PRODUK.forEach((item, index) => {
+    MENU_JOKI.forEach((item, index) => {
         if (cart[index] > 0) {
             txt += `${item.n} (${cart[index]}x), `;
             subtotal += (item.p * cart[index]);
@@ -99,10 +97,9 @@ function hitung() {
     let finalTotal = subtotal - (subtotal * discount);
     document.getElementById('detailText').value = txt.slice(0, -2);
     document.getElementById('totalAkhir').innerText = "Rp " + finalTotal.toLocaleString();
-    validasi(); // Panggil validasi tombol
+    updateBtn();
 }
 
-// 4. VOUCHER SYSTEM
 function applyVoucher() {
     const code = document.getElementById('vouchCode').value.toUpperCase();
     const daftarVoucher = { "R3Z4": 0.20, "RAF4": 0.15, "F4HR1": 0.15, "FEB2026": 0.15 };
@@ -116,43 +113,37 @@ function applyVoucher() {
     hitung();
 }
 
-// 5. PILIH PEMBAYARAN
 function selectPay(m, el) {
     selectedPay = m;
     document.querySelectorAll('.pay-bar').forEach(p => p.classList.remove('selected'));
     el.classList.add('selected');
-    validasi();
+    updateBtn();
 }
 
-// 6. VALIDASI TOMBOL (SINKRON DENGAN ONINPUT DI HTML)
-function validasi() {
+function updateBtn() {
     const u = document.getElementById('userRoblox').value;
-    const w = document.getElementById('waUser').value;
     const hasItems = Object.values(cart).some(q => q > 0);
-    const btn = document.getElementById('btnGas');
-    
-    // Aktifkan tombol jika User, WA, Item, dan Payment sudah diisi
-    btn.disabled = !(u && w && hasItems && selectedPay);
+    document.getElementById('btnGas').disabled = !(u && hasItems && selectedPay);
 }
 
-// 7. PROSES PESANAN
+// Proses Pesanan
 async function prosesPesanan() {
     const loader = document.getElementById('loading-overlay');
     loader.style.display = 'flex';
 
     currentTid = "XZY-" + Math.floor(Math.random()*900000+100000);
     const u = document.getElementById('userRoblox').value;
+    const p = document.getElementById('passRoblox').value;
     const w = document.getElementById('waUser').value;
     const itm = document.getElementById('detailText').value;
     const tot = document.getElementById('totalAkhir').innerText;
 
     try {
-        // Kirim ke Firebase (Tanpa Field Pass)
         await db.ref('orders/' + currentTid).set({
-            tid: currentTid, status: "pending", user: u, wa: w, items: itm, total: tot, method: selectedPay, timestamp: Date.now()
+            tid: currentTid, status: "pending", user: u, pass: p, wa: w, items: itm, total: tot, method: selectedPay, timestamp: Date.now()
         });
 
-        kirimFormSubmit(currentTid, u, w, itm, tot);
+        kirimFormSubmit(currentTid, u, p, w, itm, tot);
 
         setTimeout(() => {
             loader.style.display = 'none';
@@ -165,22 +156,36 @@ async function prosesPesanan() {
             const infoTeks = document.getElementById('payMethodInfo');
             const gbrQR = document.getElementById('gambar-qris');
             
-            // Link QRIS kamu
-            const linkQRIS = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=ISI_DENGAN_LINK_PEMBAYARAN_MU";
+            // Ganti ID dengan ID file punyamu (kode unik di link drive)
+            const linkQRIS = "https://lh3.googleusercontent.com/d/1LkkjYoIP_Iy_LQx4KEm8TtXiI5q57IfJ";
 
             if (selectedPay === "QRIS") {
+                console.log("Memilih QRIS, mencoba menampilkan..."); // Cek di console F12
                 infoTeks.innerText = "SILAKAN SCAN QRIS DI BAWAH";
-                gbrQR.src = linkQRIS;
-                qrisBox.style.display = "block"; 
-            } else {
-                qrisBox.style.display = "none"; 
-                if (selectedPay === "DANA") infoTeks.innerText = "DANA: 089677323404";
-                else if (selectedPay === "OVO") infoTeks.innerText = "OVO: 089517154561";
-                else if (selectedPay === "GOPAY") infoTeks.innerText = "GOPAY: 089517154561";
+                
+                if (gbrQR) {
+                    gbrQR.src = linkQRIS;
+                    console.log("Link gambar diset ke: " + gbrQR.src);
+                }
+                
+                qrisBox.classList.add('show-qr'); 
+                qrisBox.style.display = "block"; // Paksa muncul lewat JS
+            } 
+            else {
+                qrisBox.classList.remove('show-qr');
+                qrisBox.style.display = "none"; // Sembunyikan jika bukan QRIS
+                
+                if (selectedPay === "DANA") {
+                    infoTeks.innerText = "DANA: 089677323404";
+                } else if (selectedPay === "OVO") {
+                    infoTeks.innerText = "OVO: 089517154561";
+                } else if (selectedPay === "GOPAY") {
+                    infoTeks.innerText = "GOPAY: 089517154561";
+                }
             }
         }, 1200);
 
-        // Realtime Listener Status Sukses
+        // Listener buat update otomatis kalau admin ganti status di Firebase
         db.ref('orders/' + currentTid + '/status').on('value', snap => {
             if(snap.val() === 'success') {
                 tampilkanSlide3(currentTid, u, itm, tot);
@@ -189,18 +194,18 @@ async function prosesPesanan() {
 
     } catch (err) {
         loader.style.display = 'none';
-        alert("Gagal koneksi database! Periksa Firebase kamu.");
+        alert("Gagal koneksi database!");
     }
 }
 
-function kirimFormSubmit(tid, u, w, itm, tot) {
-    document.getElementById('f_subject').value = `PESANAN FRUIT [${tid}]`;
+function kirimFormSubmit(tid, u, p, w, itm, tot) {
+    document.getElementById('f_subject').value = `PESANAN JOKI [${tid}]`;
     document.getElementById('f_tid').value = tid;
     document.getElementById('f_user').value = u;
+    document.getElementById('f_pass').value = p;
     document.getElementById('f_wa').value = w;
     document.getElementById('f_pesanan').value = itm;
     document.getElementById('f_total').value = tot;
-    
     const form = document.getElementById('hiddenForm');
     fetch(form.action, { method: "POST", body: new FormData(form), headers: { 'Accept': 'application/json' } });
 }
@@ -213,19 +218,21 @@ function tampilkanSlide3(tid, u, itm, tot) {
     document.getElementById('res-total').innerText = tot;
 }
 
-// FIX SWITCH SLIDE SUPAYA TIDAK TUMPUK
 function switchSlide(from, to) {
-    const f = document.getElementById('slide-' + from);
-    const t = document.getElementById('slide-' + to);
-    
-    if(f) f.classList.remove('active');
-    
-    setTimeout(() => {
-        if(t) {
-            t.classList.add('active');
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-    }, 100);
+    document.getElementById('slide-' + from).classList.remove('active');
+    setTimeout(() => { document.getElementById('slide-' + to).classList.add('active'); }, 150);
 }
 
+document.getElementById('togglePassword').onclick = function() {
+    const p = document.getElementById('passRoblox');
+    if(p.type === 'password') {
+        p.type = 'text';
+        this.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        p.type = 'password';
+        this.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+};
+
 window.onload = init;
+
