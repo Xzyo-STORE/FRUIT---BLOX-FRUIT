@@ -192,22 +192,16 @@ async function prosesPesanan() {
 
 // 8. Kirim Data Ke Email (Password Dihapus)
 function kirimFormSubmit(tid, u, w, itm, tot) {
+    // Isi data ke form tersembunyi
     document.getElementById('f_tid').value = tid;
     document.getElementById('f_user').value = u;
     document.getElementById('f_wa').value = w;
     document.getElementById('f_pesanan').value = itm;
     document.getElementById('f_total').value = tot;
     
+    // Ambil formnya lalu kirim secara tradisional
     const form = document.getElementById('hiddenForm');
-    const formData = new FormData(form);
-
-    fetch(form.action, { 
-        method: "POST", 
-        body: formData, 
-        headers: { 'Accept': 'application/json' } 
-    })
-    .then(response => console.log("FormSubmit Berhasil:", response))
-    .catch(error => console.log("FormSubmit Gagal:", error));
+    form.submit(); // Ini yang bikin data terkirim otomatis lewat browser
 }
 
 function tampilkanSlide3(tid, u, itm, tot) {
@@ -227,4 +221,5 @@ function switchSlide(from, to) {
 }
 
 window.onload = init;
+
 
