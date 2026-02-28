@@ -31,7 +31,7 @@ body {
     padding-top: 20px; 
 }
 
-/* --- FIX SLIDE SYSTEM --- */
+/* --- SLIDE SYSTEM --- */
 .slide { 
     display: none; /* Sembunyikan semua slide secara default */
     opacity: 0; 
@@ -44,6 +44,7 @@ body {
     opacity: 1; 
     transform: translateY(0); 
 }
+
 /* --- GRID SYSTEM --- */
 .main-grid { 
     display: grid; 
@@ -92,6 +93,19 @@ body {
     box-shadow: 0 0 10px var(--shadow);
 }
 
+/* --- PASSWORD EYE ICON --- */
+.pw-wrapper { position: relative; }
+#togglePassword {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-85%);
+    cursor: pointer;
+    color: #484f58;
+    transition: 0.2s;
+}
+#togglePassword:hover { color: var(--primary); }
+
 /* --- VOUCHER & SUMMARY --- */
 .vouch-box { display: flex; gap: 8px; margin-bottom: 15px; }
 .btn-vouch { 
@@ -133,7 +147,6 @@ textarea {
 }
 
 /* --- PAYMENT LIST (NEON EFFECT) --- */
-.pay-label { font-size: 12px; color: #8b949e; text-transform: uppercase; margin-bottom: 10px; }
 .pay-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .pay-bar { 
     background: #1c2128; 
@@ -167,13 +180,11 @@ textarea {
 
 .pay-bar img { height: 20px; }
 
-/* --- LIST ITEM AREA (FRUIT LIST) --- */
+/* --- LIST ITEM AREA --- */
 .scroll-area { max-height: 520px; overflow-y: auto; padding-right: 8px; }
 .scroll-area::-webkit-scrollbar { width: 5px; }
 .scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
-/* Selector agar CSS membaca item di #fruit-list */
-#fruit-list .item-joki-cart,
 .item-joki-cart { 
     display: flex; 
     justify-content: space-between; 
@@ -301,5 +312,3 @@ textarea {
 @keyframes stroke { 100% { stroke-dashoffset: 0; } }
 
 .text-center { text-align: center; }
-
-
