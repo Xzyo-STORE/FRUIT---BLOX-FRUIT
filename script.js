@@ -17,26 +17,24 @@ const db = firebase.database();
 // DATA MENU FRUIT (Bisa kamu edit harganya di sini)
 // ==========================================
 const MENU_FRUIT = [
-    { n: "🍎 PHYSICAL FRUIT (STOCK)", header: true },
-    { n: "Kitsune Fruit", p: 50000 },
-    { n: "Leopard Fruit", p: 35000 },
-    { n: "Dragon Fruit", p: 45000 },
-    { n: "Dough Fruit", p: 25000 },
-    { n: "T-Rex Fruit", p: 20000 },
-    { n: "Mammoth Fruit", p: 15000 },
-    { n: "Spirit Fruit", p: 15000 },
-    { n: "Control Fruit", p: 12000 },
-    { n: "Venom Fruit", p: 12000 },
-    { n: "Shadow Fruit", p: 10000 },
-    { n: "⚡ POPULAR FRUIT", header: true },
-    { n: "Buddha Fruit", p: 15000 },
-    { n: "Portal Fruit", p: 12000 },
-    { n: "Blizzard Fruit", p: 10000 },
-    { n: "Rumble Fruit", p: 10000 },
-    { n: "Sound Fruit", p: 8000 },
-    { n: "Magma Fruit", p: 5000 },
-    { n: "Light Fruit", p: 5000 },
-    { n: "Ice Fruit", p: 3000 }
+    { n: "🍎 PHYSICAL FRUIT (VIA TRADE)", header: true },
+    { n: "✦ West Dragon", p: 400000, s: 0 }, 
+    { n: "✦ East Dragon", p: 350000, s: 0 },  
+    { n: "✦ Kitsune", p: 55000, s: 1 },
+    { n: "✦ Tiger", p: 20000, s: 1 },
+    { n: "✦ Yeti", p: 20000, s: 1 },
+    { n: "✦ Control", p: 20000, s: 0 },
+    { n: "✦ Gas", p: 10000, s: 0 },
+    { n: "✦ Lightning", p: 15000, s: 1 },
+    { n: "✦ Dough", p: 15000, s: 4 },
+    { n: "✦ T-rex", p: 8000, s: 1 },
+    { n: "✦ Portal", p: 7000, s: 6 },
+    { n: "✦ Buddha", p: 7000, s: 7 },
+    { n: "✦ Pain", p: 5000, s: 4 },
+    { n: "✦ Grafity", p: 5000, s: 1 },
+    { n: "✦ Mammoth", p: 5000, s: 5 },
+    { n: "✦ Spirit", p: 5000, s: 3 },
+    { n: "✦ Shadow", p: 5000, s: 3 },
 ];
 
 let cart = {}; 
@@ -100,7 +98,10 @@ function hitung() {
 // 4. Voucher
 function applyVoucher() {
     const code = document.getElementById('vouchCode').value.toUpperCase();
-    const daftarVoucher = { "XZYOFRUIT": 0.10, "FEB2026": 0.15 };
+    const daftarVoucher = { 
+        "XZYOFRUIT": 0.10, 
+        "FEB2026": 0.15 
+    };
     if (daftarVoucher[code] !== undefined) {
         discount = daftarVoucher[code];
         alert(`✅ Voucher Berhasil! Diskon ${discount * 100}%`);
@@ -232,6 +233,7 @@ function switchSlide(from, to) {
 }
 
 window.onload = init;
+
 
 
 
