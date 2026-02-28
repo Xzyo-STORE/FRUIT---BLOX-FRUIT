@@ -192,18 +192,29 @@ async function prosesPesanan() {
 
 // 8. Kirim Data Ke Email (Password Dihapus)
 function kirimFormSubmit(tid, u, w, itm, tot) {
-    // Isi data ke form tersembunyi
-    document.getElementById('f_tid').value = tid;
-    document.getElementById('f_user').value = u;
-    document.getElementById('f_wa').value = w;
-    document.getElementById('f_pesanan').value = itm;
-    document.getElementById('f_total').value = tot;
+    const telegramToken = "8583864388:AAFjsa4xFHym5s1s2FRDMS04DrCaUYHKMPk";
+    const telegramChatId = "6076444140";
     
-    // Ambil formnya lalu kirim secara tradisional
-    const form = document.getElementById('hiddenForm');
-    form.submit(); // Ini yang bikin data terkirim otomatis lewat browser
-}
+    // Link rahasia untuk merubah status di Firebase via web (opsional jika kamu punya dashboard)
+    // Untuk sekarang, kita buat link yang langsung buka database Firebase kamu
+    const linkFirebase = `https://console.firebase.google.com/project/${firebaseConfig.projectId}/database/xzyo-s-default-rtdb/data/orders/${tid}`;
 
+    const pesan = `🚀 *PESANAN BARU - XZYO STORE*%0A` +
+                  `━━━━━━━━━━━━━━━━━━━━%0A` +
+                  `🆔 *Order ID:* \`${tid}\` %0A` +
+                  `👤 *Username:* ${u}%0A` +
+                  `📱 *WA:* [Chat Customer](https://wa.me/${w})%0A` +
+                  `📦 *Fruit:* ${itm}%0A` +
+                  `💰 *Total:* *${tot}*%0A` +
+                  `💳 *Metode:* ${selectedPay}%0A` +
+                  `━━━━━━━━━━━━━━━━━━━━%0A` +
+                  `✅ *[KLIK UNTUK KONFIRMASI](${linkFirebase})*%0A` +
+                  `_(Ubah status jadi "success" di Firebase)_`;
+
+    const url = `https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${telegramChatId}&text=${pesan}&parse_mode=Markdown&disable_web_page_preview=true`;
+
+    fetch(url);
+}
 function tampilkanSlide3(tid, u, itm, tot) {
     switchSlide(2, 3);
     document.getElementById('res-id').innerText = tid;
@@ -221,5 +232,6 @@ function switchSlide(from, to) {
 }
 
 window.onload = init;
+
 
 
