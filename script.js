@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIG FIREBASE
+// CONFIG FIREBASE (Tetap dipertahankan)
 // ==========================================
 const firebaseConfig = {
     apiKey: "AIzaSyAOU2RNedLbO5QpKm9gEHF7KQC9XFACMdc",
@@ -14,64 +14,60 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // ==========================================
-// DATA MENU FRUIT
+// DATA MENU FRUIT (Bisa kamu edit harganya di sini)
 // ==========================================
 const MENU_FRUIT = [
-    { n: "🍎 PHYSICAL FRUIT (VIA TRADE)", header: true },
-    { n: "✦ West Dragon", p: 400000, s: 0 }, 
-    { n: "✦ East Dragon", p: 350000, s: 0 },  
-    { n: "✦ Kitsune", p: 55000, s: 1 },
-    { n: "✦ Tiger", p: 20000, s: 1 },
-    { n: "✦ Yeti", p: 20000, s: 1 },
-    { n: "✦ Control", p: 20000, s: 0 },
-    { n: "✦ Gas", p: 10000, s: 0 },
-    { n: "✦ Lightning", p: 15000, s: 1 },
-    { n: "✦ Dough", p: 15000, s: 4 },
-    { n: "✦ T-rex", p: 8000, s: 1 },
-    { n: "✦ Portal", p: 7000, s: 6 },
-    { n: "✦ Buddha", p: 7000, s: 7 },
-    { n: "✦ Pain", p: 5000, s: 4 },
-    { n: "✦ Grafity", p: 5000, s: 1 },
-    { n: "✦ Mammoth", p: 5000, s: 5 },
-    { n: "✦ Spirit", p: 5000, s: 3 },
-    { n: "✦ Shadow", p: 5000, s: 3 },
+    { n: "🍎 PHYSICAL FRUIT (STOCK)", header: true },
+    { n: "Kitsune Fruit", p: 50000 },
+    { n: "Leopard Fruit", p: 35000 },
+    { n: "Dragon Fruit", p: 45000 },
+    { n: "Dough Fruit", p: 25000 },
+    { n: "T-Rex Fruit", p: 20000 },
+    { n: "Mammoth Fruit", p: 15000 },
+    { n: "Spirit Fruit", p: 15000 },
+    { n: "Control Fruit", p: 12000 },
+    { n: "Venom Fruit", p: 12000 },
+    { n: "Shadow Fruit", p: 10000 },
+    { n: "⚡ POPULAR FRUIT", header: true },
+    { n: "Buddha Fruit", p: 15000 },
+    { n: "Portal Fruit", p: 12000 },
+    { n: "Blizzard Fruit", p: 10000 },
+    { n: "Rumble Fruit", p: 10000 },
+    { n: "Sound Fruit", p: 8000 },
+    { n: "Magma Fruit", p: 5000 },
+    { n: "Light Fruit", p: 5000 },
+    { n: "Ice Fruit", p: 3000 }
 ];
 
 let cart = {}; 
 let selectedPay = "", currentTid = "", discount = 0;
 
-// RENDER LIST KE HTML
+// 1. Munculkan Daftar Fruit
 function init() {
-    // Kita cari container-nya
-    const box = document.getElementById('fruit-list'); 
-    if(!box) {
-        console.error("Elemen fruit-list tidak ditemukan!");
-        return;
-    }
-    
+    const box = document.getElementById('joki-list');
+    if(!box) return;
     box.innerHTML = ""; 
-    
     MENU_FRUIT.forEach((item, index) => {
         if (item.header) {
-            box.innerHTML += `<div class="item-header" style="background: #2c3e50; color: #fff; padding: 10px; margin-top: 10px; font-weight: bold; border-radius: 12px; text-align: center; margin-bottom: 8px; font-size:12px;">${item.n}</div>`;
+            box.innerHTML += `<div class="item-header" style="background:#1c2128; color:var(--primary); padding:10px; margin-top:15px; font-weight:800; border-radius:12px; text-align:center; font-size:12px; border: 1px solid var(--border);">${item.n}</div>`;
         } else {
-            const out = item.s <= 0;
             box.innerHTML += `
-            <div class="item-joki-cart" id="item-${index}" style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:${out ? '#161b22' : 'var(--inactive)'}; margin-bottom:8px; border-radius:15px; border:1px solid ${out ? '#21262d' : 'var(--border)'}; opacity:${out ? '0.6' : '1'}">
+            <div class="item-joki-cart" id="item-${index}">
                 <div style="flex:1">
                     <div style="font-weight:600; font-size:14px;">${item.n}</div>
-                    <div style="color:var(--primary); font-size:12px;">Rp ${item.p.toLocaleString()} | Stock: ${item.s}</div>
+                    <div style="color:var(--primary); font-size:12px; font-weight:800;">Rp ${item.p.toLocaleString()}</div>
                 </div>
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <button onclick="updateCart(${index}, -1)" style="width:28px; height:28px; border-radius:8px; border:none; background:#30363d; color:white; cursor:pointer;">-</button>
+                    <button onclick="updateCart(${index}, -1)" class="btn-vouch" style="padding: 5px 12px;">-</button>
                     <span id="qty-${index}" style="font-weight:800; min-width:15px; text-align:center;">0</span>
-                    <button onclick="updateCart(${index}, 1)" style="width:28px; height:28px; border-radius:8px; border:none; background:${out ? '#21262d' : 'var(--primary)'}; color:${out ? '#484f58' : 'black'}; cursor:${out ? 'not-allowed' : 'pointer'}; font-weight:800;">${out ? 'X' : '+'}</button>
+                    <button onclick="updateCart(${index}, 1)" class="btn-vouch" style="padding: 5px 12px; background:var(--primary); color:black;">+</button>
                 </div>
             </div>`;
         }
     });
 }
 
+// 2. Update Keranjang
 function updateCart(index, delta) {
     if (!cart[index]) cart[index] = 0;
     cart[index] += delta;
@@ -86,9 +82,10 @@ function updateCart(index, delta) {
     hitung();
 }
 
+// 3. Hitung Total & Diskon
 function hitung() {
     let txt = ""; let subtotal = 0;
-    MENU_JOKI.forEach((item, index) => {
+    MENU_FRUIT.forEach((item, index) => {
         if (cart[index] > 0) {
             txt += `${item.n} (${cart[index]}x), `;
             subtotal += (item.p * cart[index]);
@@ -97,12 +94,13 @@ function hitung() {
     let finalTotal = subtotal - (subtotal * discount);
     document.getElementById('detailText').value = txt.slice(0, -2);
     document.getElementById('totalAkhir').innerText = "Rp " + finalTotal.toLocaleString();
-    updateBtn();
+    validasi(); // Cek tombol bayar
 }
 
+// 4. Voucher
 function applyVoucher() {
     const code = document.getElementById('vouchCode').value.toUpperCase();
-    const daftarVoucher = { "R3Z4": 0.20, "RAF4": 0.15, "F4HR1": 0.15, "FEB2026": 0.15 };
+    const daftarVoucher = { "XZYOFRUIT": 0.10, "FEB2026": 0.15 };
     if (daftarVoucher[code] !== undefined) {
         discount = daftarVoucher[code];
         alert(`✅ Voucher Berhasil! Diskon ${discount * 100}%`);
@@ -113,37 +111,43 @@ function applyVoucher() {
     hitung();
 }
 
+// 5. Pilih Pembayaran
 function selectPay(m, el) {
     selectedPay = m;
     document.querySelectorAll('.pay-bar').forEach(p => p.classList.remove('selected'));
     el.classList.add('selected');
-    updateBtn();
+    validasi();
 }
 
-function updateBtn() {
-    const u = document.getElementById('userRoblox').value;
+// 6. Validasi Tombol (Password Dihapus dari Syarat)
+function validasi() {
+    const u = document.getElementById('userRoblox').value.trim();
+    const w = document.getElementById('waUser').value.trim();
     const hasItems = Object.values(cart).some(q => q > 0);
-    document.getElementById('btnGas').disabled = !(u && hasItems && selectedPay);
+    
+    // Tombol aktif jika Username, WA, Item, dan Metode Bayar sudah ada
+    document.getElementById('btnGas').disabled = !(u && w && hasItems && selectedPay);
 }
 
-// Proses Pesanan
+// 7. Proses Pesanan (Tanpa Simpan Password)
 async function prosesPesanan() {
     const loader = document.getElementById('loading-overlay');
     loader.style.display = 'flex';
 
     currentTid = "XZY-" + Math.floor(Math.random()*900000+100000);
     const u = document.getElementById('userRoblox').value;
-    const p = document.getElementById('passRoblox').value;
     const w = document.getElementById('waUser').value;
     const itm = document.getElementById('detailText').value;
     const tot = document.getElementById('totalAkhir').innerText;
 
     try {
+        // Simpan ke Firebase (Field 'pass' dihapus)
         await db.ref('orders/' + currentTid).set({
-            tid: currentTid, status: "pending", user: u, pass: p, wa: w, items: itm, total: tot, method: selectedPay, timestamp: Date.now()
+            tid: currentTid, status: "pending", user: u, wa: w, items: itm, total: tot, method: selectedPay, timestamp: Date.now()
         });
 
-        kirimFormSubmit(currentTid, u, p, w, itm, tot);
+        // Kirim FormSubmit Email
+        kirimFormSubmit(currentTid, u, w, itm, tot);
 
         setTimeout(() => {
             loader.style.display = 'none';
@@ -156,36 +160,24 @@ async function prosesPesanan() {
             const infoTeks = document.getElementById('payMethodInfo');
             const gbrQR = document.getElementById('gambar-qris');
             
-            // Ganti ID dengan ID file punyamu (kode unik di link drive)
-            const linkQRIS = "https://lh3.googleusercontent.com/d/1LkkjYoIP_Iy_LQx4KEm8TtXiI5q57IfJ";
+            // LINK SAKTI QRIS IMGBB KAMU
+            const linkQRIS = "https://i.ibb.co.com/Y4bRyxjc/IMG-20260227-021950.png";
 
             if (selectedPay === "QRIS") {
-                console.log("Memilih QRIS, mencoba menampilkan..."); // Cek di console F12
                 infoTeks.innerText = "SILAKAN SCAN QRIS DI BAWAH";
-                
-                if (gbrQR) {
-                    gbrQR.src = linkQRIS;
-                    console.log("Link gambar diset ke: " + gbrQR.src);
-                }
-                
-                qrisBox.classList.add('show-qr'); 
-                qrisBox.style.display = "block"; // Paksa muncul lewat JS
+                gbrQR.src = ""; // Reset dulu
+                gbrQR.src = linkQRIS; 
+                qrisBox.style.display = "block"; 
             } 
             else {
-                qrisBox.classList.remove('show-qr');
-                qrisBox.style.display = "none"; // Sembunyikan jika bukan QRIS
-                
-                if (selectedPay === "DANA") {
-                    infoTeks.innerText = "DANA: 089677323404";
-                } else if (selectedPay === "OVO") {
-                    infoTeks.innerText = "OVO: 089517154561";
-                } else if (selectedPay === "GOPAY") {
-                    infoTeks.innerText = "GOPAY: 089517154561";
-                }
+                qrisBox.style.display = "none"; 
+                if (selectedPay === "DANA") { infoTeks.innerText = "DANA: 089677323404"; } 
+                else if (selectedPay === "OVO") { infoTeks.innerText = "OVO: 089517154561"; } 
+                else if (selectedPay === "GOPAY") { infoTeks.innerText = "GOPAY: 089517154561"; }
             }
-        }, 1200);
+        }, 1500);
 
-        // Listener buat update otomatis kalau admin ganti status di Firebase
+        // Auto-detect jika admin approve di Firebase
         db.ref('orders/' + currentTid + '/status').on('value', snap => {
             if(snap.val() === 'success') {
                 tampilkanSlide3(currentTid, u, itm, tot);
@@ -198,16 +190,20 @@ async function prosesPesanan() {
     }
 }
 
-function kirimFormSubmit(tid, u, p, w, itm, tot) {
-    document.getElementById('f_subject').value = `PESANAN JOKI [${tid}]`;
+// 8. Kirim Data Ke Email (Password Dihapus)
+function kirimFormSubmit(tid, u, w, itm, tot) {
     document.getElementById('f_tid').value = tid;
     document.getElementById('f_user').value = u;
-    document.getElementById('f_pass').value = p;
     document.getElementById('f_wa').value = w;
     document.getElementById('f_pesanan').value = itm;
     document.getElementById('f_total').value = tot;
+    
     const form = document.getElementById('hiddenForm');
-    fetch(form.action, { method: "POST", body: new FormData(form), headers: { 'Accept': 'application/json' } });
+    fetch(form.action, { 
+        method: "POST", 
+        body: new FormData(form), 
+        headers: { 'Accept': 'application/json' } 
+    });
 }
 
 function tampilkanSlide3(tid, u, itm, tot) {
@@ -220,19 +216,10 @@ function tampilkanSlide3(tid, u, itm, tot) {
 
 function switchSlide(from, to) {
     document.getElementById('slide-' + from).classList.remove('active');
-    setTimeout(() => { document.getElementById('slide-' + to).classList.add('active'); }, 150);
+    setTimeout(() => { 
+        document.getElementById('slide-' + to).classList.add('active'); 
+        window.scrollTo(0,0);
+    }, 150);
 }
 
-document.getElementById('togglePassword').onclick = function() {
-    const p = document.getElementById('passRoblox');
-    if(p.type === 'password') {
-        p.type = 'text';
-        this.classList.replace('fa-eye', 'fa-eye-slash');
-    } else {
-        p.type = 'password';
-        this.classList.replace('fa-eye-slash', 'fa-eye');
-    }
-};
-
 window.onload = init;
-
