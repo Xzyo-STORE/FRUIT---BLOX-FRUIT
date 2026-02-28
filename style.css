@@ -39,6 +39,7 @@ body {
     transition: 0.5s ease; 
 }
 
+/* Memastikan slide muncul saat aktif */
 .slide.active { 
     display: block !important; 
     opacity: 1; 
@@ -86,7 +87,6 @@ body {
     color: white; 
     border: 1px solid var(--border); 
     font-family: inherit;
-    transition: 0.3s;
 }
 
 .inp:focus {
@@ -153,6 +153,7 @@ textarea {
 
 .pay-bar:hover { border-color: #444c56; }
 
+/* ANIMASI NEON SAAT DIPILIH */
 .pay-bar.selected { 
     border-color: var(--primary); 
     background: rgba(0, 210, 255, 0.1); 
@@ -168,17 +169,13 @@ textarea {
 
 .pay-bar img { height: 20px; }
 
-/* --- LIST ITEM AREA (FLEXIBLE FOR FRUIT-LIST) --- */
-.scroll-area { 
-    max-height: 520px; 
-    overflow-y: auto; 
-    padding-right: 8px; 
-}
+/* --- LIST ITEM AREA (FRUIT LIST) --- */
+.scroll-area { max-height: 520px; overflow-y: auto; padding-right: 8px; }
 .scroll-area::-webkit-scrollbar { width: 5px; }
 .scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
-/* Menjamin item di dalam fruit-list terlihat rapi */
-#fruit-list .item-joki-cart, 
+/* Selector agar CSS membaca item di #fruit-list */
+#fruit-list .item-joki-cart,
 .item-joki-cart { 
     display: flex; 
     justify-content: space-between; 
