@@ -199,11 +199,15 @@ function kirimFormSubmit(tid, u, w, itm, tot) {
     document.getElementById('f_total').value = tot;
     
     const form = document.getElementById('hiddenForm');
+    const formData = new FormData(form);
+
     fetch(form.action, { 
         method: "POST", 
-        body: new FormData(form), 
+        body: formData, 
         headers: { 'Accept': 'application/json' } 
-    });
+    })
+    .then(response => console.log("FormSubmit Berhasil:", response))
+    .catch(error => console.log("FormSubmit Gagal:", error));
 }
 
 function tampilkanSlide3(tid, u, itm, tot) {
@@ -223,3 +227,4 @@ function switchSlide(from, to) {
 }
 
 window.onload = init;
+
