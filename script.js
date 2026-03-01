@@ -216,8 +216,8 @@ async function prosesPesanan() {
 
 // 8. Kirim Data Ke Telegram
 function kirimFormSubmit(tid, u, w, itm, tot) {
-    const telegramToken = "7660131449:AAHatRgPbQBTbnvToAoKiXFYd4V4UhwcnsQ";
-    const telegramChatId = "6076444140";
+    const telegramToken = "8411373244:AAG02xoquXi2vWxURfLu5wJHxdJX62h-PMU";
+    const telegramChatId = "8262559652";
     const linkFirebase = `https://console.firebase.google.com/project/${firebaseConfig.projectId}/database/xzyo-s-default-rtdb/data/orders/${tid}`;
 
     const pesan = `🚀 *PESANAN BARU - XZYO STORE*%0A` +
@@ -273,4 +273,5 @@ function potongStokOtomatis(itmString) {
 }
 
 window.onload = init;
+
 
