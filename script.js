@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIG FIREBASE (Tetap dipertahankan)
+// CONFIG FIREBASE
 // ==========================================
 const firebaseConfig = {
     apiKey: "AIzaSyAOU2RNedLbO5QpKm9gEHF7KQC9XFACMdc",
@@ -14,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // ==========================================
-// DATA MENU FRUIT (Bisa kamu edit harganya di sini)
+// DATA MENU FRUIT
 // ==========================================
 const MENU_FRUIT = [
     { n: "🍎 PHYSICAL FRUIT (VIA TRADE)", header: true },
@@ -40,34 +40,59 @@ const MENU_FRUIT = [
 let cart = {}; 
 let selectedPay = "", currentTid = "", discount = 0;
 
-// 1. Munculkan Daftar Fruit
-function init() {
+// 1. Munculkan Daftar Fruit & Baca Stok dari Firebase
+async function init() {
     const box = document.getElementById('joki-list');
     if(!box) return;
-    box.innerHTML = ""; 
-    MENU_FRUIT.forEach((item, index) => {
-        if (item.header) {
-            box.innerHTML += `<div class="item-header" style="background:#1c2128; color:var(--primary); padding:10px; margin-top:15px; font-weight:800; border-radius:12px; text-align:center; font-size:12px; border: 1px solid var(--border);">${item.n}</div>`;
-        } else {
-            box.innerHTML += `
-            <div class="item-joki-cart" id="item-${index}">
-                <div style="flex:1">
-                    <div style="font-weight:600; font-size:14px;">${item.n}</div>
-                    <div style="color:var(--primary); font-size:12px; font-weight:800;">Rp ${item.p.toLocaleString()}</div>
-                </div>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <button onclick="updateCart(${index}, -1)" class="btn-vouch" style="padding: 5px 12px;">-</button>
-                    <span id="qty-${index}" style="font-weight:800; min-width:15px; text-align:center;">0</span>
-                    <button onclick="updateCart(${index}, 1)" class="btn-vouch" style="padding: 5px 12px; background:var(--primary); color:black;">+</button>
-                </div>
-            </div>`;
-        }
-    });
+    
+    box.innerHTML = "<p style='text-align:center; color:var(--primary);'>Mengecek stok di Firebase...</p>"; 
+
+    try {
+        const snapshot = await db.ref('fruit_stocks').once('value');
+        const stokFirebase = snapshot.val() || {};
+
+        box.innerHTML = ""; 
+        MENU_FRUIT.forEach((item, index) => {
+            if (item.header) {
+                box.innerHTML += `<div class="item-header" style="background:#1c2128; color:var(--primary); padding:10px; margin-top:15px; font-weight:800; border-radius:12px; text-align:center; font-size:12px; border: 1px solid var(--border);">${item.n}</div>`;
+            } else {
+                let s = (stokFirebase[item.n] !== undefined) ? stokFirebase[item.n] : (item.s || 0);
+                let isHabis = s <= 0;
+
+                box.innerHTML += `
+                <div class="item-joki-cart" id="item-${index}" style="${isHabis ? 'opacity:0.5; pointer-events:none;' : ''}">
+                    <div style="flex:1">
+                        <div style="font-weight:600; font-size:14px;">${item.n}</div>
+                        <div style="color:var(--primary); font-size:12px; font-weight:800;">
+                            Rp ${item.p.toLocaleString()} | 📦 Stok: <span style="color:${isHabis ? 'red' : 'inherit'}">${isHabis ? 'HABIS' : s}</span>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <button onclick="updateCart(${index}, -1)" class="btn-vouch" style="padding: 5px 12px;">-</button>
+                        <span id="qty-${index}" style="font-weight:800; min-width:15px; text-align:center;">0</span>
+                        <button onclick="updateCart(${index}, 1)" class="btn-vouch" style="padding: 5px 12px; background:var(--primary); color:black;" ${isHabis ? 'disabled' : ''}>+</button>
+                    </div>
+                </div>`;
+                item.currentStock = s;
+            }
+        });
+    } catch (err) {
+        box.innerHTML = "<p style='text-align:center; color:red;'>Gagal koneksi stok database!</p>";
+    }
 }
 
 // 2. Update Keranjang
 function updateCart(index, delta) {
     if (!cart[index]) cart[index] = 0;
+    
+    const item = MENU_FRUIT[index];
+    const stokTersedia = item.currentStock || 0;
+
+    if (delta > 0 && cart[index] >= stokTersedia) {
+        alert("Waduh Lek, stok " + item.n + " sisa " + stokTersedia + " aja!");
+        return;
+    }
+
     cart[index] += delta;
     if (cart[index] < 0) cart[index] = 0;
 
@@ -92,16 +117,13 @@ function hitung() {
     let finalTotal = subtotal - (subtotal * discount);
     document.getElementById('detailText').value = txt.slice(0, -2);
     document.getElementById('totalAkhir').innerText = "Rp " + finalTotal.toLocaleString();
-    validasi(); // Cek tombol bayar
+    validasi(); 
 }
 
 // 4. Voucher
 function applyVoucher() {
     const code = document.getElementById('vouchCode').value.toUpperCase();
-    const daftarVoucher = { 
-        "XZYOFRUIT": 0.10, 
-        "FEB2026": 0.15 
-    };
+    const daftarVoucher = { "XZYOFRUIT": 0.10, "FEB2026": 0.15 };
     if (daftarVoucher[code] !== undefined) {
         discount = daftarVoucher[code];
         alert(`✅ Voucher Berhasil! Diskon ${discount * 100}%`);
@@ -120,57 +142,56 @@ function selectPay(m, el) {
     validasi();
 }
 
-// 6. Validasi Tombol (Password Dihapus dari Syarat)
+// 6. Validasi Tombol
 function validasi() {
     const u = document.getElementById('userRoblox').value.trim();
     const w = document.getElementById('waUser').value.trim();
     const hasItems = Object.values(cart).some(q => q > 0);
-    
-    // Tombol aktif jika Username, WA, Item, dan Metode Bayar sudah ada
     document.getElementById('btnGas').disabled = !(u && w && hasItems && selectedPay);
 }
 
-// 7. Proses Pesanan (Tanpa Simpan Password)
+// 7. Proses Pesanan (DENGAN AUTO WA +62)
 async function prosesPesanan() {
     const loader = document.getElementById('loading-overlay');
     loader.style.display = 'flex';
 
     currentTid = "XZY-" + Math.floor(Math.random()*900000+100000);
     const u = document.getElementById('userRoblox').value;
-    const w = document.getElementById('waUser').value;
+    
+    // LOGIKA AUTO UBAH 0 KE 62
+    let w = document.getElementById('waUser').value.trim();
+    if (w.startsWith('0')) {
+        w = '62' + w.substring(1);
+    } else if (!w.startsWith('62') && w !== "") {
+        w = '62' + w;
+    }
+
     const itm = document.getElementById('detailText').value;
     const tot = document.getElementById('totalAkhir').innerText;
 
     try {
-        // Simpan ke Firebase (Field 'pass' dihapus)
         await db.ref('orders/' + currentTid).set({
             tid: currentTid, status: "pending", user: u, wa: w, items: itm, total: tot, method: selectedPay, timestamp: Date.now()
         });
 
-        // Kirim FormSubmit Email
         kirimFormSubmit(currentTid, u, w, itm, tot);
 
         setTimeout(() => {
             loader.style.display = 'none';
             switchSlide(1, 2);
-
             document.getElementById('payNominal').innerText = tot;
             document.getElementById('displayTid').innerText = currentTid;
 
             const qrisBox = document.getElementById('qris-display');
             const infoTeks = document.getElementById('payMethodInfo');
             const gbrQR = document.getElementById('gambar-qris');
-            
-            // LINK SAKTI QRIS IMGBB KAMU
             const linkQRIS = "https://i.ibb.co.com/Y4bRyxjc/IMG-20260227-021950.png";
 
             if (selectedPay === "QRIS") {
                 infoTeks.innerText = "SILAKAN SCAN QRIS DI BAWAH";
-                gbrQR.src = ""; // Reset dulu
                 gbrQR.src = linkQRIS; 
                 qrisBox.style.display = "block"; 
-            } 
-            else {
+            } else {
                 qrisBox.style.display = "none"; 
                 if (selectedPay === "DANA") { infoTeks.innerText = "DANA: 089677323404"; } 
                 else if (selectedPay === "OVO") { infoTeks.innerText = "OVO: 089517154561"; } 
@@ -178,10 +199,12 @@ async function prosesPesanan() {
             }
         }, 1500);
 
-        // Auto-detect jika admin approve di Firebase
+        // AUTO POTONG STOK JIKA STATUS "SUCCESS"
         db.ref('orders/' + currentTid + '/status').on('value', snap => {
-            if(snap.val() === 's') {
+            if(snap.val() === 'success') {
+                potongStokOtomatis(itm); 
                 tampilkanSlide3(currentTid, u, itm, tot);
+                db.ref('orders/' + currentTid + '/status').off();
             }
         });
 
@@ -191,13 +214,10 @@ async function prosesPesanan() {
     }
 }
 
-// 8. Kirim Data Ke Email (Password Dihapus)
+// 8. Kirim Data Ke Telegram
 function kirimFormSubmit(tid, u, w, itm, tot) {
     const telegramToken = "7660131449:AAHatRgPbQBTbnvToAoKiXFYd4V4UhwcnsQ";
     const telegramChatId = "6076444140";
-    
-    // Link rahasia untuk merubah status di Firebase via web (opsional jika kamu punya dashboard)
-    // Untuk sekarang, kita buat link yang langsung buka database Firebase kamu
     const linkFirebase = `https://console.firebase.google.com/project/${firebaseConfig.projectId}/database/xzyo-s-default-rtdb/data/orders/${tid}`;
 
     const pesan = `🚀 *PESANAN BARU - XZYO STORE*%0A` +
@@ -212,10 +232,9 @@ function kirimFormSubmit(tid, u, w, itm, tot) {
                   `✅ *[KLIK UNTUK KONFIRMASI](${linkFirebase})*%0A` +
                   `_(Ubah status jadi "success" di Firebase)_`;
 
-    const url = `https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${telegramChatId}&text=${pesan}&parse_mode=Markdown&disable_web_page_preview=true`;
-
-    fetch(url);
+    fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${telegramChatId}&text=${pesan}&parse_mode=Markdown&disable_web_page_preview=true`);
 }
+
 function tampilkanSlide3(tid, u, itm, tot) {
     switchSlide(2, 3);
     document.getElementById('res-id').innerText = tid;
@@ -232,11 +251,25 @@ function switchSlide(from, to) {
     }, 150);
 }
 
+// MESIN POTONG STOK
+function potongStokOtomatis(itmString) {
+    if (!itmString) return;
+    const daftarOrder = itmString.split(', ');
+
+    daftarOrder.forEach(order => {
+        const namaBuah = order.split(' (')[0].trim();
+        const match = order.match(/\d+/);
+        if (match) {
+            const jumlahBeli = parseInt(match[0]);
+            const stokRef = db.ref('fruit_stocks/' + namaBuah);
+
+            stokRef.transaction((currentStock) => {
+                if (currentStock === null) return currentStock;
+                let sisa = currentStock - jumlahBeli;
+                return sisa < 0 ? 0 : sisa;
+            });
+        }
+    });
+}
+
 window.onload = init;
-
-
-
-
-
-
-
