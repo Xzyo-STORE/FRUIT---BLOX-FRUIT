@@ -23,8 +23,8 @@ const MENU_FRUIT = [
     { n: "✦ Kitsune", p: 55000, s: 1 },
     { n: "✦ Tiger", p: 20000, s: 1 },
     { n: "✦ Yeti", p: 20000, s: 1 },
-    { n: "✦ Control", p: 20000, s: 0 },
-    { n: "✦ Gas", p: 10000, s: 0 },
+    { n: "✦ Control", p: 20000, s: 1 },
+    { n: "✦ Gas", p: 15000, s: 1 },
     { n: "✦ Lightning", p: 15000, s: 1 },
     { n: "✦ Dough", p: 15000, s: 4 },
     { n: "✦ T-rex", p: 8000, s: 1 },
@@ -273,3 +273,4 @@ function potongStokOtomatis(itmString) {
 }
 
 window.onload = init;
+
