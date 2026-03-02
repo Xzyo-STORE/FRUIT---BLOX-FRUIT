@@ -201,7 +201,7 @@ async function prosesPesanan() {
 
         // AUTO POTONG STOK JIKA STATUS "SUCCESS"
         db.ref('orders/' + currentTid + '/status').on('value', snap => {
-            if(snap.val() === 'success') {
+            if(snap.val() === 's') {
                 potongStokOtomatis(itm); 
                 tampilkanSlide3(currentTid, u, itm, tot);
                 db.ref('orders/' + currentTid + '/status').off();
@@ -273,6 +273,7 @@ function potongStokOtomatis(itmString) {
 }
 
 window.onload = init;
+
 
 
 
