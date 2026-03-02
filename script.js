@@ -170,7 +170,7 @@ async function prosesPesanan() {
     const tot = document.getElementById('totalAkhir').innerText;
 
     try {
-        await db.ref('orders/' + currentTid).set({
+        await db.ref('fruit/' + currentTid).set({
             tid: currentTid, status: "pending", user: u, wa: w, items: itm, total: tot, method: selectedPay, timestamp: Date.now()
         });
 
@@ -273,6 +273,7 @@ function potongStokOtomatis(itmString) {
 }
 
 window.onload = init;
+
 
 
 
