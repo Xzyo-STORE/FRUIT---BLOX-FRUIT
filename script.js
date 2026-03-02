@@ -188,12 +188,12 @@ async function prosesPesanan() {
             const linkQRIS = "https://i.ibb.co.com/Y4bRyxjc/IMG-20260227-021950.png";
 
             if (selectedPay === "QRIS") {
-                infoTeks.innerText = "SILAKAN SCAN QRIS DI BAWAH";
+                infoTeks.innerText = "QRIS";
                 gbrQR.src = linkQRIS; 
                 qrisBox.style.display = "block"; 
             } else {
                 qrisBox.style.display = "none"; 
-                if (selectedPay === "DANA") { infoTeks.innerText = "DANA: 089677323404"; } 
+                if (selectedPay === "DANA") { infoTeks.innerText = "DANA: 089677329404"; } 
                 else if (selectedPay === "OVO") { infoTeks.innerText = "OVO: 089517154561"; } 
                 else if (selectedPay === "GOPAY") { infoTeks.innerText = "GOPAY: 089517154561"; }
             }
@@ -273,5 +273,6 @@ function potongStokOtomatis(itmString) {
 }
 
 window.onload = init;
+
 
 
