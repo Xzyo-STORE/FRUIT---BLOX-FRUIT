@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XZYO ADMIN | KONFIRMASI</title>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #0d1117; color: white; margin: 0; }
+        .box { text-align: center; padding: 20px; border: 1px solid #30363d; border-radius: 10px; background: #161b22; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #00d2ff; border-radius: 50%; width: 30px; height: 30px; animation: spin 2s linear infinite; margin: 10px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <div id="status-icon" class="loader"></div>
+    <h2 id="msg">Memproses Konfirmasi...</h2>
+    <p id="sub-msg">Mohon tunggu sebentar ya lek.</p>
+</div>
+
+<script>
+    // MASUKKAN CONFIG FIREBASE KAMU (HARUS SAMA DENGAN SCRIPT.JS)
+    const firebaseConfig = {
+        apiKey: "AIzaSyAOU2RNedLbO5QpKm9gEHF7KQC9XFACMdc",
+        authDomain: "xzyo-s.firebaseapp.com",
+        databaseURL: "https://xzyo-s-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "xzyo-s",
+        storageBucket: "xzyo-s.firebasestorage.app",
+        messagingSenderId: "949339875672",
+        appId: "1:949339875672:web:b5d751452bf5875a445d2d"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Ambil TID dari URL (misal: admin.html?tid=XZY-123)
+    const urlParams = new URLSearchParams(window.location.search);
+    const tid = urlParams.get('tid');
+
+    if (tid) {
+        // Update status di Firebase jadi 's' (Success)
+        db.ref('orders/' + tid).update({ 
+            status: 's' 
+        })
+        .then(() => {
+            document.getElementById('status-icon').style.display = 'none';
+            document.getElementById('msg').innerText = "BERHASIL!";
+            document.getElementById('msg').style.color = "#3fb950";
+            document.getElementById('sub-msg').innerText = "Pesanan " + tid + " sudah dikonfirmasi. Silakan balik ke Telegram.";
+            
+            // Opsional: Tutup tab otomatis setelah 3 detik
+            setTimeout(() => { window.close(); }, 3000);
+        })
+        .catch(err => {
+            document.getElementById('msg').innerText = "GAGAL!";
+            document.getElementById('sub-msg').innerText = "Error: " + err.message;
+        });
+    } else {
+        document.getElementById('msg').innerText = "ID TIDAK DITEMUKAN!";
+        document.getElementById('sub-msg').innerText = "Linknya salah atau kurang lengkap lek.";
+    }
+</script>
+
+</body>
+</html>
