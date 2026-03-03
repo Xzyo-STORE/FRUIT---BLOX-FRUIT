@@ -219,7 +219,7 @@ function kirimFormSubmit(tid, u, w, itm, tot) {
     const telegramToken = "8411373244:AAG02xoquXi2vWxURfLu5wJHxdJX62h-PMU";
     const telegramChatId = "8262559652";
     
-    const linkKonfirmasi = `https://xzyo-store.vercel.app/FRUIT---BLOX-FRUIT/admin.html?tid=${tid}`;
+    const linkKonfirmasi = `https://link-admin-kamu.vercel.app/admin.html?tid=${tid}`;
 
     const pesan = `🚀 *PESANAN FRUIT BARU*%0A` +
                   `━━━━━━━━━━━━━━━━━━━━%0A` +
@@ -274,6 +274,7 @@ function potongStokOtomatis(itmString) {
 }
 
 window.onload = init;
+
 
 
 
