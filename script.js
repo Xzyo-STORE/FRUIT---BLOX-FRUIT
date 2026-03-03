@@ -218,20 +218,21 @@ async function prosesPesanan() {
 function kirimFormSubmit(tid, u, w, itm, tot) {
     const telegramToken = "8411373244:AAG02xoquXi2vWxURfLu5wJHxdJX62h-PMU";
     const telegramChatId = "8262559652";
-    const linkFirebase = `https://console.firebase.google.com/project/${firebaseConfig.projectId}/database/xzyo-s-default-rtdb/data/orders/${tid}`;
+    
+    const linkKonfirmasi = `https://xzyo-store.vercel.app/admin.html?tid=${tid}`;
 
     const pesan = `🚀 *PESANAN BARU - XZYO STORE*%0A` +
                   `━━━━━━━━━━━━━━━━━━━━%0A` +
                   `🆔 *Order ID:* \`${tid}\` %0A` +
                   `👤 *Username:* ${u}%0A` +
                   `📱 *WA:* [Chat Customer](https://wa.me/${w})%0A` +
-                  `📦 *Fruit:* ${itm}%0A` +
+                  `📦 *Item:* ${itm}%0A` +
                   `💰 *Total:* *${tot}*%0A` +
                   `💳 *Metode:* ${selectedPay}%0A` +
                   `━━━━━━━━━━━━━━━━━━━━%0A` +
-                  `✅ *[KLIK UNTUK KONFIRMASI](${linkFirebase})*%0A` +
-                  `_(Ubah status jadi "success" di Firebase)_`;
-
+                  `👇 *KLIK JIKA SUDAH BAYAR:*%0A` +
+                  `${linkKonfirmasi}`;
+    
     fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${telegramChatId}&text=${pesan}&parse_mode=Markdown&disable_web_page_preview=true`);
 }
 
@@ -273,6 +274,7 @@ function potongStokOtomatis(itmString) {
 }
 
 window.onload = init;
+
 
 
 
