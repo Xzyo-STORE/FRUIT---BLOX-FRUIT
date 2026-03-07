@@ -185,7 +185,7 @@ async function prosesPesanan() {
             const qrisBox = document.getElementById('qris-display');
             const infoTeks = document.getElementById('payMethodInfo');
             const gbrQR = document.getElementById('gambar-qris');
-            const linkQRIS = "https://i.ibb.co.com/JjmzLfNj/IMG-20260227-021950.png";
+            const linkQRIS = "https://i.ibb.co.com/4RgqsZ5j/IMG-20260227-021950.png";
             const paymentBox = document.getElementById('payment-display')
             const walletNumber = document.getElementById('wallet-number')
             const Dana = "089677329404";
@@ -291,6 +291,7 @@ function potongStokOtomatis(itmString) {
 }
 
 window.onload = init;
+
 
 
 
