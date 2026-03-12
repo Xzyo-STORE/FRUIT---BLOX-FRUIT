@@ -123,7 +123,9 @@ function hitung() {
 // 4. Voucher
 function applyVoucher() {
     const code = document.getElementById('vouchCode').value.toUpperCase();
-    const daftarVoucher = { "XZYOFRUIT": 0.10, "FEB2026": 0.15 };
+    const daftarVoucher = { 
+        //"XZYOFRUIT": 0.10, 
+        };
     if (daftarVoucher[code] !== undefined) {
         discount = daftarVoucher[code];
         alert(`✅ Voucher Berhasil! Diskon ${discount * 100}%`);
@@ -291,6 +293,7 @@ function potongStokOtomatis(itmString) {
 }
 
 window.onload = init;
+
 
 
 
